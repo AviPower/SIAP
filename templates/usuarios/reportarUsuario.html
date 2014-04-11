@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Usuario</title>
+</head>
+<body>
+    <h1>Todos los Usuarios</h1>
+    <ul>
+        {% for usuario in usuarios %}
+            <li><b>NickName: </b>{{ usuario.login }}</li>
+            <li><b>Nombre: </b>{{ usuario.nombre }}</li>
+            <li><b>Apellido: </b>{{ usuario.apellido }}</li>
+            <li><b>telefono: </b>{{ usuario.telefono }}</li>
+            <li><b>direccion: </b>{{ usuario.direccion }}</li>
+            <li><b>lider: </b>{{ usuario.lider }}</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
