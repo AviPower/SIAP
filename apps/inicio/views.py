@@ -12,6 +12,6 @@ class Registrarse(FormView):
         user = form.save()
         perfil = Perfiles()
         perfil.usuario = user
-        perfil.telefono = form.cleaned_data['telefono']
-        perfil.save()
+        #perfil.telefono = form.cleaned_data['telefono']
+        #perfil.save()
         return super(Registrarse,self).form_valid(form)

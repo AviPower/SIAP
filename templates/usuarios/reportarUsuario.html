@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Reporte de Usuario</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
 </head>
 <body>
-    <h1>Todos los Usuarios</h1>
+<a href="/">Atras</a>
+
+<h1>Todos los Usuarios</h1>
     <ul>
         {% for usuario in usuarios %}
             <li><b>NickName: </b>{{ usuario.login }}</li>
