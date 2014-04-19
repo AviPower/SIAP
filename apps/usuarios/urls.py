@@ -1,6 +1,6 @@
 __author__ = 'alvarenga'
 from django.conf.urls import patterns, include, url
-from .views import Usuario, ListUser, AddUser, NewPass, RegistrarUsuario, ReportarUsuario
+from .views import Usuario, ListUser, AddUser, NewPass
 urlpatterns = patterns('',
     url(r'^$', Usuario.as_view(),name='usuario'),
     url(r'^add/$', AddUser.as_view(),name='usuario_add'),
