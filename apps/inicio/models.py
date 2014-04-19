@@ -1,7 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+'''
+Clase que representa a un usuario en el sistema
+'''
+
 class Perfiles(models.Model):
+    """
+    Extender el modelo User para que incluyera otros campos y funciones
+    No olvidar que los atributos de User son id, password, last_login, is_superuser, username,
+    first_name, last_name, email, is_staff, is_active
+    """
     usuario = models.OneToOneField(User)
     telefono = models.IntegerField()
     '''
@@ -10,10 +19,6 @@ class Perfiles(models.Model):
     direccion = models.CharField(max_length=64, null=False)
     '''
        direccion es direccion en la cual reside el usuario
-    '''
-    admin = models.BooleanField(null=False)
-    '''
-       representa si el usuario en cuestion es admin o no
     '''
     lider = models.BooleanField(null=False)
     '''

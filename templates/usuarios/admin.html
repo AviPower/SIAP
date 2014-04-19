@@ -1,0 +1,85 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Sitio administrativo
+{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es-PY" >
+<head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/dashboard.css" />
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/usuario/";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class="dashboard">
+
+<!-- Container -->
+<div id="container">
+    <!-- Content -->
+    <div id="content" class="colMS">
+        
+        <h1>Sitio administrativo</h1>
+        <a href="/usuario/nuevo_pass/">Cambiar contraseña de administrador</a>
+        
+<div id="content-main">
+
+
+    
+        <div class="app-auth module">
+        <table>
+        <caption>
+                Usuario
+            </a>
+        </caption>
+        
+            <tr class="model-user">
+            
+                <th scope="row"><a href="/usuario/user/">Usuarios</a></th>
+            
+
+            
+                <td><a href="/usuario/add/" class="addlink">Añadir</a></td>
+            
+
+            
+                <td><a href="/usuario/user/" class="changelink">Modificar</a></td>
+            
+            </tr>
+        
+            <tr class="model-perfiles">
+            
+                <th scope="row"><a href="/admin/inicio/perfiles/">Perfiles</a></th>
+            
+
+            
+                <td><a href="/admin/inicio/perfiles/add/" class="addlink">Añadir</a></td>
+            
+
+            
+                <td><a href="/admin/inicio/perfiles/" class="changelink">Modificar</a></td>
+            
+            </tr>
+        
+        </table>
+        </div>
+    
+
+</div>
+
+
+
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+{% endblock %}

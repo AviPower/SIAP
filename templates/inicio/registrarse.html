@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
 {% block title %}
 	Registrarse
@@ -6,9 +6,18 @@
 
 
 {% block content %}
+<!---
+<script languaje="JavaScript">
+function pulsar() {
+alert("Una vez registrado puede pasar al sistema como usuario invitado");
+}
+</script>---->
     <a href="/">Atras</a>
+    <h3 class="alinear1" align="center"> Registro de Usuario</h3>
+            <h10 class="alinear1" >
 	<form method="POST">{% csrf_token %}
-		{{form.as_p}}
-		<input type="submit" value="Registrarse">
+		{{ form.as_p }}
+		<input type="submit" value="Registrarse" onclick="pulsar()">
 	</form>
+                </h10>
 {% endblock %}

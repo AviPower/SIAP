@@ -26,7 +26,18 @@
         <a class="brand" href="/">SIAP</a>
           <ul class="nav">
             <li class="active"><a href="#">Inicio</a></li>
-            <li><a href="/prueba">Administracion</a></li>
+            {% if user.is_authenticated %}
+                 {% if  user.username == "admin" %}
+                     <li class="dropdown">
+                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracion
+                             <b class="caret"></b>
+                         </a>
+                         <ul class="dropdown-menu">
+                             <li><a href="/usuario">Usuario</a></li>
+                         </ul>
+                     </li>
+                 {% endif %}
+             {% endif %}
             <li><a href="/proyecto/busqueda/">Buscar</a></li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Registro
@@ -47,6 +58,13 @@
             </form>
 
           </div>
+          {% if user.is_authenticated %}
+              <font color="white">
+                  Bienvenido {{user.username|capfirst}}
+              </font>
+              <a href="/cerrar/">Salir</a>
+              </div>
+          {% endif %}
       </div>
 </div>
 </div>

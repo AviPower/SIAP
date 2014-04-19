@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es-py" >
+<head>
+<title>Añadir usuario | Sitio de administración de Django</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class="auth-user change-form">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name">Administración de Django</h1>
+
+        </div>
+        
+        <div id="user-tools">
+            Bienvenido/a,
+            <strong>admin</strong>.
+            
+                
+                
+                
+                <a href="/admin/password_change/">Cambiar contraseña</a> /
+                
+                <a href="/admin/logout/">Terminar sesión</a>
+            
+        </div>
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/siap/">Inicio</a>
+&rsaquo; <a href="/usuario/">Administracion de Usuario</a>
+&rsaquo; <a href="/usuario/user/">Usuarios</a>
+&rsaquo; Añadir usuario
+</div>
+
+    
+
+    
+        
+    
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        <h1>Añadir usuario</h1>
+        <div id="content-main">
+
+
+
+<form enctype="multipart/form-data" action="" method="post" id="user_form"><input type='hidden' name='csrfmiddlewaretoken' value='JhndHUe2Di2EZ7MrSpkhRNs38E8jXToN' />
+  
+    <p>Primero introduzca un nombre de usuario y una contraseña. Luego podrá editar el resto de opciones del usuario.</p>
+  
+
+<div>
+
+
+
+
+
+
+  <fieldset class="module aligned wide">
+    
+    
+    
+        <div class="form-row field-username">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_username">Nombre de usuario:</label>
+                        
+                            <input id="id_username" maxlength="30" name="username" type="text" />
+                        
+                    
+                    
+                        <p class="help">Requerido. 30 caracteres o menos. Letras, dígitos y @/./+/-/_ solamente.</p>
+                    
+                </div>
+            
+        </div>
+    
+        <div class="form-row field-password1">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_password1">Contraseña:</label>
+                        
+                            <input id="id_password1" name="password1" type="password" />
+                        
+                    
+                    
+                </div>
+            
+        </div>
+    
+        <div class="form-row field-password2">
+            
+            
+                <div>
+                    
+                    
+                        <label class="required" for="id_password2">Contraseña (confirmación):</label>
+                        
+                            <input id="id_password2" name="password2" type="password" />
+                        
+                    
+                    
+                        <p class="help">Introduzca la misma contraseña que arriba, para verificación.</p>
+                    
+                </div>
+            
+        </div>
+    
+</fieldset>
+
+
+
+
+
+<script type="text/javascript">document.getElementById("id_username").focus();</script>
+
+
+
+
+
+
+
+
+
+<div class="submit-row">
+<input type="submit" value="Grabar" class="default" name="_save" />
+
+
+<input type="submit" value="Grabar y añadir otro" name="_addanother" />
+<input type="submit" value="Grabar y continuar editando" name="_continue" />
+</div>
+
+
+
+   <script type="text/javascript">document.getElementById("id_username").focus();</script>
+
+
+
+
+<script type="text/javascript">
+(function($) {
+    var field;
+
+
+})(django.jQuery);
+</script>
+
+
+</div>
+</form></div>
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

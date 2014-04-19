@@ -1,0 +1,88 @@
+{% extends 'base2.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es-PY" >
+<head>
+<title>Cambio de contraseña</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class="">
+
+<!-- Container -->
+<div id="container">
+
+
+    
+<div class="breadcrumbs">
+<a href="/siap/">Inicio</a>
+&rsaquo; <a href="/usuario/">usuario</a>
+&rsaquo; Cambio de contraseña
+</div>
+
+    
+
+    
+        
+
+    <!-- Content -->
+    <div id="content" class="colM">
+        
+        
+        <div id="content-main">
+
+<form action="" method="post"><input type='hidden' name='csrfmiddlewaretoken' value='JhndHUe2Di2EZ7MrSpkhRNs38E8jXToN' />
+<div>
+
+
+<h1>Cambio de contraseña</h1>
+
+<p>Por favor, introduzca su contraseña antigua, por seguridad, y después introduzca la nueva contraseña dos veces para verificar que la ha escrito correctamente.</p>
+
+<fieldset class="module aligned wide">
+
+<div class="form-row">
+    
+    <label for="id_old_password" class="required">Contraseña antigua:</label><input id="id_old_password" name="old_password" type="password" />
+</div>
+
+<div class="form-row">
+    
+    <label for="id_new_password1" class="required">Contraseña nueva:</label><input id="id_new_password1" name="new_password1" type="password" />
+</div>
+
+<div class="form-row">
+
+    <label for="id_new_password2" class="required">Contraseña (de nuevo):</label><input id="id_new_password2" name="new_password2" type="password" />
+</div>
+
+</fieldset>
+
+<div class="submit-row">
+    <input type="submit" value="Cambiar mi contraseña" class="default" />
+</div>
+
+<script type="text/javascript">document.getElementById("id_old_password").focus();</script>
+</div>
+</form></div>
+
+
+        
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+{% endblock %}

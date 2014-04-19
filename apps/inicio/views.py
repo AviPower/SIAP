@@ -12,6 +12,17 @@ class Registrarse(FormView):
         user = form.save()
         perfil = Perfiles()
         perfil.usuario = user
+        user.first_name = form.cleaned_data['first_name']
+        user.last_name = form.cleaned_data['last_name']
+        user.email = form.cleaned_data['email']
         perfil.telefono = form.cleaned_data['telefono']
+        perfil.direccion = form.cleaned_data['direccion']
+        perfil.lider = False
+        user.save()
         perfil.save()
         return super(Registrarse,self).form_valid(form)
+
+class SIAP(FormView):
+    template_name = 'inicio/siap.html'
+    form_class = UserForm
+    success_url = reverse_lazy('siap')

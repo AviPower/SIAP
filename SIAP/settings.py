@@ -31,7 +31,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('siap')
 LOGOUT_URL = reverse_lazy('logout')
 # Application definition
 
