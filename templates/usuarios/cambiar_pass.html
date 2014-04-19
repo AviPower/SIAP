@@ -4,11 +4,11 @@
 <html lang="es-PY" >
 <head>
 <title>Cambio de contraseña</title>
-<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
 
-<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/usuario/";</script>
 
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
@@ -20,27 +20,31 @@
 <div id="container">
 
 
-    
+
 <div class="breadcrumbs">
 <a href="/siap/">Inicio</a>
 &rsaquo; <a href="/usuario/">usuario</a>
 &rsaquo; Cambio de contraseña
 </div>
 
-    
 
-    
-        
+
+
+
 
     <!-- Content -->
     <div id="content" class="colM">
-        
-        
+
+
         <div id="content-main">
 
-<form action="" method="post"><input type='hidden' name='csrfmiddlewaretoken' value='JhndHUe2Di2EZ7MrSpkhRNs38E8jXToN' />
+<form action="" method="post">{% csrf_token %}
 <div>
-
+{% if form.errors %}
+    <p class="errornote">
+    {% if form.errors.items|length == 1 %} <p>"Por favor, corrija el error abajo."</p>{% else %}<p>"Por favor, corrija el error abajo."</p>{% endif %}
+    </p>
+{% endif %}
 
 <h1>Cambio de contraseña</h1>
 
@@ -49,18 +53,19 @@
 <fieldset class="module aligned wide">
 
 <div class="form-row">
-    
-    <label for="id_old_password" class="required">Contraseña antigua:</label><input id="id_old_password" name="old_password" type="password" />
+
+    {{ form.old_password.errors }}
+    <label for="id_old_password" class="required">Contraseña antigua:</label>{{ form.old_password }}
 </div>
 
 <div class="form-row">
-    
-    <label for="id_new_password1" class="required">Contraseña nueva:</label><input id="id_new_password1" name="new_password1" type="password" />
+    {{ form.new_password1.errors }}
+    <label for="id_new_password1" class="required">Contraseña nueva:</label>{{ form.new_password1 }}
 </div>
 
 <div class="form-row">
-
-    <label for="id_new_password2" class="required">Contraseña (de nuevo):</label><input id="id_new_password2" name="new_password2" type="password" />
+{{ form.new_password2.errors }}
+    <label for="id_new_password2" class="required">Contraseña (de nuevo):</label>{{ form.new_password2 }}
 </div>
 
 </fieldset>
@@ -74,7 +79,7 @@
 </form></div>
 
 
-        
+
         <br class="clear" />
     </div>
     <!-- END Content -->
