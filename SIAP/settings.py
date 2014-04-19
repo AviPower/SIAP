@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -27,9 +28,11 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 import os
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 from django.core.urlresolvers import reverse_lazy
+
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('siap')
 LOGOUT_URL = reverse_lazy('logout')
@@ -73,6 +76,8 @@ DATABASES = {
     },
 }
 
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -86,13 +91,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = '/home/alvarenga/envproject/SIAP/media/'
+#MEDIA_ROOT = '/home/alvarenga/envproject/SIAP/media/'
+#MEDIA_ROOT = '/home/willian/Proyecto/SIAP/media'
+MEDIA_ROOT = '/home/teaser/Proyecto/SIAP/media'
+
 MEDIA_URL = 'http://localhost/media/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [ os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-TEMPLATE_DIRS = [ os.path.join(BASE_DIR, 'templates')]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
