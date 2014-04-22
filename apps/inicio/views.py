@@ -18,6 +18,8 @@ class Registrarse(FormView):
         perfil.telefono = form.cleaned_data['telefono']
         perfil.direccion = form.cleaned_data['direccion']
         perfil.lider = False
+        user.is_active = False
+        user.is_staff = False
         user.save()
         perfil.save()
         return super(Registrarse,self).form_valid(form)

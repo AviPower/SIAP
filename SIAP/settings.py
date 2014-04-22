@@ -45,8 +45,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'guardian',
     'apps.inicio',
     'apps.usuarios',
+    'tasks',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,3 +106,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
+ANONYMOUS_USER_ID = -1

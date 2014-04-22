@@ -1,4 +1,4 @@
-{% extends 'base2.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
 	Registrarse
@@ -17,7 +17,7 @@ alert("Una vez registrado puede pasar al sistema como usuario invitado");
             <h10 class="alinear1" >
 	<form method="POST">{% csrf_token %}
 		{{ form.as_p }}
-		<input type="submit" value="Registrarse" onclick="pulsar()">
+		<input type="submit" value="Registrarse" >{% csrf_token %}
 	</form>
                 </h10>
 {% endblock %}
