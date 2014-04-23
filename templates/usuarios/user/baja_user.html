@@ -1,0 +1,19 @@
+{% extends 'base2.html' %}
+{% block title %}
+    Eliminar Usuario
+{% endblock %}
+{% block content %}
+    <div class="breadcrumbs">
+    <a href="/siap/">Inicio</a>
+    "> Baja de Cuenta"
+    </div>
+<div id="content" class="flex">
+    <h3>¿Está seguro?</h3>
+    <p>¿Está usted seguro que quiere desactivar su cuenta?</p>
+<form method="post">{% csrf_token %}
+    Su Cuenta: "{{ user.name }}" se desactivara y saldra del Sistema
+    <p></p>
+    <input type="submit" value="Si, estoy seguro" />
+</form>
+</div>
+{% endblock %}

@@ -22,47 +22,29 @@
     <!-- Content -->
     <div id="content" class="colMS">
         
-        <h1>Sitio administrativo</h1>
-        <a href="/usuario/nuevo_pass/">Cambiar contraseña de administrador</a>
+        <h1>Administracion de Usuarios</h1>
         
 <div id="content-main">
 
 
     
         <div class="app-auth module">
-        <table>
+        <table >
         <caption>
                 Usuario
-            </a>
+            <a href="/registrarse/" class="addlink">Añadir</a></a>
         </caption>
         
-            <tr class="model-user">
-            
-                <th scope="row"><a href="/usuario/user/">Usuarios</a></th>
-            
 
-            
-                <td><a href="/usuario/add/" class="addlink">Añadir</a></td>
-            
 
-            
-                <td><a href="/usuario/user/" class="changelink">Modificar</a></td>
-            
-            </tr>
-        
-            <tr class="model-perfiles">
-            
-                <th scope="row"><a href="/admin/inicio/perfiles/">Perfiles</a></th>
-            
+                {% for user in object_list %}
+                    <tr class="model-user">
+                <th scope="row"><a href="/usuario/edit/{{ user.id }}/">{{ user.username }}</a></th>
+                <td><a href="/usuario/delete/{{ user.id }}/" class="deletelink">Eliminar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="changelink">Modificar</a></td>
+                    </tr>
+                {% endfor %}
 
-            
-                <td><a href="/admin/inicio/perfiles/add/" class="addlink">Añadir</a></td>
-            
-
-            
-                <td><a href="/admin/inicio/perfiles/" class="changelink">Modificar</a></td>
-            
-            </tr>
         
         </table>
         </div>

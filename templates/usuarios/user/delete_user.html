@@ -1,0 +1,19 @@
+{% extends 'base2.html' %}
+{% block title %}
+    Eliminar Usuario
+{% endblock %}
+{% block content %}
+    <div class="breadcrumbs">
+    <a href="/usuario/">Usuarios</a>
+    "> Eliminar"
+    </div>
+<div id="content" class="flex">
+    <h2>¿Está seguro?</h2>
+    <p>¿Está usted seguro que quiere eliminar el usuario seleccionado?</p>
+<form method="post">{% csrf_token %}
+    Usuario: "{{ object }}"
+    <p></p>
+    <input type="submit" value="Si, estoy seguro" />
+</form>
+</div>
+{% endblock %}

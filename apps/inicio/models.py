@@ -12,11 +12,11 @@ class Perfiles(models.Model):
     first_name, last_name, email, is_staff, is_active
     """
     usuario = models.OneToOneField(User)
-    telefono = models.IntegerField()
+    telefono = models.IntegerField(default=0,blank=True)
     '''
        telefono es numero telefonico perteneciente al usuario
     '''
-    direccion = models.CharField(max_length=64, null=False)
+    direccion = models.CharField(max_length=64,default='tu direccion',blank=True)
     '''
        direccion es direccion en la cual reside el usuario
     '''
