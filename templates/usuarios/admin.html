@@ -23,7 +23,10 @@
     <div id="content" class="colMS">
         
         <h1>Administracion de Usuarios</h1>
-        
+    <form action="/usuario/search/" method="get">
+        <input type="text" name="busqueda">
+        <input type="submit" value="Buscar">
+    </form>
 <div id="content-main">
 
 
@@ -44,7 +47,18 @@
                 <td><a href="/usuario/edit/{{ user.id }}/" class="changelink">Modificar</a></td>
                     </tr>
                 {% endfor %}
-
+                {% if usuarios %}
+                <p>Found {{ usuarios|length }} usuario{{ usuarios|pluralize }}.</p>
+                <ul>
+                    {% for usuario in usuarios %}
+                        <tr class="model-user">
+                <th scope="row"><a href="/usuario/edit/{{ user.id }}/">{{ usuario.username }}</a></th>
+                <td><a href="/usuario/delete/{{ user.id }}/" class="deletelink">Eliminar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="changelink">Modificar</a></td>
+                    </tr>
+                    {% endfor %}
+                </ul>
+                {% endif %}
         
         </table>
         </div>

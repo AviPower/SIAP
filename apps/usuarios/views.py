@@ -2,7 +2,7 @@ from django.views.generic import FormView, TemplateView, ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
 from django.shortcuts import resolve_url, render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
@@ -105,3 +105,20 @@ def password_change_done(request,
         context.update(extra_context)
     return TemplateResponse(request, template_name, context,
                             current_app=current_app)
+
+
+@login_required
+def search_form(request):
+    return render(request, 'usuarios/search_form.html')
+
+@login_required
+def search(request):
+    if 'busqueda' in request.GET and request.GET['busqueda']:
+        busqueda = request.GET['busqueda']
+        usuarios = User.objects.filter(username__contains=busqueda)
+        print(busqueda)
+        print(usuarios)
+        return render(request, 'usuarios/admin.html',
+            {'usuarios': usuarios, 'query': busqueda})
+    else:
+        return redirect('/usuario/')

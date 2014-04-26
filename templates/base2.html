@@ -44,8 +44,6 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/usuario/nuevo_pass/">Cambiar contraseña</a></li>
-                <li><a href="/usuario/nuevo_pass/">Cambiar Datos</a></li>
-                <li><a href="/usuario/nuevo_pass/">Darme de Baja</a></li>
               </ul>
           </li>
           </ul>
@@ -53,9 +51,9 @@
 
 
           <div class="busqueda">
-            <form class="navbar-search pull-left" method="POST" action="/proyectos/buscar/">{% csrf_token %}
+            <form class="navbar-search pull-left" method="POST" action="/usuario/search/">{% csrf_token %}
 
-                <input type="text" name="buscalo" class="search-query" placeholder="Buscar">
+                <input type="text" name="busqueda" class="search-query" placeholder="Buscar">
                 <div class="btn-group">
                     <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                 </div>
