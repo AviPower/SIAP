@@ -7,15 +7,15 @@ class Proyecto(models.Model):
     """
     id = models.IntegerField(default=0,blank=True)
     '''
-       telefono es numero telefonico perteneciente al usuario
+       id del usuario
     '''
     tipo = models.CharField(max_length=64,blank=True)
 
     nombre = models.CharField(max_length=64,blank=True)
     '''
-       direccion es direccion en la cual reside el usuario
+       nombre del proyecto
     '''
     Activo = models.BooleanField(null=False)
     '''
-       representa si el usuario en cuestion es lider o no
+       si se encuentra activo o no el proyecto
     '''
