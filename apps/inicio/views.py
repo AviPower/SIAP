@@ -3,12 +3,20 @@ from .forms import UserForm
 from django.core.urlresolvers import reverse_lazy
 from .models import Perfiles
 
+
 class Registrarse(FormView):
+    """
+    Recibe un
+    @param @type {FormView}
+    """
     template_name = 'inicio/registrarse.html'
     form_class = UserForm
     success_url = reverse_lazy('registrarse')
 
     def form_valid(self, form):
+        """
+        
+        """
         user = form.save()
         perfil = Perfiles()
         perfil.usuario = user
