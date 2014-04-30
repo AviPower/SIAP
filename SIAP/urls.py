@@ -12,6 +12,6 @@ urlpatterns = patterns('',
     #USUARIOS
     url(r'^usuario/',include('apps.usuarios.urls')),
     #PROYECTOS
-    url(r'^proyectos/',include('apps.proyectos.urls')),
+    #url(r'^proyectos/',include('apps.proyectos.urls')),
 
 )

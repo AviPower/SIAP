@@ -106,7 +106,7 @@ def detalle_proyecto(request, id_proyecto):
 def listar_proyectos(request):
 
     '''
-    vista para listar los proyectos del sistema del sistema junto con el nombre de su lider
+    vista para listar los proyectos del sistema junto con el nombre de su lider
     '''
 
     proyectos = Proyecto.objects.all().exclude(estado='ACT')
