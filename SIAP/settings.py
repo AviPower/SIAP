@@ -48,7 +48,9 @@ INSTALLED_APPS = (
     'guardian',
     'apps.inicio',
     'apps.usuarios',
-    'tasks',
+    'apps.proyectos',
+    'apps.fases',
+    'apps.tiposDeItem'
 )
 
 MIDDLEWARE_CLASSES = (

@@ -137,10 +137,6 @@ def password_change_done(request,
 
 
 @login_required
-def search_form(request):
-    return render(request, 'usuarios/search_form.html')
-
-@login_required
 def search(request):
     if 'busqueda' in request.GET and request.GET['busqueda']:
         busqueda = request.GET['busqueda']

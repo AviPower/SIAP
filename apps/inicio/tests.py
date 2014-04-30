@@ -8,7 +8,7 @@
 from django.test import Client, TestCase
 from django.contrib.auth.models import User
 import unittest
-
+from django.contrib.auth import SESSION_KEY
 
 
 
@@ -57,3 +57,48 @@ class SIAPTestSuite_it1(unittest.TestCase):
 
         login = self.client.login(username='prueba', password='0987')
         return self.assertEquals(login, False)
+
+    def test_inicio(self):
+        '''Test para ver si puede entrar a la pagina de inicio'''
+        resp = self.client.get('/')
+        self.assertEqual(resp.status_code, 200)
+
+    def logout(self):
+        '''
+        Test para el logout
+        '''
+        usuario = User.objects.create_user('testuser', 'test@example.com', 'testpw')
+        c = Client()
+        c.login(username='tesuser', password='testpw')
+        response = c.get('/logout/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(SESSION_KEY not in self.client.session)
+
+from .forms import UserForm
+from .models import Perfiles
+
+class UserFormTestCase(TestCase):
+
+    def test_valid_form(self):
+        "Enviar válida data."
+        user = User.objects.create(username='avi',first_name='avelina',last_name='alvarenga',email='avi@avi.com')
+        perfil=Perfiles()
+        perfil.usuario=user
+        perfil.telefono='083472'
+        perfil.direccion='Asuncion'
+        perfil.lider='False'
+        data = {
+            'name':'Asuncion',
+
+        }
+        form = UserForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_invalid_form(self):
+        "perfil requiere campo para validar"
+        data = {
+            'perfil_0': 'Foo',
+            'perfil_1': '',
+        }
+        form = UserForm(data=data)
+        self.assertFalse(form.is_valid())
