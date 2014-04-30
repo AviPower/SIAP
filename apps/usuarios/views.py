@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.views.generic import FormView, TemplateView, ListView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -7,18 +8,24 @@ from django.template.response import TemplateResponse
 from django.shortcuts import resolve_url, render, redirect, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.csrf import csrf_protect
-
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from apps.inicio.models import Perfiles
 
 
 class Usuario(ModelForm):
+    """
+    Clase que representa el modelo de Usuario de Django
+    @typ ModelForm:
+    """
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'is_active','is_staff','is_superuser')
 
 class Perfil(ModelForm):
+    """
+    Modelo que agrega el rol de lider
+    """
     class Meta:
         model = Perfiles
         fields = ( 'lider','telefono', 'direccion')
@@ -27,6 +34,9 @@ class Perfil(ModelForm):
 def list_usuario(request, template_name = 'usuarios/admin.html'):
     """
     Vista para la lista de usuarios
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param template_name: Nombre del template usado para la capa de presentación y listar los usuarios
+    @return: render(request, template_name,data)
     """
     usuario = User.objects.all()
     data ={}
@@ -37,6 +47,10 @@ def list_usuario(request, template_name = 'usuarios/admin.html'):
 def delete_user(request, pk, template_name = 'usuarios/user/delete_user.html'):
     """
     Se eliminan usuarios
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param pk: referencia a la clave primaria del usuario
+    @param template_name: El nombre completo del template usado para desplegar la interfaz de cambio de contraseña
+    @return: render(request, template_name, usuario)
     """
     usuario = get_object_or_404(User, pk=pk)
     if request.method=='POST':
@@ -48,7 +62,11 @@ def delete_user(request, pk, template_name = 'usuarios/user/delete_user.html'):
 @login_required
 def edit_user(request, pk, template_name = 'usuarios/user/edit.html'):
     """
-    Se modifica los Datos del Usuario
+    Se modifican los Datos del Usuario
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param pk: referencia a la clave primaria del usuario
+    @param template_name: El nombre completo del template usado para desplegar el formulario de edición de datos de usuario
+    @return: render(request, template_name, {form, perfil} )
     """
     usuario = get_object_or_404(User, pk=pk)
     user= get_object_or_404(Perfiles, usuario=usuario)
@@ -73,6 +91,12 @@ def password_change(request,
                     current_app=None, extra_context=None):
     """
     Verifica que no halla ningun error al cambiar el password
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param template_name: El nombre completo del template usado para desplegar el formulario de cambio de contraseña
+    @param post_change_redirect: La URL a redirigir luego de un cambio exitoso de usuario
+    @param password_change_form: Un formulario clásico de cambio de contraseña
+    @param current_app: nombre de la aplicación que contiene a la vista actual
+    @return: TemplateResponse(request, template_name, context, current_app=current_app)
     """
     if post_change_redirect is None:
         post_change_redirect = reverse('cambiar_pass_done')
@@ -98,7 +122,12 @@ def password_change_done(request,
                          template_name='usuarios/user/cambiar_pass_done.html',
                          current_app=None, extra_context=None):
     """
-    Redirecciona una vez siguiente pagina confirmando el cambio exitoso de password
+    Redirecciona a la siguiente pagina confirmando el cambio exitoso de password
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param template_name: El nombre completo del template usado para desplegar en la capa de presentación
+    @param current_app: nombre de la aplicación que contiene a la vista actual
+    @param extra_context: Un diccionario que contiene los datos del contexto que se agregan a los datos que ya se tienen
+    @return: TemplateResponse(request, template_name, context, current_app=current_app)
     """
     context = {}
     if extra_context is not None:
