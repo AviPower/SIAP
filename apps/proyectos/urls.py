@@ -2,12 +2,12 @@ __author__ = 'alvarenga'
 from django.conf.urls import patterns, url
 from django.contrib import admin
 admin.autodiscover()
-from apps.proyectos import views
+from views import listar_proyectos,registrar_proyecto
 
 urlpatterns = patterns('',
-        #url(r'^registrar/$','proyectos.views.registrar_proyecto'),
+        url(r'^registrar/$',registrar_proyecto, name='registrar_proyecto'),
         #Administracion de Proyectos
-        url(r'^$','proyectos.views.listar_proyectos'),
+        url(r'^$',listar_proyectos, name='list_proyecto'),
         #url(r'^(?P<id_proyecto>\d+)$', 'proyectos.views.detalle_proyecto'),
         #url(r'^search/$',views.buscar_proyecto, name='buscar_proyectos'),
         #url(r'^modificar/(?P<id_proyecto>\d+)$', 'proyectos.views.editar_proyecto'),
