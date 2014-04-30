@@ -23,7 +23,7 @@
 <!-- Container -->
 <div id="container">
     <!-- Content -->
-    <div id="content" class="colMS">
+    <div id="content" class="change-list">
 
         <h1>Administracion de Proyectos</h1>
     <form action="/proyectos/search/" method="get">
@@ -39,7 +39,7 @@
 
 
 
-        <div class="module default">
+        <div class="results" >
         <table >
         <thead>
         <tr>
@@ -60,12 +60,12 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Inicio__</a>
+                    <a>______Inicio______</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>__Finalizacion__</a>
+                    <a>___Finalizacion___</a>
                 </div>
             </th>
                         <th scope="col">
@@ -93,6 +93,9 @@
                 <td>{{ dato.lider }}</td>
 				<td>{{ dato.fecha_ini }}</td>
                 <td>{{ dato.fecha_fin }}</td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button">Modificar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button">Modificar</a></td>
+                <td><a href="/usuario/delete/{{ user.id }}/" class="deletelink">Eliminar</a></td>
             </tr>
         {% endfor %}
         </tbody>
