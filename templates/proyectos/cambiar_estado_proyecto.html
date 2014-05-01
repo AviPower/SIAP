@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Proyecto_Existosa
+	Proyecto_no_registrado
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -13,7 +13,6 @@
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
 
-
 <body class="">
 
 <!-- Container -->
@@ -22,19 +21,17 @@
 
 <div class="breadcrumbs">
 <a href="/proyectos/">Proyectos</a>
-&rsaquo; Creo un Proyecto
+&rsaquo; Fallo Proyecto
 </div>
-
-
 
     <!-- Content -->
     <div id="content" class="colM">
+    <h1>Modificar Proyecto {{ nombre|title }} </h1>
+<form action="" method="post">{% csrf_token %}
+    {{ proyectos }}
 
-
-<h1>Registro de Proyecto exitoso</h1>
-
-<p>Proyecto registrado Correctamente.</p>
-
+    <input type="submit" value="Guardar cambios">
+</form>
 
 
         <br class="clear" />

@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Proyecto_Existosa
+	Proyecto_no_registrado
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -13,7 +13,6 @@
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
 
-
 <body class="">
 
 <!-- Container -->
@@ -22,19 +21,17 @@
 
 <div class="breadcrumbs">
 <a href="/proyectos/">Proyectos</a>
-&rsaquo; Creo un Proyecto
+&rsaquo; Fallo Proyecto
 </div>
-
-
 
     <!-- Content -->
     <div id="content" class="colM">
 
 
-<h1>Registro de Proyecto exitoso</h1>
+<h1>La fase {{ fase.nombre }} aun no posee Tipos de Item.</h1>
 
-<p>Proyecto registrado Correctamente.</p>
-
+<p> Agreguelos, por favor.</p>
+<a class="button" href="/tiposDeItem/registrar/{{ fase.id }}"><li class="icon-eye-open"></li>Agregar Tipo de Item</a>
 
 
         <br class="clear" />

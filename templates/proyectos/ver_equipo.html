@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Modificar_Proyecto
+	Equipo
 {% endblock %}
 {% block content %}
 <head>
@@ -9,17 +9,22 @@
 </head>
     <div class="breadcrumbs">
     <a href="/proyectos/">Proyectos</a>
-    "> Modificar Proyecto"
+    "> Ver_Equipo"
     </div>
     <div id="content">
-    <h1>Modificar Proyecto {{ nombre|title }}</h1>
+    <h1>Equipo de {{proyecto.nombre|title}}</h1>
         <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
-    {{ proyectos.as_p }}
-        </div>
-    <div class="submit-row">
-    <input type="submit" value="Guardar Cambios" />
+    <div><strong>Lider: </strong>{{ lider.first_name}} {{ lider.last_name}}</div>
+            <div><strong> Miembros del comite: </strong></div>
+            {% for integrante in comite %}
+                <li>{{ integrante.first_name}} {{ integrante.last_name}}</li>
+            {% endfor %}
+             <div><strong>Equipo: </strong></div>
+            {% for usuario in usuarios %}
+                <li><b>Nombre: </b>{{ usuario}}</li>
+            {% endfor %}
         </div>
 </form>
             </fieldset>
