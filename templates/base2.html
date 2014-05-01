@@ -16,10 +16,6 @@
         <link href='http://fonts.googleapis.com/css?family=Advent+Pro:400,500' rel='stylesheet'>
 
         <script src="{{STATIC_URL}}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-        {% block iconos %}
-	    <link rel='shortcut icon' href='/static/usuario/img/gis/default-bg.gif'>
-
-    {% endblock %}
     </head>
    
 <body>
@@ -39,6 +35,7 @@
                          <ul class="dropdown-menu">
                              <li><a href="/usuario">Usuario</a></li>
                              <li><a href="/proyectos">Proyectos</a></li>
+                             <li><a href="/roles">Roles</a></li>
                          </ul>
                      </li>
                  {% endif %}

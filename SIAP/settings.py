@@ -45,7 +45,6 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'guardian',
     'apps.inicio',
     'apps.usuarios',
     'apps.proyectos',
@@ -60,11 +59,6 @@ MESSAGE_TAGS = {
     DELETE_MESSAGE : 'deleted',
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = {
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -121,10 +115,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
-
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend', # this is default
-    'guardian.backends.ObjectPermissionBackend',
-)
-
-ANONYMOUS_USER_ID = 10000
