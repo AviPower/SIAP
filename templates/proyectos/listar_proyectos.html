@@ -70,17 +70,32 @@
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_1</a>
+                    <a>_Opcion_1_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Opcion_2_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Opcion_3_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Opcion_4</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_2</a>
+                    <a>Opcion_5</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_3</a>
+                    <a>____Opcion_6____</a>
                 </div>
             </th>
         </tr>
@@ -93,9 +108,12 @@
                 <td>{{ dato.lider }}</td>
 				<td>{{ dato.fecha_ini }}</td>
                 <td>{{ dato.fecha_fin }}</td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button">Modificar</a></td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button">Modificar</a></td>
-                <td><a href="/usuario/delete/{{ user.id }}/" class="deletelink">Eliminar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-pencil"></i>Modificar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-share"></i>Importar</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class=" icon-list-alt"></i>Fases</a></td>
+                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-user"></i>Apoyo</a></td>
+                <td><a href="/usuario/delete/{{ user.id }}/" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
             </tr>
         {% endfor %}
         </tbody>
