@@ -1,0 +1,38 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Proyecto
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/proyectos/">Proyectos</a>
+    "> Detalle_Proyecto"
+    </div>
+
+                <div id="content">
+                <h1>Detalles del {{proyecto.nombre|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+            <div><strong>Nombre: </strong>{{ proyecto.nombre }}</div>
+            <div><strong>Codigo: </strong>{{ proyecto.id }}</div>
+            <div><strong>Lider: </strong>{{ lider.first_name}} {{ lider.last_name}}</div>
+            <div><strong>Descripción: </strong>{{ proyecto.descripcion }}</div>
+            <div><strong>Estado: </strong>{{ proyecto.estado }}</div>
+            <div><strong>Fecha de Inicio: </strong>{{ proyecto.fecha_ini }}</div>
+            <div><strong>Fecha de Finalizacion: </strong>{{ proyecto.fecha_fin}}</div>
+            <div><strong>Observaciones: </strong>{{ proyecto.observaciones }}</div>
+            <h5><strong>Miembros del comite: </strong></h5>
+            {% for integrante in comite %}
+                <li>{{ integrante.first_name}} {{ integrante.last_name}}</li>
+            {% endfor %}
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}

@@ -98,7 +98,7 @@ def detalle_proyecto(request, id_proyecto):
     dato = get_object_or_404(Proyecto, pk=id_proyecto)
     comite = User.objects.filter(comite__id=id_proyecto)
     lider = get_object_or_404(User, pk=dato.lider_id)
-    return render_to_response('proyectos/detalle_proyecto.html', {'proyectos': dato, 'comite': comite, 'lider':lider}, context_instance=RequestContext(request))
+    return render_to_response('proyectos/detalle_proyecto.html', {'proyecto': dato, 'comite': comite, 'lider':lider}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -124,7 +124,7 @@ def buscar_proyecto(request):
     query = request.GET.get('q', '')
     if query:
         qset = (
-            Q(nombre=query)
+            Q(nombre__contains=query)
         )
         results = Proyecto.objects.filter(qset).distinct()
 

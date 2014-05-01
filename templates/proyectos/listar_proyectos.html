@@ -27,15 +27,19 @@
 
         <h1>Administracion de Proyectos</h1>
     <form action="/proyectos/search/" method="get">
-        <input type="text" name="busqueda">
-        <input type="submit" value="Buscar">
+    <label for="q">Nombre: </label>
+    <input type="text" name="q" value="{{ query|escape }}">
+    <li class="icon-search"></li><input type="submit" value="Buscar">
+    <a href="/proyectos/" class="button"><i class="icon-filter"></i>Limpiar</a>
     </form>
-<div id="content-main">
+
 <ul class="object-tools">
     <li>
         <a href="/proyectos/registrar" class="addlink">Nuevo Proyecto</a>
     </li>
 </ul>
+<div id="content-main">
+
 
 
 
@@ -70,7 +74,7 @@
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>_Opcion_1_</a>
+                    <a>Opcion_1</a>
                 </div>
             </th>
             <th scope="col">
@@ -108,12 +112,12 @@
                 <td>{{ dato.lider }}</td>
 				<td>{{ dato.fecha_ini }}</td>
                 <td>{{ dato.fecha_fin }}</td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-share"></i>Importar</a></td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class=" icon-list-alt"></i>Fases</a></td>
-                <td><a href="/usuario/edit/{{ user.id }}/" class="button"><i class="icon-user"></i>Apoyo</a></td>
-                <td><a href="/usuario/delete/{{ user.id }}/" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
+                <td><a href="/proyectos/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
+                <td><a href="/proyectos/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
+                <td><a href="/proyectos/importar/{{ dato.pk }}" class="button"><i class="icon-share"></i>Importar</a></td>
+                <td><a href="/fases/proyecto/{{ dato.pk }}" class="button"><i class=" icon-list-alt"></i>Fases</a></td>
+                <td><a href="/proyectos/equipo/{{ dato.pk }}" class="button"><i class="icon-user"></i>Apoyo</a></td>
+                <td><a href="/proyectos/cambiarEstado/{{ dato.pk }}" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
             </tr>
         {% endfor %}
         </tbody>
