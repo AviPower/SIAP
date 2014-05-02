@@ -1,0 +1,29 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Rol
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/roles/">Roles</a>
+    "> Detalle_Rol"
+    </div>
+
+                <div id="content">
+                <h1>Detalles del {{rol.name|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+            {% for permiso in permisos %}
+                <li>{{ permiso.name}} </li>
+            {% endfor %}
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}
