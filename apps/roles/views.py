@@ -17,9 +17,11 @@ __text__ = 'Este modulo contiene funciones que permiten el control de roles'
 @login_required
 @permission_required('group')
 def crear_rol(request):
-    '''
+    """
     vista para crear un rol, que consta de un nombre y una lista de permisos
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: return HttpResponseRedirect('/roles/register/success/') o render_to_response('roles/crear_rol.html', { 'group_form': group_form}, context_instance=RequestContext(request))
+    """
     if request.method == 'POST':
         # formulario enviado
         group_form = GroupForm(request.POST)
@@ -38,9 +40,11 @@ def crear_rol(request):
 @login_required
 @permission_required('group')
 def lista_roles(request):
-    '''
-    vista para listar los roles exitentes en el sistema
-    '''
+    """
+    vista para listar los roles existentes en el sistema
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
+    """
 
     grupos = Group.objects.all()
     return render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
@@ -48,9 +52,11 @@ def lista_roles(request):
 @login_required
 @permission_required('group')
 def buscarRol(request):
-    '''
+    """
     vista para buscar un rol entre todos los registrados en el sistema
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: return render_to_response('roles/listar_roles.html', {'datos': results}, context_instance=RequestContext(request))
+    """
     query = request.GET.get('q', '')
     if query:
         qset = (
@@ -65,10 +71,12 @@ def buscarRol(request):
 @login_required
 @permission_required('group')
 def detalle_rol(request, id_rol):
-
-    '''
+    """
     vista para ver los detalles del rol <id_rol> del sistema
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_rol: referencia a los roles
+    @return: render_to_response('roles/detalle_rol.html', {'rol': dato, 'permisos': permisos}, context_instance=RequestContext(request))
+    """
 
     dato = get_object_or_404(Group, pk=id_rol)
     permisos = Permission.objects.filter(group__id=id_rol)
@@ -77,10 +85,13 @@ def detalle_rol(request, id_rol):
 @login_required
 @permission_required('group')
 def eliminar_rol(request, id_rol):
-
-    '''
+    """
     vista para eliminar el rol <id_rol>. Se comprueba que dicho rol no tenga fases asociadas.
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_rol: referencia a los roles
+    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
+    """
+
 
     dato = get_object_or_404(Group, pk=id_rol)
     fases=Fase.objects.filter(roles__id=dato.id)
@@ -102,9 +113,12 @@ class RegisterSuccessView(TemplateView):
 @login_required
 @permission_required('group')
 def editar_rol(request,id_rol):
-    '''
+    """
     vista para cambiar el nombre del rol o su lista de permisos.
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_rol: referencia a los roles
+    @return: HttpResponseRedirect('/roles/register/success/') o render_to_response('roles/editar_rol.html', { 'rol': rol_form, 'dato':rol}, context_instance=RequestContext(request))
+    """
     rol= Group.objects.get(id=id_rol)
     if request.method == 'POST':
         # formulario enviado

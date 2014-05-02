@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>apps.usuarios.views</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;apps ::
+        Package&nbsp;usuarios ::
+        Module&nbsp;views
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="apps.usuarios.views-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="apps.usuarios.views-module.html">Module apps.usuarios.views</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-comment"># coding=utf-8</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module apps.inicio.views=apps.inicio.views-module.html,Module apps.proyectos.views=apps.proyectos.views-module.html,Module apps.roles.views=apps.roles.views-module.html,Module apps.usuarios.views=apps.usuarios.views-module.html"><a title="apps.inicio.views
+apps.proyectos.views
+apps.roles.views
+apps.usuarios.views" class="py-name" href="#" onclick="return doclink('link-0', 'views', 'link-0');">views</a></tt><tt class="py-op">.</tt><tt class="py-name">generic</tt> <tt class="py-keyword">import</tt> <tt class="py-name">FormView</tt><tt class="py-op">,</tt> <tt class="py-name">TemplateView</tt><tt class="py-op">,</tt> <tt class="py-name">ListView</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt class="py-name">decorators</tt> <tt class="py-keyword">import</tt> <tt class="py-name">login_required</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module apps.inicio.forms=apps.inicio.forms-module.html,Module apps.proyectos.forms=apps.proyectos.forms-module.html,Module apps.roles.forms=apps.roles.forms-module.html"><a title="apps.inicio.forms
+apps.proyectos.forms
+apps.roles.forms" class="py-name" href="#" onclick="return doclink('link-1', 'forms', 'link-1');">forms</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">PasswordChangeForm</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">core</tt><tt class="py-op">.</tt><tt class="py-name">urlresolvers</tt> <tt class="py-keyword">import</tt> <tt class="py-name">reverse</tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">http</tt> <tt class="py-keyword">import</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">,</tt> <tt class="py-name">HttpResponse</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">template</tt><tt class="py-op">.</tt><tt class="py-name">response</tt> <tt class="py-keyword">import</tt> <tt class="py-name">TemplateResponse</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">shortcuts</tt> <tt class="py-keyword">import</tt> <tt class="py-name">resolve_url</tt><tt class="py-op">,</tt> <tt class="py-name">render</tt><tt class="py-op">,</tt> <tt class="py-name">redirect</tt><tt class="py-op">,</tt> <tt class="py-name">get_object_or_404</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="apps.inicio.views
+apps.proyectos.views
+apps.roles.views
+apps.usuarios.views" class="py-name" href="#" onclick="return doclink('link-2', 'views', 'link-0');">views</a></tt><tt class="py-op">.</tt><tt class="py-name">decorators</tt><tt class="py-op">.</tt><tt class="py-name">debug</tt> <tt class="py-keyword">import</tt> <tt class="py-name">sensitive_post_parameters</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="apps.inicio.views
+apps.proyectos.views
+apps.roles.views
+apps.usuarios.views" class="py-name" href="#" onclick="return doclink('link-3', 'views', 'link-0');">views</a></tt><tt class="py-op">.</tt><tt class="py-name">decorators</tt><tt class="py-op">.</tt><tt class="py-name">csrf</tt> <tt class="py-keyword">import</tt> <tt class="py-name">csrf_protect</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name"><a title="apps.inicio.forms
+apps.proyectos.forms
+apps.roles.forms" class="py-name" href="#" onclick="return doclink('link-4', 'forms', 'link-1');">forms</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">ModelForm</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt><tt class="py-op">.</tt><tt class="py-name">auth</tt><tt class="py-op">.</tt><tt id="link-5" class="py-name" targets="Module apps.fases.models=apps.fases.models-module.html,Module apps.inicio.models=apps.inicio.models-module.html,Module apps.proyectos.models=apps.proyectos.models-module.html,Module apps.roles.models=apps.roles.models-module.html,Module apps.tiposDeItem.models=apps.tiposDeItem.models-module.html,Module apps.usuarios.models=apps.usuarios.models-module.html"><a title="apps.fases.models
+apps.inicio.models
+apps.proyectos.models
+apps.roles.models
+apps.tiposDeItem.models
+apps.usuarios.models" class="py-name" href="#" onclick="return doclink('link-5', 'models', 'link-5');">models</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">User</tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">apps</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Package apps.inicio=apps.inicio-module.html"><a title="apps.inicio" class="py-name" href="#" onclick="return doclink('link-6', 'inicio', 'link-6');">inicio</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name"><a title="apps.fases.models
+apps.inicio.models
+apps.proyectos.models
+apps.roles.models
+apps.tiposDeItem.models
+apps.usuarios.models" class="py-name" href="#" onclick="return doclink('link-7', 'models', 'link-5');">models</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name" targets="Class apps.inicio.models.Perfiles=apps.inicio.models.Perfiles-class.html"><a title="apps.inicio.models.Perfiles" class="py-name" href="#" onclick="return doclink('link-8', 'Perfiles', 'link-8');">Perfiles</a></tt> </tt>
+<a name="Usuario"></a><div id="Usuario-def"><a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt> <a class="py-toggle" href="#" id="Usuario-toggle" onclick="return toggle('Usuario');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="apps.usuarios.views.Usuario-class.html">Usuario</a><tt class="py-op">(</tt><tt class="py-base-class">ModelForm</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Usuario-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Usuario-expanded"><a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-docstring">    Clase que representa el modelo de Usuario de Django</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring">    @typ ModelForm:</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="Usuario.Meta"></a><div id="Usuario.Meta-def"><a name="L21"></a><tt class="py-lineno"> 21</tt> <a class="py-toggle" href="#" id="Usuario.Meta-toggle" onclick="return toggle('Usuario.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="apps.usuarios.views.Usuario.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Usuario.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Usuario.Meta-expanded"><a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line">        <tt id="link-9" class="py-name" targets="Variable apps.proyectos.forms.CambiarEstadoForm.Meta.model=apps.proyectos.forms.CambiarEstadoForm.Meta-class.html#model,Variable apps.proyectos.forms.ProyectoForm.Meta.model=apps.proyectos.forms.ProyectoForm.Meta-class.html#model,Variable apps.roles.forms.GroupForm.Meta.model=apps.roles.forms.GroupForm.Meta-class.html#model,Variable apps.usuarios.views.Perfil.Meta.model=apps.usuarios.views.Perfil.Meta-class.html#model,Variable apps.usuarios.views.Usuario.Meta.model=apps.usuarios.views.Usuario.Meta-class.html#model,Variable django.contrib.auth.forms.UserCreationForm.Meta.model=django.contrib.auth.forms.UserCreationForm.Meta-class.html#model"><a title="apps.proyectos.forms.CambiarEstadoForm.Meta.model
+apps.proyectos.forms.ProyectoForm.Meta.model
+apps.roles.forms.GroupForm.Meta.model
+apps.usuarios.views.Perfil.Meta.model
+apps.usuarios.views.Usuario.Meta.model
+django.contrib.auth.forms.UserCreationForm.Meta.model" class="py-name" href="#" onclick="return doclink('link-9', 'model', 'link-9');">model</a></tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line">        <tt id="link-10" class="py-name" targets="Variable apps.usuarios.views.Perfil.Meta.fields=apps.usuarios.views.Perfil.Meta-class.html#fields,Variable apps.usuarios.views.Usuario.Meta.fields=apps.usuarios.views.Usuario.Meta-class.html#fields,Variable django.contrib.auth.forms.UserCreationForm.Meta.fields=django.contrib.auth.forms.UserCreationForm.Meta-class.html#fields"><a title="apps.usuarios.views.Perfil.Meta.fields
+apps.usuarios.views.Usuario.Meta.fields
+django.contrib.auth.forms.UserCreationForm.Meta.fields" class="py-name" href="#" onclick="return doclink('link-10', 'fields', 'link-10');">fields</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-string">'username'</tt><tt class="py-op">,</tt> <tt class="py-string">'first_name'</tt><tt class="py-op">,</tt> <tt class="py-string">'last_name'</tt><tt class="py-op">,</tt> <tt class="py-string">'email'</tt><tt class="py-op">,</tt> <tt class="py-string">'is_active'</tt><tt class="py-op">,</tt><tt class="py-string">'is_staff'</tt><tt class="py-op">,</tt><tt class="py-string">'is_superuser'</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"> </tt>
+<a name="Perfil"></a><div id="Perfil-def"><a name="L25"></a><tt class="py-lineno"> 25</tt> <a class="py-toggle" href="#" id="Perfil-toggle" onclick="return toggle('Perfil');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="apps.usuarios.views.Perfil-class.html">Perfil</a><tt class="py-op">(</tt><tt class="py-base-class">ModelForm</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Perfil-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="Perfil-expanded"><a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">    Modelo que agrega el rol de lider</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="Perfil.Meta"></a><div id="Perfil.Meta-def"><a name="L29"></a><tt class="py-lineno"> 29</tt> <a class="py-toggle" href="#" id="Perfil.Meta-toggle" onclick="return toggle('Perfil.Meta');">-</a><tt class="py-line">    <tt class="py-keyword">class</tt> <a class="py-def-name" href="apps.usuarios.views.Perfil.Meta-class.html">Meta</a><tt class="py-op">:</tt> </tt>
+</div><div id="Perfil.Meta-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="Perfil.Meta-expanded"><a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line">        <tt id="link-11" class="py-name"><a title="apps.proyectos.forms.CambiarEstadoForm.Meta.model
+apps.proyectos.forms.ProyectoForm.Meta.model
+apps.roles.forms.GroupForm.Meta.model
+apps.usuarios.views.Perfil.Meta.model
+apps.usuarios.views.Usuario.Meta.model
+django.contrib.auth.forms.UserCreationForm.Meta.model" class="py-name" href="#" onclick="return doclink('link-11', 'model', 'link-9');">model</a></tt> <tt class="py-op">=</tt> <tt id="link-12" class="py-name"><a title="apps.inicio.models.Perfiles" class="py-name" href="#" onclick="return doclink('link-12', 'Perfiles', 'link-8');">Perfiles</a></tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line">        <tt id="link-13" class="py-name"><a title="apps.usuarios.views.Perfil.Meta.fields
+apps.usuarios.views.Usuario.Meta.fields
+django.contrib.auth.forms.UserCreationForm.Meta.fields" class="py-name" href="#" onclick="return doclink('link-13', 'fields', 'link-10');">fields</a></tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt> <tt class="py-string">'lider'</tt><tt class="py-op">,</tt><tt class="py-string">'telefono'</tt><tt class="py-op">,</tt> <tt class="py-string">'direccion'</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"> </tt>
+<a name="list_usuario"></a><div id="list_usuario-def"><a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt> <a class="py-toggle" href="#" id="list_usuario-toggle" onclick="return toggle('list_usuario');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#list_usuario">list_usuario</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">template_name</tt> <tt class="py-op">=</tt> <tt class="py-string">'usuarios/admin.html'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="list_usuario-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="list_usuario-expanded"><a name="L35"></a><tt class="py-lineno"> 35</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line"><tt class="py-docstring">    Vista para la lista de usuarios</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line"><tt class="py-docstring">    @param template_name: Nombre del template usado para la capa de presentaci&#243;n y listar los usuarios</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line"><tt class="py-docstring">    @return: render(request, template_name,data)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt id="link-14" class="py-name" targets="Variable apps.inicio.models.Perfiles.usuario=apps.inicio.models.Perfiles-class.html#usuario"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-14', 'usuario', 'link-14');">usuario</a></tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt class="py-name">objects</tt><tt class="py-op">.</tt><tt class="py-name">all</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line">    <tt class="py-name">data</tt> <tt class="py-op">=</tt><tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L43"></a><tt class="py-lineno"> 43</tt>  <tt class="py-line">    <tt class="py-name">data</tt><tt class="py-op">[</tt><tt class="py-string">'object_list'</tt><tt class="py-op">]</tt><tt class="py-op">=</tt> <tt id="link-15" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-15', 'usuario', 'link-14');">usuario</a></tt> </tt>
+<a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name" targets="Variable apps.inicio.views.Registrarse.template_name=apps.inicio.views.Registrarse-class.html#template_name,Variable apps.inicio.views.SIAP.template_name=apps.inicio.views.SIAP-class.html#template_name,Variable apps.roles.views.RegisterSuccessView.template_name=apps.roles.views.RegisterSuccessView-class.html#template_name"><a title="apps.inicio.views.Registrarse.template_name
+apps.inicio.views.SIAP.template_name
+apps.roles.views.RegisterSuccessView.template_name" class="py-name" href="#" onclick="return doclink('link-16', 'template_name', 'link-16');">template_name</a></tt><tt class="py-op">,</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"> </tt>
+<a name="delete_user"></a><div id="delete_user-def"><a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt> <a class="py-toggle" href="#" id="delete_user-toggle" onclick="return toggle('delete_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#delete_user">delete_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">pk</tt><tt class="py-op">,</tt> <tt class="py-param">template_name</tt> <tt class="py-op">=</tt> <tt class="py-string">'usuarios/user/delete_user.html'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="delete_user-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="delete_user-expanded"><a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line"><tt class="py-docstring">    Se eliminan usuarios</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line"><tt class="py-docstring">    @param pk: referencia a la clave primaria del usuario</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line"><tt class="py-docstring">    @param template_name: El nombre completo del template usado para desplegar la interfaz de cambio de contrase&#241;a</tt> </tt>
+<a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-docstring">    @return: render(request, template_name, usuario)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">    <tt id="link-17" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-17', 'usuario', 'link-14');">usuario</a></tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">pk</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt><tt class="py-op">==</tt><tt class="py-string">'POST'</tt><tt class="py-op">:</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line">        <tt id="link-18" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-18', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">.</tt><tt class="py-name">delete</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">redirect</tt><tt class="py-op">(</tt><tt class="py-string">'usuario'</tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt id="link-19" class="py-name"><a title="apps.inicio.views.Registrarse.template_name
+apps.inicio.views.SIAP.template_name
+apps.roles.views.RegisterSuccessView.template_name" class="py-name" href="#" onclick="return doclink('link-19', 'template_name', 'link-16');">template_name</a></tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'object'</tt><tt class="py-op">:</tt><tt id="link-20" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-20', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"> </tt>
+<a name="edit_user"></a><div id="edit_user-def"><a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line"> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt> <a class="py-toggle" href="#" id="edit_user-toggle" onclick="return toggle('edit_user');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#edit_user">edit_user</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> <tt class="py-param">pk</tt><tt class="py-op">,</tt> <tt class="py-param">template_name</tt> <tt class="py-op">=</tt> <tt class="py-string">'usuarios/user/edit.html'</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="edit_user-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="edit_user-expanded"><a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line"><tt class="py-docstring">    Se modifican los Datos del Usuario</tt> </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"><tt class="py-docstring">    @param pk: referencia a la clave primaria del usuario</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"><tt class="py-docstring">    @param template_name: El nombre completo del template usado para desplegar el formulario de edici&#243;n de datos de usuario</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"><tt class="py-docstring">    @return: render(request, template_name, {form, perfil} )</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt id="link-21" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-21', 'usuario', 'link-14');">usuario</a></tt> <tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt class="py-name">User</tt><tt class="py-op">,</tt> <tt class="py-name">pk</tt><tt class="py-op">=</tt><tt class="py-name">pk</tt><tt class="py-op">)</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">    <tt class="py-name">user</tt><tt class="py-op">=</tt> <tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt id="link-22" class="py-name"><a title="apps.inicio.models.Perfiles" class="py-name" href="#" onclick="return doclink('link-22', 'Perfiles', 'link-8');">Perfiles</a></tt><tt class="py-op">,</tt> <tt id="link-23" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-23', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">=</tt><tt id="link-24" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-24', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-name">get_object_or_404</tt><tt class="py-op">(</tt><tt id="link-25" class="py-name"><a title="apps.inicio.models.Perfiles" class="py-name" href="#" onclick="return doclink('link-25', 'Perfiles', 'link-8');">Perfiles</a></tt><tt class="py-op">,</tt> <tt id="link-26" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-26', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">=</tt><tt id="link-27" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-27', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">    <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt id="link-28" class="py-name" targets="Class apps.usuarios.views.Usuario=apps.usuarios.views.Usuario-class.html"><a title="apps.usuarios.views.Usuario" class="py-name" href="#" onclick="return doclink('link-28', 'Usuario', 'link-28');">Usuario</a></tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">POST</tt> <tt class="py-keyword">or</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-name">instance</tt><tt class="py-op">=</tt> <tt id="link-29" class="py-name"><a title="apps.inicio.models.Perfiles.usuario" class="py-name" href="#" onclick="return doclink('link-29', 'usuario', 'link-14');">usuario</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-name">perfil</tt> <tt class="py-op">=</tt> <tt id="link-30" class="py-name" targets="Class apps.usuarios.views.Perfil=apps.usuarios.views.Perfil-class.html"><a title="apps.usuarios.views.Perfil" class="py-name" href="#" onclick="return doclink('link-30', 'Perfil', 'link-30');">Perfil</a></tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">POST</tt> <tt class="py-keyword">or</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-name">instance</tt><tt class="py-op">=</tt><tt class="py-name">user</tt><tt class="py-op">)</tt> </tt>
+<a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">is_valid</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-keyword">and</tt> <tt class="py-name">perfil</tt><tt class="py-op">.</tt><tt class="py-name">is_valid</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L77"></a><tt class="py-lineno"> 77</tt>  <tt class="py-line">        <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">save</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">        <tt class="py-name">perfil</tt><tt class="py-op">.</tt><tt class="py-name">save</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">redirect</tt><tt class="py-op">(</tt><tt class="py-string">'/usuario/'</tt><tt class="py-op">)</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">render</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt id="link-31" class="py-name"><a title="apps.inicio.views.Registrarse.template_name
+apps.inicio.views.SIAP.template_name
+apps.roles.views.RegisterSuccessView.template_name" class="py-name" href="#" onclick="return doclink('link-31', 'template_name', 'link-16');">template_name</a></tt><tt class="py-op">,</tt> <tt class="py-op">{</tt><tt class="py-string">'form'</tt><tt class="py-op">:</tt><tt class="py-name">form</tt><tt class="py-op">,</tt> <tt class="py-string">'perfil'</tt><tt class="py-op">:</tt><tt class="py-name">perfil</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"> </tt>
+<a name="password_change"></a><div id="password_change-def"><a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line"> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">sensitive_post_parameters</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">csrf_protect</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt> <a class="py-toggle" href="#" id="password_change-toggle" onclick="return toggle('password_change');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#password_change">password_change</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> </tt>
+<a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line">                    <tt class="py-param">template_name</tt><tt class="py-op">=</tt><tt class="py-string">'usuarios/user/cambiar_pass.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line">                    <tt class="py-param">post_change_redirect</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> </tt>
+<a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">                    <tt class="py-param">password_change_form</tt><tt class="py-op">=</tt><tt class="py-name">PasswordChangeForm</tt><tt class="py-op">,</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line">                    <tt class="py-param">current_app</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">extra_context</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="password_change-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="password_change-expanded"><a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-docstring">    Verifica que no halla ningun error al cambiar el password</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line"><tt class="py-docstring">    @param template_name: El nombre completo del template usado para desplegar el formulario de cambio de contrase&#241;a</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line"><tt class="py-docstring">    @param post_change_redirect: La URL a redirigir luego de un cambio exitoso de usuario</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line"><tt class="py-docstring">    @param password_change_form: Un formulario cl&#225;sico de cambio de contrase&#241;a</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line"><tt class="py-docstring">    @param current_app: nombre de la aplicaci&#243;n que contiene a la vista actual</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line"><tt class="py-docstring">    @return: TemplateResponse(request, template_name, context, current_app=current_app)</tt> </tt>
+<a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L101"></a><tt class="py-lineno">101</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">post_change_redirect</tt> <tt class="py-keyword">is</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L102"></a><tt class="py-lineno">102</tt>  <tt class="py-line">        <tt class="py-name">post_change_redirect</tt> <tt class="py-op">=</tt> <tt class="py-name">reverse</tt><tt class="py-op">(</tt><tt class="py-string">'cambiar_pass_done'</tt><tt class="py-op">)</tt> </tt>
+<a name="L103"></a><tt class="py-lineno">103</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L104"></a><tt class="py-lineno">104</tt>  <tt class="py-line">        <tt class="py-name">post_change_redirect</tt> <tt class="py-op">=</tt> <tt class="py-name">resolve_url</tt><tt class="py-op">(</tt><tt class="py-name">post_change_redirect</tt><tt class="py-op">)</tt> </tt>
+<a name="L105"></a><tt class="py-lineno">105</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">method</tt> <tt class="py-op">==</tt> <tt class="py-string">"POST"</tt><tt class="py-op">:</tt> </tt>
+<a name="L106"></a><tt class="py-lineno">106</tt>  <tt class="py-line">        <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt class="py-name">password_change_form</tt><tt class="py-op">(</tt><tt class="py-name">user</tt><tt class="py-op">=</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">user</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">=</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">POST</tt><tt class="py-op">)</tt> </tt>
+<a name="L107"></a><tt class="py-lineno">107</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">is_valid</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L108"></a><tt class="py-lineno">108</tt>  <tt class="py-line">            <tt class="py-name">form</tt><tt class="py-op">.</tt><tt class="py-name">save</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">            <tt class="py-keyword">return</tt> <tt class="py-name">HttpResponseRedirect</tt><tt class="py-op">(</tt><tt class="py-name">post_change_redirect</tt><tt class="py-op">)</tt> </tt>
+<a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line">        <tt class="py-name">form</tt> <tt class="py-op">=</tt> <tt class="py-name">password_change_form</tt><tt class="py-op">(</tt><tt class="py-name">user</tt><tt class="py-op">=</tt><tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">user</tt><tt class="py-op">)</tt> </tt>
+<a name="L112"></a><tt class="py-lineno">112</tt>  <tt class="py-line">    <tt class="py-name">context</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt> </tt>
+<a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-string">'form'</tt><tt class="py-op">:</tt> <tt class="py-name">form</tt><tt class="py-op">,</tt> </tt>
+<a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line">    <tt class="py-op">}</tt> </tt>
+<a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">extra_context</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L116"></a><tt class="py-lineno">116</tt>  <tt class="py-line">        <tt class="py-name">context</tt><tt class="py-op">.</tt><tt class="py-name">update</tt><tt class="py-op">(</tt><tt class="py-name">extra_context</tt><tt class="py-op">)</tt> </tt>
+<a name="L117"></a><tt class="py-lineno">117</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">TemplateResponse</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt id="link-32" class="py-name"><a title="apps.inicio.views.Registrarse.template_name
+apps.inicio.views.SIAP.template_name
+apps.roles.views.RegisterSuccessView.template_name" class="py-name" href="#" onclick="return doclink('link-32', 'template_name', 'link-16');">template_name</a></tt><tt class="py-op">,</tt> <tt class="py-name">context</tt><tt class="py-op">,</tt> </tt>
+<a name="L118"></a><tt class="py-lineno">118</tt>  <tt class="py-line">                            <tt class="py-name">current_app</tt><tt class="py-op">=</tt><tt class="py-name">current_app</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L119"></a><tt class="py-lineno">119</tt>  <tt class="py-line"> </tt>
+<a name="password_change_done"></a><div id="password_change_done-def"><a name="L120"></a><tt class="py-lineno">120</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L121"></a><tt class="py-lineno">121</tt> <a class="py-toggle" href="#" id="password_change_done-toggle" onclick="return toggle('password_change_done');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#password_change_done">password_change_done</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">,</tt> </tt>
+<a name="L122"></a><tt class="py-lineno">122</tt>  <tt class="py-line">                         <tt class="py-param">template_name</tt><tt class="py-op">=</tt><tt class="py-string">'usuarios/user/cambiar_pass_done.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L123"></a><tt class="py-lineno">123</tt>  <tt class="py-line">                         <tt class="py-param">current_app</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-param">extra_context</tt><tt class="py-op">=</tt><tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="password_change_done-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="password_change_done-expanded"><a name="L124"></a><tt class="py-lineno">124</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L125"></a><tt class="py-lineno">125</tt>  <tt class="py-line"><tt class="py-docstring">    Redirecciona a la siguiente pagina confirmando el cambio exitoso de password</tt> </tt>
+<a name="L126"></a><tt class="py-lineno">126</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L127"></a><tt class="py-lineno">127</tt>  <tt class="py-line"><tt class="py-docstring">    @param template_name: El nombre completo del template usado para desplegar en la capa de presentaci&#243;n</tt> </tt>
+<a name="L128"></a><tt class="py-lineno">128</tt>  <tt class="py-line"><tt class="py-docstring">    @param current_app: nombre de la aplicaci&#243;n que contiene a la vista actual</tt> </tt>
+<a name="L129"></a><tt class="py-lineno">129</tt>  <tt class="py-line"><tt class="py-docstring">    @param extra_context: Un diccionario que contiene los datos del contexto que se agregan a los datos que ya se tienen</tt> </tt>
+<a name="L130"></a><tt class="py-lineno">130</tt>  <tt class="py-line"><tt class="py-docstring">    @return: TemplateResponse(request, template_name, context, current_app=current_app)</tt> </tt>
+<a name="L131"></a><tt class="py-lineno">131</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L132"></a><tt class="py-lineno">132</tt>  <tt class="py-line">    <tt class="py-name">context</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L133"></a><tt class="py-lineno">133</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">extra_context</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">        <tt class="py-name">context</tt><tt class="py-op">.</tt><tt class="py-name">update</tt><tt class="py-op">(</tt><tt class="py-name">extra_context</tt><tt class="py-op">)</tt> </tt>
+<a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">TemplateResponse</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt id="link-33" class="py-name"><a title="apps.inicio.views.Registrarse.template_name
+apps.inicio.views.SIAP.template_name
+apps.roles.views.RegisterSuccessView.template_name" class="py-name" href="#" onclick="return doclink('link-33', 'template_name', 'link-16');">template_name</a></tt><tt class="py-op">,</tt> <tt class="py-name">context</tt><tt class="py-op">,</tt> </tt>
+<a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">                            <tt class="py-name">current_app</tt><tt class="py-op">=</tt><tt class="py-name">current_app</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line"> </tt>
+<a name="search"></a><div id="search-def"><a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line"> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line"><tt class="py-decorator">@</tt><tt class="py-decorator">login_required</tt> </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt> <a class="py-toggle" href="#" id="search-toggle" onclick="return toggle('search');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="apps.usuarios.views-module.html#search">search</a><tt class="py-op">(</tt><tt class="py-param">request</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="search-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="search-expanded"><a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line"><tt class="py-docstring">    Funci&#243;n de b&#250;squeda de usuarios</tt> </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"><tt class="py-docstring">    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line"><tt class="py-docstring">    @return: render(request, 'usuarios/admin.html',</tt> </tt>
+<a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"><tt class="py-docstring">            {'usuarios': usuarios, 'query': busqueda}) o redirige a /usuario/ si no encuentra la expresi&#243;n regular</tt> </tt>
+<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-string">'busqueda'</tt> <tt class="py-keyword">in</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">GET</tt> <tt class="py-keyword">and</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">GET</tt><tt class="py-op">[</tt><tt class="py-string">'busqueda'</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line">        <tt class="py-name">busqueda</tt> <tt class="py-op">=</tt> <tt class="py-name">request</tt><tt class="py-op">.</tt><tt class="py-name">GET</tt><tt class="py-op">[</tt><tt class="py-string">'busqueda'</tt><tt class="py-op">]</tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line">        <tt id="link-34" class="py-name" targets="Package apps.usuarios=apps.usuarios-module.html"><a title="apps.usuarios" class="py-name" href="#" onclick="return doclink('link-34', 'usuarios', 'link-34');">usuarios</a></tt> <tt class="py-op">=</tt> <tt class="py-name">User</tt><tt class="py-op">.</tt><tt class="py-name">objects</tt><tt class="py-op">.</tt><tt class="py-name">filter</tt><tt class="py-op">(</tt><tt class="py-name">username__contains</tt><tt class="py-op">=</tt><tt class="py-name">busqueda</tt><tt class="py-op">)</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-name">busqueda</tt><tt class="py-op">)</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">        <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt id="link-35" class="py-name"><a title="apps.usuarios" class="py-name" href="#" onclick="return doclink('link-35', 'usuarios', 'link-34');">usuarios</a></tt><tt class="py-op">)</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">render</tt><tt class="py-op">(</tt><tt class="py-name">request</tt><tt class="py-op">,</tt> <tt class="py-string">'usuarios/admin.html'</tt><tt class="py-op">,</tt> </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">            <tt class="py-op">{</tt><tt class="py-string">'usuarios'</tt><tt class="py-op">:</tt> <tt id="link-36" class="py-name"><a title="apps.usuarios" class="py-name" href="#" onclick="return doclink('link-36', 'usuarios', 'link-34');">usuarios</a></tt><tt class="py-op">,</tt> <tt class="py-string">'query'</tt><tt class="py-op">:</tt> <tt class="py-name">busqueda</tt><tt class="py-op">}</tt><tt class="py-op">)</tt> </tt>
+<a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">    <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
+<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> <tt class="py-name">redirect</tt><tt class="py-op">(</tt><tt class="py-string">'/usuario/'</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri May  2 10:17:57 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

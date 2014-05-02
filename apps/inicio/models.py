@@ -7,7 +7,12 @@ class Perfiles(models.Model):
     """
     Extiende del modelo User e incluye otros campos y funciones
     Los atributos de Usuario son
+    @cvar usuario: Un atributo relacionado a la clase User de DjangoAdmin
+    @cvar telefono: Un atributo entero
+    @cvar direccion: Cadena de caracteres
+    @cvar lider: valor binario que indica si tiene este perfil, por defecto es falso
     """
+    
     usuario = models.OneToOneField(User)
     telefono = models.IntegerField(default=0,blank=True)
     '''
@@ -32,10 +37,9 @@ class Perfiles(models.Model):
 
     def __unicode__(self):
         """
-        @param self
+        @param self: instancia del modelo de perfiles
         Necesario para poder visualizar, retorna en caracteres
-        @return self.usuario.username
-        @rtype username : L{Usuario}
+        @return: self.usuario.username mediante la funcion __unicode__
         """
 
         return self.usuario.username

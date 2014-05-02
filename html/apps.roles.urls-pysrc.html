@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>apps.roles.urls</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;apps ::
+        Package&nbsp;roles ::
+        Module&nbsp;urls
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="apps.roles.urls-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="apps.roles.urls-module.html">Module apps.roles.urls</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-name">__author__</tt> <tt class="py-op">=</tt> <tt class="py-docstring">'alvarenga'</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">conf</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Module SIAP.urls=SIAP.urls-module.html,Module apps.inicio.urls=apps.inicio.urls-module.html,Module apps.proyectos.urls=apps.proyectos.urls-module.html,Module apps.roles.urls=apps.roles.urls-module.html,Module apps.usuarios.urls=apps.usuarios.urls-module.html"><a title="SIAP.urls
+apps.inicio.urls
+apps.proyectos.urls
+apps.roles.urls
+apps.usuarios.urls" class="py-name" href="#" onclick="return doclink('link-0', 'urls', 'link-0');">urls</a></tt> <tt class="py-keyword">import</tt> <tt class="py-name">patterns</tt><tt class="py-op">,</tt> <tt class="py-name">url</tt><tt class="py-op">,</tt> <tt class="py-name">include</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">django</tt><tt class="py-op">.</tt><tt class="py-name">contrib</tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module apps.inicio.admin=apps.inicio.admin-module.html"><a title="apps.inicio.admin" class="py-name" href="#" onclick="return doclink('link-1', 'admin', 'link-1');">admin</a></tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt id="link-2" class="py-name"><a title="apps.inicio.admin" class="py-name" href="#" onclick="return doclink('link-2', 'admin', 'link-1');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">autodiscover</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module apps.inicio.views=apps.inicio.views-module.html,Module apps.proyectos.views=apps.proyectos.views-module.html,Module apps.roles.views=apps.roles.views-module.html,Module apps.usuarios.views=apps.usuarios.views-module.html"><a title="apps.inicio.views
+apps.proyectos.views
+apps.roles.views
+apps.usuarios.views" class="py-name" href="#" onclick="return doclink('link-3', 'views', 'link-3');">views</a></tt> <tt class="py-keyword">import</tt> <tt id="link-4" class="py-name" targets="Function apps.roles.views.crear_rol()=apps.roles.views-module.html#crear_rol"><a title="apps.roles.views.crear_rol" class="py-name" href="#" onclick="return doclink('link-4', 'crear_rol', 'link-4');">crear_rol</a></tt><tt class="py-op">,</tt> <tt id="link-5" class="py-name" targets="Function apps.roles.views.lista_roles()=apps.roles.views-module.html#lista_roles"><a title="apps.roles.views.lista_roles" class="py-name" href="#" onclick="return doclink('link-5', 'lista_roles', 'link-5');">lista_roles</a></tt><tt class="py-op">,</tt> <tt id="link-6" class="py-name" targets="Function apps.roles.views.detalle_rol()=apps.roles.views-module.html#detalle_rol"><a title="apps.roles.views.detalle_rol" class="py-name" href="#" onclick="return doclink('link-6', 'detalle_rol', 'link-6');">detalle_rol</a></tt><tt class="py-op">,</tt> <tt id="link-7" class="py-name" targets="Function apps.roles.views.eliminar_rol()=apps.roles.views-module.html#eliminar_rol"><a title="apps.roles.views.eliminar_rol" class="py-name" href="#" onclick="return doclink('link-7', 'eliminar_rol', 'link-7');">eliminar_rol</a></tt><tt class="py-op">,</tt> <tt id="link-8" class="py-name" targets="Function apps.roles.views.editar_rol()=apps.roles.views-module.html#editar_rol"><a title="apps.roles.views.editar_rol" class="py-name" href="#" onclick="return doclink('link-8', 'editar_rol', 'link-8');">editar_rol</a></tt><tt class="py-op">,</tt> <tt id="link-9" class="py-name" targets="Function apps.roles.views.buscarRol()=apps.roles.views-module.html#buscarRol"><a title="apps.roles.views.buscarRol" class="py-name" href="#" onclick="return doclink('link-9', 'buscarRol', 'link-9');">buscarRol</a></tt><tt class="py-op">,</tt> <tt id="link-10" class="py-name" targets="Function apps.proyectos.views.RegisterSuccessView()=apps.proyectos.views-module.html#RegisterSuccessView,Class apps.roles.views.RegisterSuccessView=apps.roles.views.RegisterSuccessView-class.html"><a title="apps.proyectos.views.RegisterSuccessView
+apps.roles.views.RegisterSuccessView" class="py-name" href="#" onclick="return doclink('link-10', 'RegisterSuccessView', 'link-10');">RegisterSuccessView</a></tt> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt id="link-11" class="py-name"><a title="apps.inicio.admin" class="py-name" href="#" onclick="return doclink('link-11', 'admin', 'link-1');">admin</a></tt><tt class="py-op">.</tt><tt class="py-name">autodiscover</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt id="link-12" class="py-name" targets="Variable SIAP.urls.urlpatterns=SIAP.urls-module.html#urlpatterns,Variable apps.inicio.urls.urlpatterns=apps.inicio.urls-module.html#urlpatterns,Variable apps.proyectos.urls.urlpatterns=apps.proyectos.urls-module.html#urlpatterns,Variable apps.roles.urls.urlpatterns=apps.roles.urls-module.html#urlpatterns,Variable apps.usuarios.urls.urlpatterns=apps.usuarios.urls-module.html#urlpatterns"><a title="SIAP.urls.urlpatterns
+apps.inicio.urls.urlpatterns
+apps.proyectos.urls.urlpatterns
+apps.roles.urls.urlpatterns
+apps.usuarios.urls.urlpatterns" class="py-name" href="#" onclick="return doclink('link-12', 'urlpatterns', 'link-12');">urlpatterns</a></tt> <tt class="py-op">=</tt> <tt class="py-name">patterns</tt><tt class="py-op">(</tt><tt class="py-string">''</tt><tt class="py-op">,</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^crear/$'</tt><tt class="py-op">,</tt> <tt id="link-13" class="py-name"><a title="apps.roles.views.crear_rol" class="py-name" href="#" onclick="return doclink('link-13', 'crear_rol', 'link-4');">crear_rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'crear_rol'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^$'</tt><tt class="py-op">,</tt><tt id="link-14" class="py-name"><a title="apps.roles.views.lista_roles" class="py-name" href="#" onclick="return doclink('link-14', 'lista_roles', 'link-5');">lista_roles</a></tt><tt class="py-op">,</tt><tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'lista_roles'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^(?P&lt;id_rol&gt;\d+)$'</tt><tt class="py-op">,</tt> <tt id="link-15" class="py-name"><a title="apps.roles.views.detalle_rol" class="py-name" href="#" onclick="return doclink('link-15', 'detalle_rol', 'link-6');">detalle_rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'detalle_rol'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^eliminar/(?P&lt;id_rol&gt;\d+)$'</tt><tt class="py-op">,</tt> <tt id="link-16" class="py-name"><a title="apps.roles.views.eliminar_rol" class="py-name" href="#" onclick="return doclink('link-16', 'eliminar_rol', 'link-7');">eliminar_rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'eliminar_rol'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^modificar/(?P&lt;id_rol&gt;\d+)$'</tt><tt class="py-op">,</tt> <tt id="link-17" class="py-name"><a title="apps.roles.views.editar_rol" class="py-name" href="#" onclick="return doclink('link-17', 'editar_rol', 'link-8');">editar_rol</a></tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'editar_rol'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^search/$'</tt><tt class="py-op">,</tt><tt id="link-18" class="py-name"><a title="apps.roles.views.buscarRol" class="py-name" href="#" onclick="return doclink('link-18', 'buscarRol', 'link-9');">buscarRol</a></tt><tt class="py-op">,</tt> <tt class="py-name">name</tt><tt class="py-op">=</tt><tt class="py-string">'buscar_roles'</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">    <tt class="py-name">url</tt><tt class="py-op">(</tt><tt class="py-string">r'^register/success/$'</tt><tt class="py-op">,</tt><tt id="link-19" class="py-name"><a title="apps.proyectos.views.RegisterSuccessView
+apps.roles.views.RegisterSuccessView" class="py-name" href="#" onclick="return doclink('link-19', 'RegisterSuccessView', 'link-10');">RegisterSuccessView</a></tt><tt class="py-op">.</tt><tt class="py-name">as_view</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">,</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">    <tt class="py-op">)</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri May  2 10:17:57 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
