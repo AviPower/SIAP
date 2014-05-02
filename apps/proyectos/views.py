@@ -20,11 +20,14 @@ __text__ = 'Este modulo contiene funciones que permiten el control de proyectos'
 @login_required
 @permission_required('proyectos')
 def registrar_proyecto(request):
-    '''
-    Vista para registrar un nuevo proyectos con su lider y miembros de su comite de cambios
-    '''
+    """
+    Vista para registrar un nuevo proyecto con su lider y miembros de su comite de cambios
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return HttpResponseRedirect('/proyectos/register/success') si el rol líder fue correctamente asignado o
+    render_to_response('proyectos/registrar_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request)) al formulario
+    """
 
-    if request.method=='POST':
+    if request.method == 'POST':
         formulario = ProyectoForm(request.POST)
 
         if formulario.is_valid():
@@ -46,9 +49,12 @@ def registrar_proyecto(request):
 @login_required
 @permission_required('proyectos')
 def importar_proyecto(request, id_proyecto):
-    '''
+    """
     Vista para importar un proyectos, dado en <id_proyecto>  con su lider y miembros del comite
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return HttpResponseRedirect('/proyectos/register/success') si
+    """
     proyecto=Proyecto.objects.get(id=id_proyecto)
     if request.method=='POST':
         formulario = ProyectoForm(request.POST, initial={'nombre':proyecto.nombre,'observaciones':proyecto.observaciones, 'descripcion':proyecto.descripcion, 'fecha_ini':proyecto.fecha_ini, 'fecha_fin':proyecto.fecha_fin} )
@@ -72,28 +78,35 @@ def importar_proyecto(request, id_proyecto):
 @login_required
 @permission_required('proyectos')
 def RegisterSuccessView(request):
-    '''
-    Vista llamada en caso de creacion correcta de un proyectos, redirige a un template de exito
-    '''
+    """
+    Vista llamada en caso de creación correcta de un proyecto, redirige a un template de éxito
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('proyectos/creacion_correcta.html', context_instance=RequestContext(request))
+    """
     return render_to_response('proyectos/creacion_correcta.html', context_instance=RequestContext(request))
 
 
 @login_required
 @permission_required('proyectos')
 def RegisterFailedView(request, id_proyecto):
-    '''
+    """
     Vista que retorna a un template de fracaso en caso de que el proyectos no pueda cambiar de estado
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: render_to_response('proyectos/cambio_estado_fallido.html', {'dato': id_proyecto}, context_instance=RequestContext(request))
+    """
     return render_to_response('proyectos/cambio_estado_fallido.html', {'dato': id_proyecto}, context_instance=RequestContext(request))
 
 
 @login_required
 @permission_required('proyectos')
 def detalle_proyecto(request, id_proyecto):
-
-    '''
-    vista para ver los detalles del proyectos <id_proyecto> del sistema, junto con su lider y los miembros del comite
-    '''
+    """
+    Vista para ver los detalles del proyecto del sistema, junto con su líder y los miembros del comité
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: render_to_response('proyectos/detalle_proyecto.html', {'proyecto': dato, 'comite': comite, 'lider':lider}, context_instance=RequestContext(request))
+    """
 
     dato = get_object_or_404(Proyecto, pk=id_proyecto)
     comite = User.objects.filter(comite__id=id_proyecto)
@@ -104,10 +117,11 @@ def detalle_proyecto(request, id_proyecto):
 @login_required
 @permission_required('proyectos')
 def listar_proyectos(request):
-
-    '''
+    """
     vista para listar los proyectos del sistema junto con el nombre de su lider
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos}, context_instance=RequestContext(request))
+    """
 
     proyectos = Proyecto.objects.all().exclude(estado='ACT')
 
@@ -118,9 +132,11 @@ def listar_proyectos(request):
 @login_required
 @permission_required('proyectos')
 def buscar_proyecto(request):
-    '''
+    """
     vista para buscar los proyectos del sistema
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('proyectos/listar_proyectos.html', {'datos': results}, context_instance=RequestContext(request))
+    """
     query = request.GET.get('q', '')
     if query:
         qset = (
@@ -139,9 +155,12 @@ def buscar_proyecto(request):
 @login_required
 @permission_required('proyectos')
 def editar_proyecto(request,id_proyecto):
-    '''
-    Vista para editar un proyectos,o su lider o los miembros de su comite
-    '''
+    """
+    Vista para editar un proyecto,o su líder o los miembros de su comité
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
+    """
     proyecto= Proyecto.objects.get(id=id_proyecto)
     nombre= proyecto.nombre
     if request.method == 'POST':
@@ -166,11 +185,14 @@ def editar_proyecto(request,id_proyecto):
 @login_required
 @permission_required('proyectos')
 def cambiar_estado_proyecto(request,id_proyecto):
-    '''
-    Vista para cambiar el estado de un proyectos, verificando que esto sea posible: para estar activo debe tener la cantidad
-    necesaria de miembros del comite (cantidad impar)
+    """
+    Vista para cambiar el estado de un proyecto, verificando que esto sea posible: para estar activo debe tener la cantidad
+    necesaria de miembros del comité (cantidad impar)
     Si cambia a activo todas sus fases pasan al estado activo
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: render_to_response('proyectos/cambiar_estado_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
+    """
 
     proyecto= Proyecto.objects.get(id=id_proyecto)
     nombre= proyecto.nombre
@@ -242,9 +264,12 @@ def cambiar_estado_proyecto(request,id_proyecto):
 @login_required
 @permission_required('proyectos')
 def ver_equipo(request,id_proyecto):
-    '''
+    """
     vista para ver todos los usuarios que forman parte de un proyectos
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: render_to_response('proyectos/ver_equipo.html', {'proyectos':dato,'lider': lider, 'comite':comite, 'usuarios':usuarios}, context_instance=RequestContext(request))
+    """
     dato=get_object_or_404(Proyecto,pk=id_proyecto)
     comite = User.objects.filter(comite__id=id_proyecto)
     lider = get_object_or_404(User, pk=dato.lider_id)

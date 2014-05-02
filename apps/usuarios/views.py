@@ -138,6 +138,12 @@ def password_change_done(request,
 
 @login_required
 def search(request):
+    """
+    Función de búsqueda de usuarios
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render(request, 'usuarios/admin.html',
+            {'usuarios': usuarios, 'query': busqueda}) o redirige a /usuario/ si no encuentra la expresión regular
+    """
     if 'busqueda' in request.GET and request.GET['busqueda']:
         busqueda = request.GET['busqueda']
         usuarios = User.objects.filter(username__contains=busqueda)
