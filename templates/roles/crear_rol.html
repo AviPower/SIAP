@@ -15,10 +15,35 @@
 
                 <div id="content">
                 <h1>Crear Rol</h1>
-       <fieldset class="module aligned wide">
+       <fieldset class="module aligned">
 <form enctype="multipart/form-data" method="post">{% csrf_token %}
     <div class="form-row">
-    {{ group_form.as_p }}
+        <div><label>Nombre:</label>{{group_form.name}}</div>
+        <div><p class="help">
+            Mantenga presionado "Control", para seleccionar más de una opción.
+        </p></div><label>Permisos:</label>
+        <div class="selector">
+            <div class="selector-available">
+                <h2>Permisos Disponibles</h2>
+                <p class="selector-filter">
+                </p>
+
+                    <div >
+                        {% if results %}
+                        <ul>
+                            {% for result in results %}
+                                {{ result.name }}
+                            {% endfor %}
+                        </ul>
+                            {% else %}
+                            {{ group_form.permissions}}
+                        {% endif %}
+
+                    </div>
+
+            </div>
+        </div>
+
         </div>
     <div class="submit-row">
     <input type="submit" value="Confirmar" />

@@ -11,6 +11,7 @@ ESTADOS = (
     ('PEN', 'Pendiente'),
     ('ANU','Anulado'),
     ('ACT', 'Activo'),
+    ('ELI', 'Eliminado'),
 )
 
 

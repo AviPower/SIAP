@@ -16,7 +16,19 @@
         <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
-    {{ rol.as_p }}
+        <div><label>Nombre:</label>{{rol.name}}</div>
+        <div><p class="help">
+            Mantenga presionado "Control", para seleccionar más de una opción. Los Marcados en Gris son los permisos que ya contienen el Rol
+        </p></div><label>Permisos:</label>
+                <div class="selector">
+            <div class="selector-available">
+                <h2>Permisos Disponibles</h2>
+                    <div >
+                            {{ rol.permissions}}
+                    </div>
+
+            </div>
+        </div>
         </div>
     <div class="submit-row">
     <input type="submit" value="Guardar Cambios" />

@@ -141,8 +141,6 @@ def search(request):
     if 'busqueda' in request.GET and request.GET['busqueda']:
         busqueda = request.GET['busqueda']
         usuarios = User.objects.filter(username__contains=busqueda)
-        print(busqueda)
-        print(usuarios)
         return render(request, 'usuarios/admin.html',
             {'usuarios': usuarios, 'query': busqueda})
     else:

@@ -109,7 +109,7 @@ def listar_proyectos(request):
     vista para listar los proyectos del sistema junto con el nombre de su lider
     '''
 
-    proyectos = Proyecto.objects.all().exclude(estado='ACT')
+    proyectos = Proyecto.objects.all().exclude(estado='ELI')
 
 
     return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos}, context_instance=RequestContext(request))
@@ -230,7 +230,7 @@ def cambiar_estado_proyecto(request,id_proyecto):
                         proyecto_form.save()
                         return HttpResponseRedirect('/proyectos/register/success/')
                     else:
-                            if proyecto_form.cleaned_data['estado']=='ANU' or proyecto_form.cleaned_data['estado']=='PEN':
+                            if proyecto_form.cleaned_data['estado']=='ANU' or proyecto_form.cleaned_data['estado']=='PEN' or proyecto_form.cleaned_data['estado']=='ELI':
                                 proyecto_form.save()
                                 return HttpResponseRedirect('/proyectos/register/success/')
 

@@ -61,6 +61,7 @@ def buscarRol(request):
         results = []
     return render_to_response('roles/listar_roles.html', {'datos': results}, context_instance=RequestContext(request))
 
+
 @login_required
 @permission_required('group')
 def detalle_rol(request, id_rol):
@@ -71,7 +72,6 @@ def detalle_rol(request, id_rol):
 
     dato = get_object_or_404(Group, pk=id_rol)
     permisos = Permission.objects.filter(group__id=id_rol)
-    print(permisos)
     return render_to_response('roles/detalle_rol.html', {'rol': dato, 'permisos': permisos}, context_instance=RequestContext(request))
 
 @login_required
@@ -121,3 +121,21 @@ def editar_rol(request,id_rol):
     return render_to_response('roles/editar_rol.html', { 'rol': rol_form, 'dato':rol}, context_instance=RequestContext(request))
 
 
+@login_required
+
+def buscarPermisos(request):
+    '''
+    vista para buscar un rpermisos entre todos los registrados en el sistema
+    '''
+    query = request.GET.get('q', '')
+    print('hola')
+    if query:
+        qset = (
+            Q(name__contains=query)
+        )
+        results = Permission.objects.filter(qset)
+        print('hola')
+        print(results)
+    else:
+        results = []
+    return render_to_response('roles/crear_rol.html', {'results': results}, context_instance=RequestContext(request))

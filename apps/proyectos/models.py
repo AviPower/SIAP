@@ -7,7 +7,8 @@ ESTADOS = (
     ('PEN', 'Pendiente'),
     ('ANU','Anulado'),
     ('ACT', 'Activo'),
-    ('FIN','Finalizado')
+    ('FIN','Finalizado'),
+    ('ELI','Eliminado')
 )
 
 
