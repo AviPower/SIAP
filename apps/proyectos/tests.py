@@ -48,7 +48,7 @@ class SIAPTestCase(TestCase):
         #proyecto= Proyecto.objects.create(id=3, nombre='pruebaProyecto',descripcion='prueba',observaciones='prueba',fecha_ini='2012-12-01',fecha_fin='2013-12-01',lider_id=1)
         resp = c.get('/proyectos/')
         self.assertEqual(resp.status_code, 200)
-        self.assertEqual([proyecto.pk for proyecto in resp.context['datos']], [3,4,5,6,7])
+        self.assertEqual([proyecto.pk for proyecto in resp.context['datos']], [1,2,3,4,5,6,7])
 
     def test_ver_equipo(self):
         '''

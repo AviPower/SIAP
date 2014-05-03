@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 from django.contrib.auth.decorators import login_required, permission_required
 from apps.proyectos.forms import ProyectoForm, CambiarEstadoForm
 from django.http import HttpResponse, HttpResponseRedirect

@@ -6,4 +6,5 @@ $ cat .gitignore
 # O usar comodines
 *~
 *pyc
-
+*wsgi.py
+SIAP/wsgi.py
