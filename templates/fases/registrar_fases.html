@@ -1,0 +1,30 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Nueva_fase
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="//">Proyectos</a>
+    ">Nueva Fase"
+    </div>
+
+                <div id="content">
+                <h1>Crear Fase</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+    {{ formulario.as_p }}
+        </div>
+    <div class="submit-row">
+    <input type="submit" value="Confirmar" />
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}
