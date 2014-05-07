@@ -1,0 +1,143 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Fases
+{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="es-PY" >
+<head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/changelists.css" />
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/usuario/";</script>
+<script type="text/javascript" src="/static/usuario/js/core.js"></script>
+<script type="text/javascript" src="/static/usuario/js/jquery.js"></script>
+<script type="text/javascript" src="/static/usuario/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/usuario/js/actions.js"></script>
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class="dashboard">
+
+<!-- Container -->
+<div id="container">
+    <!-- Content -->
+    <div id="content" class="change-list">
+
+        <h1>Administracion de Fases</h1>
+    <form action="/fases/search/" method="get">
+    <label for="q">Nombre: </label>
+    <input type="text" name="q" value="{{ query|escape }}">
+    <li class="icon-search"></li><input type="submit" value="Buscar">
+    <a href="/fases/" class="button"><i class="icon-filter"></i>Limpiar</a>
+    </form>
+
+<ul class="object-tools">
+    <li>
+        <a href="/fases/registrar" class="addlink">Nueva Fase</a>
+    </li>
+</ul>
+<div id="content-main">
+
+
+
+
+        <div class="results" >
+        <table >
+        <thead>
+        <tr>
+            <th scope="col" class="sortable" >
+                <div class="text">
+                    <a>__Fases__</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>__Estado__</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>__Lider__</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a> ___Inicio___  </a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>___Finalizacion___</a>
+                </div>
+            </th>
+                        <th scope="col">
+                <div class="text">
+                    <a>Opcion_1</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Opcion_2_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Opcion_3_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Opcion_4</a>
+                </div>
+            </th>
+                        <th scope="col">
+                <div class="text">
+                    <a>Opcion_5</a>
+                </div>
+            </th>
+                        <th scope="col">
+                <div class="text">
+                    <a>____Opcion_6____</a>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dato in datos  %}
+            <tr>
+                <td>{{ dato.nombre }}</td>
+				<td>{{ dato.estado }}</td>
+                <td>{{ dato.lider }}</td>
+                <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
+                <td><a href="/fases/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
+                <td><a href="/fases/importar/{{ dato.pk }}" class="button"><i class="icon-share"></i>Importar</a></td>
+<!--                <td><a href="/fases/proyecto/{{ dato.pk }}" class="button"><i class=" icon-list-alt"></i>Fases</a></td> -->
+                <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Items</a></td>
+      <!--          <td><a href="/proyectos/equipo/{{ dato.pk }}" class="button"><i class="icon-user"></i>Apoyo</a></td> -->
+                <td><a href="/fases/cambiarEstado/{{ dato.pk }}" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        </table>
+        </div>
+
+
+</div>
+
+
+
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>
+{% endblock %}
+

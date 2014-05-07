@@ -1,0 +1,27 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Modificar_Fase
+{% endblock %}
+{% block content %}
+<head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+</head>
+    <div class="breadcrumbs">
+    <a href="/fases/">Fases</a>
+    "> Modificar Fases"
+    </div>
+    <div id="content">
+    <h1>Modificar Fase{{ nombre|title }}</h1>
+        <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+    {{ fases.as_p }}
+        </div>
+    <div class="submit-row">
+    <input type="submit" value="Guardar Cambios" />
+        </div>
+</form>
+            </fieldset>
+    </div>
+{% endblock %}
