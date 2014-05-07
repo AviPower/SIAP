@@ -74,7 +74,7 @@
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Eliminar</a>
+                    <a>_Eliminar_</a>
                 </div>
             </th>
             <th scope="col">
@@ -92,11 +92,8 @@
                 <td>{{ dato.estado }}</td>
                 <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
                 <td><a href="/fases/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/fases/importar/{{ dato.pk }}" class="button"><i class="icon-share"></i>Importar</a></td>
-<!--                <td><a href="/fases/proyecto/{{ dato.pk }}" class="button"><i class=" icon-list-alt"></i>Fases</a></td> -->
+                <td><a href="/fases/importar/{{ dato.pk }}" class="button"><i class="icon-trash"></i>Eliminar</a></td>
                 <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Items</a></td>
-      <!--          <td><a href="/proyectos/equipo/{{ dato.pk }}" class="button"><i class="icon-user"></i>Apoyo</a></td> -->
-                <td><a href="/fases/cambiarEstado/{{ dato.pk }}" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
             </tr>
         {% endfor %}
         </tbody>
