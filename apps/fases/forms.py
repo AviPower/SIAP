@@ -1,38 +1,30 @@
 __author__ = 'marcel'
 
-from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django import forms
+from SIAP import settings
 from apps.fases.models import Fase
-from django.contrib.admin.widgets import AdminDateWidget, FilteredSelectMultiple
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import Group
 
 
-ESTADOS = (
-    ('PEN', 'Pendiente'),
-    ('DES', 'Desarrollo'),
-    ('COMPL', 'Completa'),
-    ('COMPR', 'Comprometida'),
-)
+class FaseForm(ModelForm):
+    class Meta:
+        model = Fase
 
-
-class FaseForm(forms.ModelForm):
-    nombre = forms.CharField(max_length=100)
-    descripcion = forms.CharField(label='Descripcion', widget=forms.Textarea)
-    posicion = forms.DecimalField(label='Posicion de la Fase dentro del Proyecto')
-    maxItems = forms.DecimalField(label='Cantidad de Items')
-    orden = forms.DecimalField(label='Orden de Items')
-    fecha_ini = forms.DateField(widget=AdminDateWidget, label='Fecha de Inicio')
-    fecha_fin = forms.DateField(widget=AdminDateWidget, label='Fecha de finalizacion')
+class CrearFaseForm(ModelForm):
+    roles = forms.ModelMultipleChoiceField(queryset=Group.objects.all().exclude(name='Lider') )
 
     class Meta:
         model = Fase
-        exclude = ['estado']
+        fields = ('nombre', 'descripcion', 'maxItems', 'fInicio', 'roles')
 
-
-class CambiarEstadoForm(forms.ModelForm):
-    estado = forms.CharField(max_length=4, widget=forms.Select(choices=ESTADOS))
-
+class ModificarFaseForm(ModelForm):
     class Meta:
         model = Fase
-        exclude = ['nombre', 'descripcion', 'posicion', 'maxItems', 'orden', 'fecha_ini', 'fecha_fin', 'lider']
+        fields = ('descripcion', 'maxItems', 'fInicio')
+
+class RolesForm(forms.Form):
+    roles = forms.ModelMultipleChoiceField(queryset=Group.objects.none() )
+    def __init__(self, fase, *args, **kwargs):
+        super(RolesForm, self).__init__(*args, **kwargs)
+        self.fields['roles'].queryset = Group.objects.filter(fase__id=fase)

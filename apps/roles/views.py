@@ -134,22 +134,3 @@ def editar_rol(request,id_rol):
         rol_form = GroupForm(instance=rol)
     return render_to_response('roles/editar_rol.html', { 'rol': rol_form, 'dato':rol}, context_instance=RequestContext(request))
 
-
-@login_required
-
-def buscarPermisos(request):
-    '''
-    vista para buscar un rpermisos entre todos los registrados en el sistema
-    '''
-    query = request.GET.get('q', '')
-    print('hola')
-    if query:
-        qset = (
-            Q(name__contains=query)
-        )
-        results = Permission.objects.filter(qset)
-        print('hola')
-        print(results)
-    else:
-        results = []
-    return render_to_response('roles/crear_rol.html', {'results': results}, context_instance=RequestContext(request))

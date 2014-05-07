@@ -35,7 +35,7 @@ class Fase(models.Model):
     descripcion = models.TextField(verbose_name='Descripcion')
     maxItems = models.SmallIntegerField(verbose_name='Cantidad max de Items')
     #posicion = models.SmallIntegerField(verbose_name='Posicion relativa de la fase dentro del proyecto')
-    fInicio = models.DateField(verbose_name='Fecha de Inicio')
+    fInicio = models.DateField(verbose_name='Fecha de Inicio, formato  DD/MM/AAAA')
    # fFin = models.DateField(verbose_name='Fecha de Finalizacion')
     orden = models.SmallIntegerField(verbose_name='Orden')
     estado = models.CharField(max_length=3, choices=ESTADOS, verbose_name='Estado')

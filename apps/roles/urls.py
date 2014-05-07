@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url, include
 from django.contrib import admin
 admin.autodiscover()
 
-from .views import crear_rol, lista_roles, detalle_rol, eliminar_rol, editar_rol, buscarRol, RegisterSuccessView, buscarPermisos
+from .views import crear_rol, lista_roles, detalle_rol, eliminar_rol, editar_rol, buscarRol, RegisterSuccessView
 
 admin.autodiscover()
 
@@ -14,6 +14,5 @@ urlpatterns = patterns('',
     url(r'^eliminar/(?P<id_rol>\d+)$', eliminar_rol, name='eliminar_rol'),
     url(r'^modificar/(?P<id_rol>\d+)$', editar_rol, name='editar_rol'),
     url(r'^search/$',buscarRol, name='buscar_roles'),
-    url(r'^searchpermisos/$',buscarPermisos, name='buscar_permisos'),
     url(r'^register/success/$',RegisterSuccessView.as_view()),
     )

@@ -35,7 +35,7 @@
 
 <ul class="object-tools">
     <li>
-        <a href="/fases/registrar" class="addlink">Nueva Fase</a>
+        <a href="/fases/registrar/{{proyecto.id}}" class="addlink">Nueva Fase</a>
     </li>
 </ul>
 <div id="content-main">
@@ -49,7 +49,12 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>__Fases__</a>
+                    <a>__Nro__</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>__Fase__</a>
                 </div>
             </th>
              <th scope="col">
@@ -59,47 +64,22 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Lider__</a>
-                </div>
-            </th>
-             <th scope="col">
-                <div class="text">
-                    <a> ___Inicio___  </a>
+                    <a> ___Detalle___  </a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Finalizacion___</a>
+                    <a>___Modificar___</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_1</a>
+                    <a>Eliminar</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Opcion_2_</a>
-                </div>
-            </th>
-            <th scope="col">
-                <div class="text">
-                    <a>_Opcion_3_</a>
-                </div>
-            </th>
-            <th scope="col">
-                <div class="text">
-                    <a>Opcion_4</a>
-                </div>
-            </th>
-                        <th scope="col">
-                <div class="text">
-                    <a>Opcion_5</a>
-                </div>
-            </th>
-                        <th scope="col">
-                <div class="text">
-                    <a>____Opcion_6____</a>
+                    <a>_Roles_</a>
                 </div>
             </th>
         </tr>
@@ -107,9 +87,9 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.nombre }}</td>
-				<td>{{ dato.estado }}</td>
-                <td>{{ dato.lider }}</td>
+                <td>{{ dato.orden }}</td>
+				<td>{{ dato.nombre }}</td>
+                <td>{{ dato.estado }}</td>
                 <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
                 <td><a href="/fases/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
                 <td><a href="/fases/importar/{{ dato.pk }}" class="button"><i class="icon-share"></i>Importar</a></td>
