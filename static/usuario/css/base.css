@@ -50,7 +50,7 @@ h1 {
     font-size: 18px;
     color: #666;
     padding: 0 6px 0 0;
-    margin: 0 0 .2em 0;
+    margin: 0 0 .2em 0; /*.2em*/
 }
 
 h2 {
@@ -244,8 +244,8 @@ table {
 }
 
 td, th {
-    font-size: 11px;
-    line-height: 13px;
+    font-size: 13px;/*11*/
+    line-height: 15px;
     border-bottom: 1px solid #eee;
     vertical-align: top;
     padding: 5px;
@@ -262,7 +262,7 @@ thead th,
 tfoot td {
     color: #666;
     padding: 2px 5px;
-    font-size: 11px;
+    font-size: 15px; /*11*/
     background: #e1e1e1 url(../img/nav-bg.gif) top left repeat-x;
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -640,7 +640,7 @@ a.deletelink:hover {
 /* OBJECT TOOLS */
 
 .object-tools {
-    font-size: 10px;
+    font-size: 25px; /* este tambien toque*/
     font-weight: bold;
     font-family: Arial,Helvetica,sans-serif;
     padding-left: 0;
@@ -719,6 +719,7 @@ table#change-history tbody th {
     width: 100%;
     min-width: 760px;
     padding: 0;
+    margin: 12px; /*este yo agregue*/
 }
 
 #content {
@@ -732,6 +733,7 @@ table#change-history tbody th {
 #content-main {
     float: left;
     width: 100%;
+    margin: 5px; /*este yo agregue*/
 }
 
 #content-related {
