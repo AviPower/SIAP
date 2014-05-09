@@ -12,11 +12,10 @@ class FaseForm(ModelForm):
         model = Fase
 
 class CrearFaseForm(ModelForm):
-    roles = forms.ModelMultipleChoiceField(queryset=Group.objects.all().exclude(name='Lider') )
 
     class Meta:
         model = Fase
-        fields = ('nombre', 'descripcion', 'maxItems', 'fInicio', 'roles')
+        fields = ('nombre', 'descripcion', 'maxItems', 'fInicio')
 
 class ModificarFaseForm(ModelForm):
     class Meta:

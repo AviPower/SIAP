@@ -25,27 +25,13 @@
     <!-- Content -->
     <div id="content" class="change-list" style="width: 1000px">
     <div class="breadcrumbs">
-    <a href="/proyectos/">Proyectos</a>
-    ">Administracion de Fases"
+    <a href="/proyectos/">Proyectos</a>>>
+        <a href="/fases/proyecto/{{proyecto.id}}">Fases</a>>>
+    "Administracion de Fases"
     </div>
-        <h1>Administracion de Fases para el proyecto {{ proyecto.nombre }}</h1>
-    <form action="/fases/search/" method="get">
-    <label for="q">Nombre: </label>
-    <input type="text" name="q" value="{{ query|escape }}">
-    <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/fases/" class="button"><i class="icon-filter"></i>Limpiar</a>
-    </form>
+        <h1>Fases del proyecto {{ proyecto.nombre }}</h1>
 
-<ul class="object-tools">
-    <li>
-        <a href="/fases/registrar/{{proyecto.id}}" class="addlink">Nueva Fase</a>
-        <a href="/fases/lista_todas/{{proyecto.id}}" class="addlink">Importar Fase</a>
-    </li>
-</ul>
 <div id="content-main">
-
-
-
 
         <div class="results" >
         <table >
@@ -73,17 +59,7 @@
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Modificar___</a>
-                </div>
-            </th>
-                        <th scope="col">
-                <div class="text">
-                    <a>_Eliminar_</a>
-                </div>
-            </th>
-            <th scope="col">
-                <div class="text">
-                    <a>_Roles_</a>
+                    <a>___Importar___</a>
                 </div>
             </th>
         </tr>
@@ -95,17 +71,13 @@
 				<td>{{ dato.nombre }}</td>
                 <td>{{ dato.estado }}</td>
                 <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/fases/editar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/fases/importar/{{ dato.pk }}" class="button"><i class="icon-list-alt"></i>Tipo De Items</a></td>
-                <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Roles</a></td>
+                <td><a href="/fases/importar/{{ dato.pk }}-{{ proyecto.id }}" class="button"><i class="icon-trash"></i>Importar</a></td>
             </tr>
         {% endfor %}
         </tbody>
 
         </table>
         </div>
-
-
 </div>
 
 
@@ -121,4 +93,3 @@
 </body>
 </html>
 {% endblock %}
-

@@ -18,6 +18,15 @@
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
+        <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: El formato de Fecha es: DD/MM/AAAA</li>
+                {% elif mensaje == 1 %}
+                <li>Error: Fecha de inicio no concuerda con fase anterior</li>
+                {% elif mensaje == 2 %}
+                <li>Error: Fecha de inicio no concuerda con proyecto</li>
+            {% endif %}
+        </ul>
     {{ formulario.as_p }}
         </div>
     <div class="submit-row">

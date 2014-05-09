@@ -8,15 +8,26 @@
 <link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 </head>
     <div class="breadcrumbs">
-    <a href="/fases/">Fases</a>
+    <a href="/fases/proyecto/{{id_proyecto}}">Fases</a>
     "> Modificar Fases"
     </div>
     <div id="content">
-    <h1>Modificar Fase{{ nombre|title }}</h1>
+    <h1>Modificar Fase {{ fase.nombre|title }}</h1>
         <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
-    {{ fases.as_p }}
+        <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: El formato de Fecha es: DD/MM/AAAA</li>
+                {% elif mensaje == 1 %}
+                <li>Error: Fecha de inicio no concuerda con fase anterior</li>
+                {% elif mensaje == 2 %}
+                <li>Error: Fecha de inicio no concuerda con fase siguiente</li>
+                {% elif mensaje == 3 %}
+                <li>Error: Fecha de inicio no concuerda con proyecto</li>
+            {% endif %}
+        </ul>
+    {{ form.as_p }}
         </div>
     <div class="submit-row">
     <input type="submit" value="Guardar Cambios" />

@@ -1,0 +1,32 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Proyecto
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/fases/proyecto/{{proyecto_id}}">Fases</a>
+    "> Modificar Fases"
+    </div>
+
+                <div id="content">
+                <h1>Detalles de la Fase {{datos.nombre|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+            <div><strong>Numero: </strong>{{ datos.orden }}</div>
+            <div><strong>Nombre: </strong>{{ datos.nombre }}</div>
+            <div><strong>Codigo: </strong>{{ datos.descripcion }}</div>
+            <div><strong>Estado: </strong>{{ datos.estado}}</div>
+            <div><strong>Fecha de Inicio: </strong>{{ datos.fInicio }}</div>
+            <div><strong>Cantidad de Items: </strong>{{ datos.maxItems }}</div>
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}
