@@ -76,11 +76,6 @@
                     <a>_Eliminar_</a>
                 </div>
             </th>
-            <th scope="col">
-                <div class="text">
-                    <a>_Roles_</a>
-                </div>
-            </th>
         </tr>
         </thead>
         <tbody>
@@ -90,9 +85,8 @@
 				<td>{{ dato.nombre }}</td>
                 <td>{{ dato.estado }}</td>
                 <td><a href="/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/fases/editar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
+                <td><a href="/tiposDeItem/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
                 <td><a href="/tipoDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Eliminar</a></td>
-                <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Roles</a></td>
             </tr>
         {% endfor %}
         </tbody>

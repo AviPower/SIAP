@@ -1,0 +1,37 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Modificar_Tipo_Item
+{% endblock %}
+{% block content %}
+<head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+</head>
+    <div class="breadcrumbs">
+    <a href="/tiposDeItem/fase/{{id_fase}}">Tipos de Item en Fase</a>
+    "> Modificar Tipo Item"
+    </div>
+    <ul class="object-tools">
+    <li>
+        <a href="/tiposDeItem/{{ dato.id }}/crear_atributo" class="addlink">Nuevo Atributo</a>
+    </li>
+</ul>
+    <div id="content">
+    <h1>Modificar Tipo de Item {{dato.name|title}}</h1>
+        <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+    {{ tipoItem }}
+        <h5><strong>Tipos de Atributo: </strong></h5>
+        {% for atributo in atributos %}
+            {{ atributo.nombre }}           <a class="btn" href="/tiposDeItem/eliminar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}"><li class="icon-minus-sign"></li>   Eliminar</a>
+
+            {% endfor %}
+        </div>
+    <div class="submit-row">
+    <input type="submit" value="Guardar Cambios" />
+        </div>
+</form>
+            </fieldset>
+    </div>
+{% endblock %}

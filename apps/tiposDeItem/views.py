@@ -142,7 +142,7 @@ def eliminar_atributo(request, id_atributo, id_tipoItem):
 
 @login_required
 @permission_required('tipoItem')
-def editar_TipoItem(request,id_tipoItem):
+def editar_tipoItem(request,id_tipoItem):
     '''
     vista para cambiar el nombre y la descripcion del tipo de item, y ademas agregar atributos al mismo
     '''
@@ -199,7 +199,6 @@ def eliminar_tipoItem(request, id_tipoItem):
         if(atributo.tipoItem.count() == 0):
             atributo.delete()
     tipoItem.delete()
-    messages.add_message(request, settings.DELETE_MESSAGE, "Tipo de item eliminado")
     tiposItem = TipoItem.objects.filter(fase_id=fase.id).order_by('nombre')
 
     return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase':fase}, context_instance=RequestContext(request))
