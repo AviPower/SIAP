@@ -1,0 +1,30 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Nuevo_Tipo_De_Item
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/tiposDeItem/fase/{{id_fase}}">Tipos de Item en Fase</a>
+    ">Nuevo Tipo de Item"
+    </div>
+
+                <div id="content">
+                <h1>Crear Tipo de Item</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+    {{ tipoItem_form.as_p }}
+        </div>
+    <div class="submit-row">
+    <input type="submit" value="Confirmar" />
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}

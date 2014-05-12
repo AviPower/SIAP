@@ -17,5 +17,7 @@ urlpatterns = patterns('',
     url(r'^roles/',include('apps.roles.urls')),
     #FASES
     url(r'^fases/', include('apps.fases.urls')),
+    #TIPO DE ITEM
+    url(r'^tipoDeItem/', include('apps.tiposDeItem.urls')),
 
 )
