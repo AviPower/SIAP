@@ -1,10 +1,9 @@
 __author__ = 'alvarenga'
-from django.conf.urls import patterns, url, include
+from django.conf.urls import patterns, url
 from django.contrib import admin
-from django.contrib.auth.decorators import login_required, permission_required
 admin.autodiscover()
 from apps.tiposDeItem.views import listar_tiposItem, crear_tipoItem, detalle_tipoItem, listar_tiposItemProyecto, importar_tipoItem
-from apps.tiposDeItem.views import eliminar_tipoItem, editar_tipoItem
+from apps.tiposDeItem.views import eliminar_tipoItem, editar_tipoItem, crear_atributo, eliminar_atributo
 
 urlpatterns = patterns('',
         url(r'^fase/(?P<id_fase>\d+)$',listar_tiposItem,name='listar_tiposItem' ),
@@ -14,5 +13,7 @@ urlpatterns = patterns('',
         url(r'^importar/(?P<id_tipoItem>\d+)-(?P<id_fase>\d+)$',importar_tipoItem, name='importar_tipoItem'),
         url(r'^eliminar/(?P<id_tipoItem>\d+)$',eliminar_tipoItem, name='eliminar_tipoItem'),
         url(r'^modificar/(?P<id_tipoItem>\d+)$', editar_tipoItem,name='editar_tipoItem'),
+        url(r'^(?P<id_tipoItem>\d+)/crear_atributo$', crear_atributo, name='crear_atributo'),
+        url(r'^eliminar/tipo_atributo/(?P<id_atributo>\d+)-(?P<id_tipoItem>\d+)$',eliminar_atributo, name='eliminar_atributo')
 
 )

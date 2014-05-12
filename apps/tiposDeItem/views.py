@@ -116,7 +116,7 @@ def crear_atributo(request, id_tipoItem):
     else:
         # formulario inicial
         atributo_form = AtributoForm()
-    return render_to_response('tiposDeItem/crear_atributo.html', { 'atributo_form': atributo_form}, context_instance=RequestContext(request))
+    return render_to_response('tiposDeItem/crear_atributo.html', { 'atributo_form': atributo_form, 'id_tipoItem':id_tipoItem }, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('tipoItem')
