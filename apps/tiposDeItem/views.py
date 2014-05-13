@@ -60,34 +60,6 @@ def detalle_tipoItem(request, id_tipoItem):
     return render_to_response('tiposDeItem/detalle_tipoDeItem.html', {'datos': dato, 'atributos': atributos}, context_instance=RequestContext(request))
 
 
-
-def validarAtributo(request, datatype, valor):
-    '''
-    Funcion para validar que el valor por defecto ingresado para un atributo concuerde con el tipo especificado
-    '''
-    if datatype=="FEC":
-            try:
-                fecha=datetime.strptime(str(valor),'%d/%m/%Y')
-            except ValueError:
-                    messages.add_message(request, settings.DELETE_MESSAGE, "Fecha incorrecta debe ser del tipo DD/MM/AAAA")
-                    return False
-    else:
-                if datatype=="NUM":
-                    a= valor.isdigit()
-                    if not a:
-                        messages.add_message(request, settings.DELETE_MESSAGE, "Valor no es numerico")
-                        return False
-
-                else:
-                    if datatype=="LOG":
-                        if valor!= "Verdadero" and valor!="Falso":
-                            messages.add_message(request,settings.DELETE_MESSAGE, "Valor no es booleano. Debe ser Verdadero o Falso")
-                            return False
-
-    return True
-
-
-
 @login_required
 @permission_required('tipoItem')
 def crear_atributo(request, id_tipoItem):
@@ -105,7 +77,23 @@ def crear_atributo(request, id_tipoItem):
 
             valor=request.POST["valorDefecto"]
             datatype=request.POST["tipo"]
-            if validarAtributo(request,datatype,valor):
+            mensaje =1000
+            if datatype=="FEC": #validar que el valor por defecto ingresado para un atributo concuerde con el tipo especificado
+                try:
+                    fecha=datetime.strptime(str(valor),'%d/%m/%Y')
+                except ValueError:
+                    return render_to_response('tiposDeItem/crear_atributo.html', { 'atributo_form': atributo_form, 'id_tipoItem':id_tipoItem, 'mensaje':0 }, context_instance=RequestContext(request))
+            else:
+                if datatype=="NUM":
+                    a= valor.isdigit()
+                    if not a:
+                        return render_to_response('tiposDeItem/crear_atributo.html', { 'atributo_form': atributo_form, 'id_tipoItem':id_tipoItem, 'mensaje':1 }, context_instance=RequestContext(request))
+
+                else:
+                    if datatype=="LOG":
+                        if valor!= "Verdadero" and valor!="Falso":
+                            return render_to_response('tiposDeItem/crear_atributo.html', { 'atributo_form': atributo_form, 'id_tipoItem':id_tipoItem, 'mensaje':2 }, context_instance=RequestContext(request))
+            if mensaje==1000: #valida que ya no halla errores de validacion
                 atributo= Atributo(nombre = request.POST["nombre"], tipo = request.POST["tipo"], valorDefecto = request.POST["valorDefecto"])
                 atributo.save()
                 atributo.tipoItem=tipoItem

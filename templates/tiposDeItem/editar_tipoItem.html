@@ -11,15 +11,18 @@
     <a href="/tiposDeItem/fase/{{id_fase}}">Tipos de Item en Fase</a>
     "> Modificar Tipo Item"
     </div>
+
+    <div id="content">
+    <h1>Modificar Tipo de Item {{dato.nombre|title}}</h1>
+
+        <fieldset class="module aligned wide">
+        <form method="post">{% csrf_token %}
     <ul class="object-tools">
     <li>
         <a href="/tiposDeItem/{{ dato.id }}/crear_atributo" class="addlink">Nuevo Atributo</a>
     </li>
-</ul>
-    <div id="content">
-    <h1>Modificar Tipo de Item {{dato.name|title}}</h1>
-        <fieldset class="module aligned wide">
-<form method="post">{% csrf_token %}
+    </ul>
+
     <div class="form-row">
     {{ tipoItem }}
         <h5><strong>Tipos de Atributo: </strong></h5>

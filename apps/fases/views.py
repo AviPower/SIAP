@@ -35,7 +35,6 @@ def registrar_fase(request, id_proyecto):
         formulario = CrearFaseForm(request.POST)
         if formulario.is_valid():
             if len(str(request.POST["fInicio"])) != 10 : #Comprobacion de formato de fecha
-                print(id_proyecto)
                 mensaje=0
                 return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
             else:
@@ -200,7 +199,9 @@ def importar_fase(request, id_fase,id_proyecto):
         formulario = CrearFaseForm(request.POST)
         if formulario.is_valid():
             if len(str(request.POST["fInicio"])) != 10 :
-                messages.add_message(request, settings.DELETE_MESSAGE, "Error: El formato de Fecha es: DD/MM/AAAA")
+                mensaje=0
+                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
             else:
                 fecha=datetime.strptime(str(request.POST["fInicio"]),'%d/%m/%Y')
                 fecha=fecha.strftime('%Y-%m-%d')
@@ -216,10 +217,14 @@ def importar_fase(request, id_fase,id_proyecto):
                     if cantidad>0:
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
-                            messages.add_message(request, settings.DELETE_MESSAGE, "Error: Fecha de inicio no concuerda con fase anterior")
+                            mensaje=1
+                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
-                                messages.add_message(request, settings.DELETE_MESSAGE, "Error: Fecha de inicio no concuerda con proyecto")
+                                mensaje=2
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
                             else:
 
                                 newFase.orden=orden.count()+1
@@ -232,7 +237,7 @@ def importar_fase(request, id_fase,id_proyecto):
                                 return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
         formulario = CrearFaseForm(initial={'descripcion':fase.descripcion, 'maxItems':fase.maxItems, 'fInicio':fase.fInicio, 'orden':fase.orden}) #'fInicio':datetime.strptime(str(fase.fInicio),'%Y-%m-%d').strftime('%d/%m/%y')
-    return render_to_response('fases/registrar_fases.html',{'formulario':formulario}, context_instance=RequestContext(request))
+    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':1000,'id':id_proyecto}, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('fase')

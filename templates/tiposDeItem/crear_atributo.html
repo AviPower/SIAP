@@ -18,6 +18,15 @@
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
+                <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: "Fecha incorrecta debe ser del tipo DD/MM/AAAA"</li>
+                {% elif mensaje == 1 %}
+                <li>Error: "Valor no es numerico"</li>
+                {% elif mensaje == 2 %}
+                <li>Error: "Valor no es booleano. Debe ser Verdadero o Falso"</li>
+            {% endif %}
+        </ul>
     {{ atributo_form.as_p }}
         </div>
     <div class="submit-row">
