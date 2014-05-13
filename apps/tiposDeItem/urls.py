@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from django.contrib import admin
 admin.autodiscover()
 from apps.tiposDeItem.views import listar_tiposItem, crear_tipoItem, detalle_tipoItem, listar_tiposItemProyecto, importar_tipoItem
-from apps.tiposDeItem.views import eliminar_tipoItem, editar_tipoItem, crear_atributo, eliminar_atributo
+from apps.tiposDeItem.views import eliminar_tipoItem, editar_tipoItem, crear_atributo, eliminar_atributo, modificar_atributo
 
 urlpatterns = patterns('',
         url(r'^fase/(?P<id_fase>\d+)$',listar_tiposItem,name='listar_tiposItem' ),
@@ -14,6 +14,7 @@ urlpatterns = patterns('',
         url(r'^eliminar/(?P<id_tipoItem>\d+)$',eliminar_tipoItem, name='eliminar_tipoItem'),
         url(r'^modificar/(?P<id_tipoItem>\d+)$', editar_tipoItem,name='editar_tipoItem'),
         url(r'^(?P<id_tipoItem>\d+)/crear_atributo$', crear_atributo, name='crear_atributo'),
-        url(r'^eliminar/tipo_atributo/(?P<id_atributo>\d+)-(?P<id_tipoItem>\d+)$',eliminar_atributo, name='eliminar_atributo')
+        url(r'^eliminar/tipo_atributo/(?P<id_atributo>\d+)-(?P<id_tipoItem>\d+)$',eliminar_atributo, name='eliminar_atributo'),
+        url(r'^modificar/tipo_atributo/(?P<id_atributo>\d+)-(?P<id_tipoItem>\d+)$',modificar_atributo, name='modificar_atributo')
 
 )

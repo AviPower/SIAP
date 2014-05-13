@@ -1,0 +1,39 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Nuevo_Tipo_De_Item
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/tiposDeItem/modificar/{{ id_tipoItem }}">Modificar Tipo De Item</a>
+    ">Modificar Atributo"
+    </div>
+
+                <div id="content">
+                <h1>Modificar Atributo</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+                <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: "Fecha incorrecta debe ser del tipo DD/MM/AAAA"</li>
+                {% elif mensaje == 1 %}
+                <li>Error: "Valor no es numerico"</li>
+                {% elif mensaje == 2 %}
+                <li>Error: "Valor no es booleano. Debe ser Verdadero o Falso"</li>
+            {% endif %}
+        </ul>
+    {{ atributo_form.as_p }}
+        </div>
+    <div class="submit-row">
+    <input type="submit" value="Confirmar" />
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}

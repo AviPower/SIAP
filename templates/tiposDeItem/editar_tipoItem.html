@@ -27,8 +27,11 @@
     {{ tipoItem }}
         <h5><strong>Tipos de Atributo: </strong></h5>
         {% for atributo in atributos %}
-            {{ atributo.nombre }}           <a class="btn" href="/tiposDeItem/eliminar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}"><li class="icon-minus-sign"></li>   Eliminar</a>
-
+            <div>
+            {{ atributo.nombre }}
+            <a class="btn" href="/tiposDeItem/eliminar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}"> Eliminar</a>
+            <a class="btn" href="/tiposDeItem/modificar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}">Modificar</a>
+            </div>
             {% endfor %}
         </div>
     <div class="submit-row">
