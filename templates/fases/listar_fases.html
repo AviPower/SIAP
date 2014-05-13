@@ -68,17 +68,22 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a> ___Detalle___  </a>
+                    <a> __Detalle__  </a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Modificar___</a>
+                    <a>_Modificar_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Eliminar_</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>_Eliminar_</a>
+                    <a>Tipos de Items</a>
                 </div>
             </th>
             <th scope="col">
@@ -96,7 +101,8 @@
                 <td>{{ dato.estado }}</td>
                 <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
                 <td><a href="/fases/editar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/tiposDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Tipo De Items</a></td>
+                <td><a href="/fases/eliminar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Eliminar</a></td>
+                <td><a href="/tiposDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Tipos De Items</a></td>
                 <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Roles</a></td>
             </tr>
         {% endfor %}

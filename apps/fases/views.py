@@ -6,7 +6,7 @@ __text__ = 'Este modulo contiene funciones que permiten el control de las fases'
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from apps.fases.models import Fase
 from apps.fases.models import Fase
 from django.contrib.auth.models import User, Group
@@ -250,5 +250,19 @@ def detalle_fase(request, id_fase):
     dato = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        return render_to_response('fases/error_activo.html',{'proyecto':dato}, context_instance=RequestContext(request))
     return render_to_response('fases/detalle_fase.html', {'datos': dato,'proyecto_id':dato.proyecto_id}, context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def eliminar_fase(request,id_fase):
+    '''
+    vista que elimina una fase
+    '''
+    fase = get_object_or_404(Fase, pk=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado =='PEN':
+        fase.delete()
+    fases = Fase.objects.filter(proyecto_id=proyecto.id).order_by('orden')
+    return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
