@@ -281,3 +281,22 @@ def listar_tiposItemProyecto(request, id_fase):
 
     return render_to_response('tiposDeItem/importar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
                               context_instance=RequestContext(request))
+
+@login_required
+@permission_required('fase')
+def buscar_tiposItem(request,id_fase):
+    """
+    vista para buscar
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response()
+    """
+    query = request.GET.get('q', '')
+    fase = Fase.objects.get(id=id_fase)
+    if query:
+        tiposItem = TipoItem.objects.filter(nombre__contains=query,fase_id=fase.id).distinct()
+    else:
+        tiposItem = []
+
+
+    return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+                              context_instance=RequestContext(request))

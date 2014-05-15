@@ -29,11 +29,11 @@
     ">Administracion de Fases"
     </div>
         <h1>Administracion de Fases para el proyecto {{ proyecto.nombre }}</h1>
-    <form action="/fases/search/" method="get">
+    <form action="/fases/search/{{proyecto.id}}" method="get">
     <label for="q">Nombre: </label>
     <input type="text" name="q" value="{{ query|escape }}">
     <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/fases/" class="button"><i class="icon-filter"></i>Limpiar</a>
+    <a href="/fases/proyecto/{{proyecto.id}}" class="button"><i class="icon-filter"></i>Limpiar</a>
     </form>
 
 <ul class="object-tools">

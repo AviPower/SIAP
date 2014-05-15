@@ -266,3 +266,24 @@ def eliminar_fase(request,id_fase):
         fase.delete()
     fases = Fase.objects.filter(proyecto_id=proyecto.id).order_by('orden')
     return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
+
+@login_required
+@permission_required('fase')
+def buscar_fases(request,id_proyecto):
+    """
+    vista para buscar las fases del proyecto
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('proyectos/listar_proyectos.html', {'datos': results}, context_instance=RequestContext(request))
+    """
+    query = request.GET.get('q', '')
+    proyecto = Proyecto.objects.get(id=id_proyecto)
+    if query:
+        qset = (
+            Q(nombre__contains=query)
+        )
+        results = Fase.objects.filter(qset, proyecto_id=id_proyecto).distinct()
+    else:
+        results = []
+
+
+    return render_to_response('fases/listar_fases.html', {'datos': results, 'proyecto' : proyecto}, context_instance=RequestContext(request))
