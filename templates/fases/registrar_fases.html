@@ -25,6 +25,8 @@
                 <li>Error: Fecha de inicio no concuerda con fase anterior</li>
                 {% elif mensaje == 2 %}
                 <li>Error: Fecha de inicio no concuerda con proyecto</li>
+                {% elif mensaje == 3 %}
+                <li>Error: El Rol ya ha sido asignado a otra fase</li>
             {% endif %}
         </ul>
     {{ formulario.as_p }}

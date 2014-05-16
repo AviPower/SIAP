@@ -23,7 +23,7 @@
 <!-- Container -->
 <div id="container">
     <!-- Content -->
-    <div id="content" class="change-list" style="width: 1000px">
+    <div id="content" class="change-list" style="width: 1100px">
     <div class="breadcrumbs">
     <a href="/proyectos/">Proyectos</a>
     ">Administracion de Fases"
@@ -83,12 +83,17 @@
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Tipos de Items</a>
+                    <a>Tipos _de_Items</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Roles_</a>
+                    <a>___Asignar_Rol___</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>__Desasignar__Rol__</a>
                 </div>
             </th>
         </tr>
@@ -103,7 +108,8 @@
                 <td><a href="/fases/editar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
                 <td><a href="/fases/eliminar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Eliminar</a></td>
                 <td><a href="/tiposDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Tipos De Items</a></td>
-                <td><a href="/fases/" class="button"><i class=" icon-list-alt"></i>Roles</a></td>
+                <td><a href="/fases/asignar/{{dato.id}}" class="button">Asignar Rol a Usuario</a></td>
+                <td><a href="/fases/des/{{dato.id}}" class="button">Desasignar Rol a Usuario</a></td>
             </tr>
         {% endfor %}
         </tbody>
