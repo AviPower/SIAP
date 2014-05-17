@@ -188,9 +188,12 @@ def editar_fase(request,id_fase):
 @login_required
 @permission_required('fase')
 def fases_todas(request,id_proyecto):
-    '''
+    """
     vista para listar las fases del sistema
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: referencia al proyecto de la base de datos
+    @return: render_to_response('fases/fases_todas.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
+    """
     fases = Fase.objects.all()
     proyecto = Proyecto.objects.get(id=id_proyecto)
     return render_to_response('fases/fases_todas.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
@@ -198,11 +201,14 @@ def fases_todas(request,id_proyecto):
 @login_required
 @permission_required('fase')
 def importar_fase(request, id_fase,id_proyecto):
-
-    '''
-        Vista para importar los datos de una fase existente para su utilizacion en la creacion de una nueva.
-        Realiza las comprobaciones necesarias con respecto a la fecha de inicio y orden de fase.
-    '''
+    """
+        Vista para importar los datos de una fase, dado en <id_fase> . Se utiliza para crear una fase nueva a partir de otra
+        ya existente. Realiza las comprobaciones necesarias con respecto a la fecha de inicio y orden de fase.
+        @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+        @param id_fase: referencia a ala fase en la base de datos
+        @param id_proyecto: referencia al proyecto de la base de datos
+        @return HttpResponseRedirect('fases/registrar_fases.html') con sus diferentes variaciones de acuerdo al caso
+    """
 
     fase= Fase.objects.get(id=id_fase)
     if request.method=='POST':
@@ -254,9 +260,13 @@ def importar_fase(request, id_fase,id_proyecto):
 @permission_required('fase')
 def detalle_fase(request, id_fase):
 
-    '''
-    vista para ver los detalles del usuario <id_user> del sistema
-    '''
+    """
+    Vista para ver los detalles del usuario <id_user> del sistema
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response('fases/error_activo.html' o render_to_response('fases/detalle_fase.html'
+    """
+
 
     dato = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
@@ -268,9 +278,12 @@ def detalle_fase(request, id_fase):
 @login_required
 @permission_required('fase')
 def eliminar_fase(request,id_fase):
-    '''
-    vista que elimina una fase
-    '''
+    """
+    Vista para eliminar una fase de un proyecto. Busca la fase por su id_fase y lo destruye.
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
+    """
     fase = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado =='PEN':
@@ -303,10 +316,12 @@ def buscar_fases(request,id_proyecto):
 @login_required
 @permission_required('fase')
 def asignar_usuario(request,id_fase):
-    '''
-    vista auxiliar para obtener un listado de usuarios para asociar a la fase
-    '''
-
+    """
+    Vista auxiliar para obtener un listado de usuarios para asociar a la fase
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/lista_usuarios.html'...) en otro caso
+    """
     usuarios=User.objects.filter(is_active=True)
     fase=Fase.objects.get(id=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
@@ -318,9 +333,13 @@ def asignar_usuario(request,id_fase):
 @login_required
 @permission_required('fase')
 def asignar_rol(request,id_usuario, id_fase):
-    '''
-    vista auxiliar para obtener el listado de roles asociados a una fase para asociarlos a un usuario
-    '''
+    """
+    Vista auxiliar para obtener el listado de roles asociados a una fase para asociarlos a un usuario
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_usuario: referencia al usuario dentro de la base de datos
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/listar_roles.html'... ) en otros casos
+    """
     fase=Fase.objects.get(id=id_fase)
     usuario=User.objects.get(id=id_usuario)
     roles=Group.objects.filter(fase__id=id_fase)
@@ -333,9 +352,14 @@ def asignar_rol(request,id_usuario, id_fase):
 @login_required
 @permission_required('fase')
 def asociar(request,id_rol,id_usuario,id_fase):
-    '''
-    vista para asociar un rol perteneciente a una face a un usuario, asociandolo de esta manera a la fase, y al proyecto
-    '''
+    """
+    Vista para asociar un rol perteneciente a una face a un usuario, asociandolo de esta manera a la fase, y al proyecto
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_usuario: referencia al usuario dentro de la base de datos
+    @param id_rol: referencia al rol de usuario
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
+    """
     fase=Fase.objects.get(id=id_fase)
     usuario=User.objects.get(id=id_usuario)
     rol = Group.objects.get(id=id_rol)
@@ -347,9 +371,12 @@ def asociar(request,id_rol,id_usuario,id_fase):
 @login_required
 @permission_required('fase')
 def des(request,id_fase):
-    '''
+    """
     vista para listar a los usuario de una fase, para poder desasociarlos
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':id_fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    """
     fase=Fase.objects.get(id=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
@@ -365,9 +392,13 @@ def des(request,id_fase):
 @login_required
 @permission_required('fase')
 def desasociar(request,id_usuario, id_fase):
-    '''
-    vista para remover un rol al usuario, desasociandolo asi de una fase
-    '''
+    """
+    Vista para remover un rol al usuario, desasociandolo asi de una fase
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_usuario: referencia al usuario dentro de la base de datos
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
+    """
     fase=Fase.objects.get(id=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
