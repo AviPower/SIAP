@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 
-__author__ = 'marcel'
 __text__ = 'Este modulo contiene funciones que permiten el control de las fases'
 
 from django.contrib.auth.decorators import login_required, permission_required
