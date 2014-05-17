@@ -1,0 +1,31 @@
+Comando para hacer dump(volcado) de la BD
+1- python manage.py dumpdata --all > DUMPFIXTURE.json
+	donde DUMPFIXTURE es cualquier nombre que se quiera. También se puede poner en vez de --all el nombre de la
+	aplicacion, por ejemplo
+	si se pone python manage.py dumpdata fases inicio proyectos > DUMPFIXTURE.json para que solamente los datos
+	de esas aplicaciones sean
+	volcadas en el json
+2- Si se pone en la consola python manage.py runserver y se quiere logear no aparecerá nada, ni el
+    usuario administrador creado al principio ni ningun dato
+    esto pasa porque lo que se hizo fue vaciar la BD. Ahora hay que cargar nuevamente.
+3- Para cargar se usa el comando loaddata.
+	python manage.py loaddata DUMPFIXTURE.json, donde ahi hay que poner el nombre del JSON que se creo con dumpdata.
+4- verificar que ya ahora los datos creados anteriormente vuelven a aparecer: usuarios, roles, fases, proyectos, etc.
+    Nota: Hacer la prueba de crear un nuevo proyecto modificando el JSON, se puede crear un nuevo proyecto o modificar su nombre,
+    solamente en el JSON. Y cuando se vuelve a hacer loaddata apareceran los nuevos datos que se modificaron directamente en el JSON.
+
+Nota2: El compilador de python comprueba la integridad de la BD. Hacer la prueba por ejemplo con
+{
+    "pk": 1,
+    "model": "inicio.perfiles",
+    "fields": {
+        "lider": false,
+        "direccion": "Baron",
+        "telefono": 981299718,
+        "usuario": 2
+    }
+}
+    y donde relaciona con usuario poner un PK de usuario que no existe y cuando se quiera hacer loaddata la
+    consola avisará que se violó la integridad uno a uno entre perfiles y user de django.
+
+=)
