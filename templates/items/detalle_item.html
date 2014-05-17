@@ -1,0 +1,62 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Item
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/desarrollo/item/listar/{{ datos.tipo_item.id }}">Item en Fase</a>
+    "> Detalle__Item"
+    </div>
+
+                <div id="content">
+                <h1>Detalles de {{datos.nombre|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+             <div><strong>Nombre: </strong>{{ datos.nombre }}</div>
+            <div><strong>Descripción: </strong>{{ datos.descripcion }}</div>
+            <div><strong>Costo: </strong>{{ datos.costo }}</div>
+            <div><strong>Tiempo: </strong>{{ datos.tiempo }}</div>
+            <div><strong>Version: </strong>{{ datos.version }}</div>
+            <div><strong>Estado: </strong>{{ datos.estado }}</div>
+            {% if datos.relacion != None %}
+            <div><strong>Relacionado con: </strong>{{ datos.relacion.nombre }}</div>
+            <div><strong>Tipo de relacion: </strong>{{ datos.tipo }}</div>
+            {% else %}
+            <div><strong>Relacionado con: </strong>Nadie</div>
+            <div><strong>Tipo de relacion: </strong>Ninguna</div>
+            {% endif %}
+            <div><strong>Fecha de creacion: </strong>{{ datos.fecha_creacion }}</div>
+            <div><strong>Fecha de modificacion: </strong>{{ datos.fecha_mod }}</div>
+            <div>
+                <strong>Atributos: </strong>
+                {% for atributo in atributos %}
+
+                    <li>{{ atributo.id_atributo.nombre }} </li>
+                    <ul>Valor: {{ atributo.valor }}</ul>
+
+                {% endfor %}
+
+            </div>
+              <div>
+                <strong>Archivos: </strong>
+                {% for archivo in archivos %}
+
+                    <form  action='{% url 'items.viewsItems.des' archivo.id %}'>
+                        <input type="submit" value='Descargar {{ archivo.archivo }}'>
+                        </form>
+
+
+                {% endfor %}
+              </div>
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}

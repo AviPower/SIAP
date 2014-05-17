@@ -50,7 +50,8 @@ INSTALLED_APPS = (
     'apps.proyectos',
     'apps.roles',
     'apps.fases',
-    'apps.tiposDeItem'
+    'apps.tiposDeItem',
+    'apps.items'
 )
 
 DELETE_MESSAGE = 50
@@ -84,6 +85,14 @@ DATABASES = {
         'PASSWORD': '2014is2',
         'HOST': 'localhost',
         'PORT': '5432',
+    },
+    'produccion': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'bd_siap_prod',
+        'USER': 'adminbd',
+        'PASSWORD': '2014is2',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -102,9 +111,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-#MEDIA_ROOT = '/home/alvarenga/envproject/SIAP/media/'
-#MEDIA_ROOT = '/home/willian/Proyecto/SIAP/media'
-MEDIA_ROOT = '/home/teaser/Proyecto/SIAP/media'
 
 MEDIA_URL = 'http://localhost/media/'
 # Static files (CSS, JavaScript, Images)
@@ -115,3 +121,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+MEDIA_ROOT = '/home/alvarenga/archivosSIAP/'

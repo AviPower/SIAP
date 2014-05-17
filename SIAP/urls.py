@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-
+from django.views.generic import TemplateView
 from django.contrib import admin
 admin.autodiscover()
 
@@ -19,5 +19,7 @@ urlpatterns = patterns('',
     url(r'^fases/', include('apps.fases.urls')),
     #TIPO DE ITEM
     url(r'^tiposDeItem/', include('apps.tiposDeItem.urls')),
-
+    #Administracion Desarrollo items Proyectos en ejecucion
+    url(r'^desarrollo/',include('apps.items.urls')),
+    url(r'^denegado/$',TemplateView.as_view(template_name='403.html')),
 )
