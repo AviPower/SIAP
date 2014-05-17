@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Importar_tipoDeItem
+	Fases
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -25,10 +25,11 @@
     <!-- Content -->
     <div id="content" class="change-list" style="width: 1000px">
     <div class="breadcrumbs">
-    <a href="/tiposDeItem/fase/{{fase.id}}">Tipos de Item en Fase</a>>>
-    "Importar Tipo de Item"
+    <a href="/proyectos/">Proyectos</a>>>
+        <a href="/fases/proyecto/{{proyecto.id}}">Fases</a>>><a href="/fases/asignar/{{fase}}">Asignar Rol</a>>>
+    "Administracion de Fases"
     </div>
-        <h1>Importacion de Tipos de Item para la Fase {{ fase.nombre }}</h1>
+        <h1>Listado de Roles para {{ usuario.first_name }} {{ usuario.last_name }}</h1>
 
 <div id="content-main">
 
@@ -36,36 +37,21 @@
         <table >
         <thead>
         <tr>
-            <th scope="col" class="sortable" >
-                <div class="text">
-                    <a>__Nro__</a>
-                </div>
-            </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Nombre__</a>
-                </div>
-            </th>
-             <th scope="col">
-                <div class="text">
-                    <a> ___Detalle___  </a>
-                </div>
-            </th>
-            <th scope="col">
-                <div class="text">
-                    <a>___Importar___</a>
+                    <a> Asignar  </a>
                 </div>
             </th>
         </tr>
         </thead>
         <tbody>
-        {% for dato in datos  %}
+        {% for dato in roles  %}
             <tr>
-                <td>{{ dato.id }}</td>
-				<td>{{ dato.nombre }}</td>
-                <td><a href="/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/tiposDeItem/importar/{{ dato.pk }}-{{ fase.id }}" class="button"><i class="icon-trash"></i>Importar</a></td>
+                <td><a class="btn" href="/fases/asociar/{{ dato.pk }}-{{ usuario.pk }}-{{ fase }}"><li class="icon-plus-sign"></li>{{ dato.name }}</a>
+</td>
             </tr>
+            {% empty %}
+                <li>Aún no hay usuarios registrados</li>
         {% endfor %}
         </tbody>
 

@@ -29,11 +29,11 @@
     ">Administracion de Tipos de Item"
     </div>
         <h1>Administracion de Tipos de Item de la fase {{ fase.nombre }}</h1>
-    <form action="/fases/search/" method="get">
+    <form action="/tiposDeItem/search/{{fase.id}}" method="get">
     <label for="q">Nombre: </label>
     <input type="text" name="q" value="{{ query|escape }}">
     <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/fases/" class="button"><i class="icon-filter"></i>Limpiar</a>
+    <a href="/tiposDeItem/fase/{{fase.id}}" class="button"><i class="icon-filter"></i>Limpiar</a>
     </form>
 
 <ul class="object-tools">
@@ -81,12 +81,11 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.orden }}</td>
+                <td>{{ dato.id }}</td>
 				<td>{{ dato.nombre }}</td>
-                <td>{{ dato.estado }}</td>
                 <td><a href="/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
                 <td><a href="/tiposDeItem/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/tipoDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Eliminar</a></td>
+                <td><a href="/tiposDeItem/eliminar/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Eliminar</a></td>
             </tr>
         {% endfor %}
         </tbody>

@@ -6,7 +6,7 @@ __text__ = 'Este modulo contiene funciones que permiten el control de las fases'
 from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from apps.fases.models import Fase
 from apps.fases.models import Fase
 from django.contrib.auth.models import User, Group
@@ -35,7 +35,6 @@ def registrar_fase(request, id_proyecto):
         formulario = CrearFaseForm(request.POST)
         if formulario.is_valid():
             if len(str(request.POST["fInicio"])) != 10 : #Comprobacion de formato de fecha
-                print(id_proyecto)
                 mensaje=0
                 return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
             else:
@@ -45,8 +44,14 @@ def registrar_fase(request, id_proyecto):
                 newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],fInicio = fecha,estado = "PEN", proyecto_id = id_proyecto)
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
+                roles = request.POST.getlist("roles")
+                for rol in roles:
+                   fase=Fase.objects.filter(roles__id=rol)
+                   if(fase.count()>0):
+                     aux=1
                 if aux>0:#comprobacion de pertenencia de roles
-                    messages.add_message(request, settings.DELETE_MESSAGE, "Error: Mensaje al pedo")
+                    mensaje=0
+                    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
                 else:
                     proyecto=Proyecto.objects.get(id=id_proyecto)
                     cantidad = orden.count()
@@ -60,15 +65,20 @@ def registrar_fase(request, id_proyecto):
                                 mensaje=2
                                 return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
                             else:
-
+                                roles = request.POST.getlist("roles")
                                 newFase.orden=orden.count()+1 #Calculo del orden de la fase a crear
                                 newFase.save()
-
+                                for rol in roles:
+                                    newFase.roles.add(rol)
+                                    newFase.save()
                                 return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
                     else:
-
+                        roles = request.POST.getlist("roles")
                         newFase.orden=1
                         newFase.save()
+                        for rol in roles:
+                            newFase.roles.add(rol)
+                            newFase.save()
                         return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
         formulario = CrearFaseForm()
@@ -200,7 +210,9 @@ def importar_fase(request, id_fase,id_proyecto):
         formulario = CrearFaseForm(request.POST)
         if formulario.is_valid():
             if len(str(request.POST["fInicio"])) != 10 :
-                messages.add_message(request, settings.DELETE_MESSAGE, "Error: El formato de Fecha es: DD/MM/AAAA")
+                mensaje=0
+                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
             else:
                 fecha=datetime.strptime(str(request.POST["fInicio"]),'%d/%m/%Y')
                 fecha=fecha.strftime('%Y-%m-%d')
@@ -216,10 +228,14 @@ def importar_fase(request, id_fase,id_proyecto):
                     if cantidad>0:
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
-                            messages.add_message(request, settings.DELETE_MESSAGE, "Error: Fecha de inicio no concuerda con fase anterior")
+                            mensaje=1
+                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
-                                messages.add_message(request, settings.DELETE_MESSAGE, "Error: Fecha de inicio no concuerda con proyecto")
+                                mensaje=2
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+
                             else:
 
                                 newFase.orden=orden.count()+1
@@ -232,7 +248,7 @@ def importar_fase(request, id_fase,id_proyecto):
                                 return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
         formulario = CrearFaseForm(initial={'descripcion':fase.descripcion, 'maxItems':fase.maxItems, 'fInicio':fase.fInicio, 'orden':fase.orden}) #'fInicio':datetime.strptime(str(fase.fInicio),'%Y-%m-%d').strftime('%d/%m/%y')
-    return render_to_response('fases/registrar_fases.html',{'formulario':formulario}, context_instance=RequestContext(request))
+    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':1000,'id':id_proyecto}, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('fase')
@@ -245,5 +261,122 @@ def detalle_fase(request, id_fase):
     dato = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        return render_to_response('fases/error_activo.html',{'proyecto':dato}, context_instance=RequestContext(request))
     return render_to_response('fases/detalle_fase.html', {'datos': dato,'proyecto_id':dato.proyecto_id}, context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def eliminar_fase(request,id_fase):
+    '''
+    vista que elimina una fase
+    '''
+    fase = get_object_or_404(Fase, pk=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado =='PEN':
+        fase.delete()
+    fases = Fase.objects.filter(proyecto_id=proyecto.id).order_by('orden')
+    return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
+
+@login_required
+@permission_required('fase')
+def buscar_fases(request,id_proyecto):
+    """
+    vista para buscar las fases del proyecto
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return: render_to_response('proyectos/listar_proyectos.html', {'datos': results}, context_instance=RequestContext(request))
+    """
+    query = request.GET.get('q', '')
+    proyecto = Proyecto.objects.get(id=id_proyecto)
+    if query:
+        qset = (
+            Q(nombre__contains=query)
+        )
+        results = Fase.objects.filter(qset, proyecto_id=id_proyecto).distinct()
+    else:
+        results = []
+
+
+    return render_to_response('fases/listar_fases.html', {'datos': results, 'proyecto' : proyecto}, context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def asignar_usuario(request,id_fase):
+    '''
+    vista auxiliar para obtener un listado de usuarios para asociar a la fase
+    '''
+
+    usuarios=User.objects.filter(is_active=True)
+    fase=Fase.objects.get(id=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado!='PEN':
+        return render_to_response('fases/error_activo.html')
+    return render_to_response('fases/lista_usuarios.html', {'datos': usuarios, 'fase' : fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def asignar_rol(request,id_usuario, id_fase):
+    '''
+    vista auxiliar para obtener el listado de roles asociados a una fase para asociarlos a un usuario
+    '''
+    fase=Fase.objects.get(id=id_fase)
+    usuario=User.objects.get(id=id_usuario)
+    roles=Group.objects.filter(fase__id=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado!='PEN':
+        return render_to_response('fases/error_activo.html')
+    return render_to_response('fases/listar_roles.html', {'roles': roles, 'usuario':usuario, 'fase':id_fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def asociar(request,id_rol,id_usuario,id_fase):
+    '''
+    vista para asociar un rol perteneciente a una face a un usuario, asociandolo de esta manera a la fase, y al proyecto
+    '''
+    fase=Fase.objects.get(id=id_fase)
+    usuario=User.objects.get(id=id_usuario)
+    rol = Group.objects.get(id=id_rol)
+    usuario.groups.add(rol)
+    usuario.save()
+    return HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
+
+
+@login_required
+@permission_required('fase')
+def des(request,id_fase):
+    '''
+    vista para listar a los usuario de una fase, para poder desasociarlos
+    '''
+    fase=Fase.objects.get(id=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado!='PEN':
+        return render_to_response('fases/error_activo.html')
+    roles=Group.objects.filter(fase__id=id_fase)
+    usuarios=[]
+    for rol in roles:
+        p=User.objects.filter(groups__id=rol.id)
+        for pp in p:
+            usuarios.append(pp)
+    return render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':id_fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+@login_required
+@permission_required('fase')
+def desasociar(request,id_usuario, id_fase):
+    '''
+    vista para remover un rol al usuario, desasociandolo asi de una fase
+    '''
+    fase=Fase.objects.get(id=id_fase)
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    if proyecto.estado!='PEN':
+        return render_to_response('fases/error_activo.html')
+    usuario=User.objects.get(id=id_usuario)
+    roles=Group.objects.filter(fase__id=id_fase)
+    for rol in roles:
+        usuario.groups.remove(rol)
+        usuario.save()
+
+    return HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
+

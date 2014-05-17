@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     #FASES
     url(r'^fases/', include('apps.fases.urls')),
     #TIPO DE ITEM
-    url(r'^tipoDeItem/', include('apps.tiposDeItem.urls')),
+    url(r'^tiposDeItem/', include('apps.tiposDeItem.urls')),
 
 )
