@@ -24,8 +24,12 @@
         
         <h1>Administracion de Usuarios</h1>
     <form action="/usuario/search/" method="get">
-        <input type="text" name="busqueda">
-        <input type="submit" value="Buscar">
+    <input type="text" name="busqueda" value="{{ query|escape }}" class="search-query" placeholder="Buscar Nombre del Usuario">
+    <div class="btn-group">
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </div>
+    <a href="/usuario/" class="btn btn-success"><i class="icon-refresh"></i></a>
+
     </form>
 <div id="content-main">
 

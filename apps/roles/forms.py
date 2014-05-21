@@ -4,7 +4,7 @@ from django.contrib.auth.models import Group, Permission
 
 
 class GroupForm(forms.ModelForm):
-    #permissions = forms.ModelMultipleChoiceField(queryset=Permission.objects.all(), widget=FilteredSelectMultiple("Permisos", is_stacked=False))
+    #permissions = Group.objects.exclude(permission_id=1,permission_id=2,permission_id=3)
     class Meta:
         model = Group
-        #fields=['name']
+        #fields=['name','permissions']

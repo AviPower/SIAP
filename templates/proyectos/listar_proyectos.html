@@ -27,10 +27,12 @@
 
         <h1>Administracion de Proyectos</h1>
     <form action="/proyectos/search/" method="get">
-    <label for="q">Nombre: </label>
-    <input type="text" name="q" value="{{ query|escape }}">
-    <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/proyectos/" class="button"><i class="icon-filter"></i>Limpiar</a>
+    <label for="q"></label>
+    <input type="text" name="q" value="{{ query|escape }}" class="search-query" placeholder="Buscar Nombre del Proyecto">
+    <div class="btn-group">
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </div>
+    <a href="/proyectos/" class="btn btn-success"><i class="icon-refresh"></i></a>
     </form>
 
 <ul class="object-tools">
@@ -50,57 +52,62 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>__Proyectos__</a>
+                    <a>Proyectos</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Estado__</a>
+                    <a>Estado</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Lider__</a>
+                    <a>Lider_a_Cargo</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>______Inicio______</a>
+                    <a>Fecha_de_Inicio</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Finalizacion___</a>
+                    <a>Fecha_de_Finalizacion</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_1</a>
+                    <a>Detalle</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Opcion_2_</a>
+                    <a>Modificar</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>Roles</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Opcion_3_</a>
+                    <a>Importar</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>Opcion_4</a>
+                    <a>Fases</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>Opcion_5</a>
+                    <a>Equipo</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>____Opcion_6____</a>
+                    <a>Cambiar_Estado</a>
                 </div>
             </th>
         </tr>
@@ -108,17 +115,18 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.nombre }}</td>
-				<td>{{ dato.estado }}</td>
-                <td>{{ dato.lider }}</td>
-				<td>{{ dato.fecha_ini }}</td>
-                <td>{{ dato.fecha_fin }}</td>
-                <td><a href="/proyectos/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/proyectos/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/proyectos/importar/{{ dato.pk }}" class="button"><i class="icon-share"></i>Importar</a></td>
-                <td><a href="/fases/proyecto/{{ dato.pk }}" class="button"><i class=" icon-list-alt"></i>Fases</a></td>
-                <td><a href="/proyectos/equipo/{{ dato.pk }}" class="button"><i class="icon-user"></i>Apoyo</a></td>
-                <td><a href="/proyectos/cambiarEstado/{{ dato.pk }}" class="button"><i class="icon-retweet"></i>Cambiar_Estado</a></td>
+                <td><center>{{ dato.nombre }}</center></td>
+				<td><center>{{ dato.estado }}</center></td>
+                <td><center>{{ dato.lider }}</center></td>
+				<td><center>{{ dato.fecha_ini }}</center></td>
+                <td><center>{{ dato.fecha_fin }}</center></td>
+                <td><center><a href="/proyectos/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/proyectos/modificar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-pencil icon-white"></i></a></center></td>
+                <td><center><a href="/proyectos/roles/{{ dato.pk }}" class="btn "><i class=" icon-shopping-cart icon-black"></i></a></center></td>
+                <td><center><a href="/proyectos/importar/{{ dato.pk }}" class="btn btn-warning"><i class="icon-share icon-white"></i></a></center></td>
+                <td><center><a href="/fases/proyecto/{{ dato.pk }}" class="btn btn-danger"><i class=" icon-list-alt icon-white"></i></a></center></td>
+                <td><center><a href="/proyectos/equipo/{{ dato.pk }}" class="btn btn-inverse"><i class="icon-user icon-white"></i></a></center></td>
+                <td><center><a href="/proyectos/cambiarEstado/{{ dato.pk }}" class="btn btn-info"><i class="icon-retweet icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

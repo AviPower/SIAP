@@ -9,12 +9,13 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/fases/proyecto/{{id}}">Fases</a>
+    <a href="/fases/proyecto/{{id}}">Fases del Proyecto {{ proyecto.nombre }}</a>
     ">Nueva Fase"
     </div>
 
                 <div id="content">
                 <h1>Crear Fase</h1>
+                <p>Fecha del proyecto comprendida del  "{{ proyecto.fecha_ini }}"  al  "{{ proyecto.fecha_fin }}"</p>
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
@@ -25,8 +26,6 @@
                 <li>Error: Fecha de inicio no concuerda con fase anterior</li>
                 {% elif mensaje == 2 %}
                 <li>Error: Fecha de inicio no concuerda con proyecto</li>
-                {% elif mensaje == 3 %}
-                <li>Error: El Rol ya ha sido asignado a otra fase</li>
             {% endif %}
         </ul>
     {{ formulario.as_p }}

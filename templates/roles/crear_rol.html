@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Nuevo_Proyecto
+	Nuevo_Rol
 {% endblock %}
 {% block content %}
     <head>
@@ -29,7 +29,7 @@
                 </p>
 
                     <div >
-                        {% if results %}
+                        {% if results %}<!---este es del filtro--->
                         <ul>
                             {% for result in results %}
                                 {{ result.name }}

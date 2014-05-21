@@ -1,6 +1,7 @@
 __author__ = 'alvarenga'
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 # Create your models here.
 ESTADOS = (
 
@@ -28,9 +29,14 @@ class Proyecto(models.Model):
 
     nombre= models.CharField(max_length=100, verbose_name='Nombre',unique=True)
     descripcion= models.TextField(verbose_name='Descripcion')
-    fecha_ini=models.DateField(null=False)
-    fecha_fin=models.DateField(null=False)
+    fecha_ini=models.DateField(verbose_name='Fecha de inicio',null=False)
+    fecha_fin=models.DateField(verbose_name='Fecha de Finalizacion',null=False)
     estado=models.CharField(max_length=3,choices= ESTADOS, default='PEN')
     lider = models.ForeignKey(User, related_name='lider')
-    observaciones = models.TextField(verbose_name='Observaciones')
-    comite = models.ManyToManyField(User, related_name='comite')
+    observaciones = models.TextField(verbose_name='Observaciones(Opcional)',blank=True)
+    comite = models.ManyToManyField(User, related_name='comite')#un proyecto en comite tiene varios user
+    # y un user puede estar en varios comite
+
+    #Dato Fecha y Hora, almacena la fecha actual
+    #tiempo_registro = models.DateTimeField(auto_now=True)
+    roles = models.ManyToManyField(Group)#Un proyecto puede tener mucho roles y no puedo hacer Foreignkey en tabla Group

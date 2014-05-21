@@ -7,7 +7,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from apps.fases.models import Fase
-from apps.fases.models import Fase
 from django.contrib.auth.models import User, Group
 from django.db.models import Q
 from django.contrib import messages
@@ -29,6 +28,7 @@ def registrar_fase(request, id_proyecto):
     render_to_response('proyectos/registrar_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request)) al formulario
     """
     mensaje=100
+    proyecto = Proyecto.objects.get(id=id_proyecto)
     if request.method=='POST':
         proyecto = Proyecto.objects.get(id=id_proyecto)
         formulario = CrearFaseForm(request.POST)
@@ -43,45 +43,35 @@ def registrar_fase(request, id_proyecto):
                 newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],fInicio = fecha,estado = "PEN", proyecto_id = id_proyecto)
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
-                roles = request.POST.getlist("roles")
-                for rol in roles:
-                   fase=Fase.objects.filter(roles__id=rol)
-                   if(fase.count()>0):
-                     aux=1
+
                 if aux>0:#comprobacion de pertenencia de roles
-                    mensaje=0
-                    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+                    aux=1
                 else:
                     proyecto=Proyecto.objects.get(id=id_proyecto)
                     cantidad = orden.count()
                     if cantidad>0:#comprobaciones de fecha
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
-                           mensaje=1
-                           return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+                           #Fecha de inicio no concuerda con fase anterior
+                           return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':1,'id':id_proyecto,'proyecto':proyecto}, context_instance=RequestContext(request))
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
-                                mensaje=2
-                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+                                #Fecha de inicio no concuerda con proyecto
+                                print(fecha1)
+                                print(datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d'))
+                                print (datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d'))
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':2,'id':id_proyecto,'proyecto':proyecto}, context_instance=RequestContext(request))
                             else:
-                                roles = request.POST.getlist("roles")
                                 newFase.orden=orden.count()+1 #Calculo del orden de la fase a crear
                                 newFase.save()
-                                for rol in roles:
-                                    newFase.roles.add(rol)
-                                    newFase.save()
                                 return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
                     else:
-                        roles = request.POST.getlist("roles")
                         newFase.orden=1
                         newFase.save()
-                        for rol in roles:
-                            newFase.roles.add(rol)
-                            newFase.save()
                         return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
-        formulario = CrearFaseForm()
-    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'id':id_proyecto}, context_instance=RequestContext(request))
+        formulario = CrearFaseForm() #formulario inicial
+    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'id':id_proyecto, 'proyecto':proyecto, 'mensaje':mensaje}, context_instance=RequestContext(request))
 
 
 
@@ -96,7 +86,7 @@ def listar_fases(request,id_proyecto):
     fases = Fase.objects.filter(proyecto_id=id_proyecto).order_by('orden')
     proyecto = Proyecto.objects.get(id=id_proyecto)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        return render_to_response('fases/error_activo.html',{'datos': fases, 'proyecto' : id_proyecto}, context_instance=RequestContext(request))
     else:
         return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
 

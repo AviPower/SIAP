@@ -629,6 +629,40 @@ div.breadcrumbs {
     background: url(../img/icon_deletelink.gif) 0 .25em no-repeat;
 }
 
+.nolink {
+    padding-left: 12px;
+    background: url(../img/icon-no.gif) 0 .25em no-repeat;
+}
+
+.preguntalink {
+    padding-left: 12px;
+    background: url(../img/icon-unknown.gif) 0 .25em no-repeat;
+}
+
+.silink {
+    padding-left: 12px;
+    background: url(../img/icon-yes.gif) 0 .25em no-repeat;
+}
+
+.alertlink {
+    padding-left: 12px;
+    background: url(../img/icon_alert.gif) 0 .20em no-repeat;
+}
+
+.calendarlink {
+    padding-left: 12px;
+    background: url(../img/icon_calendar.gif) 0 .20em no-repeat;
+}
+
+.relojlink {
+    padding-left: 12px;
+    background: url(../img/icon_clock.gif) 0 .20em no-repeat;
+}
+
+.retrocederlink {
+    padding-left: 12px;
+    background: url(../img/inline-restore.png) 0 .20em no-repeat;
+}
 a.deletelink:link, a.deletelink:visited {
     color: #CC3434;
 }

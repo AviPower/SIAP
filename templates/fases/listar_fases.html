@@ -28,13 +28,16 @@
     <a href="/proyectos/">Proyectos</a>
     ">Administracion de Fases"
     </div>
-        <h1>Administracion de Fases para el proyecto {{ proyecto.nombre }}</h1>
+        <h1>Fases para el proyecto {{ proyecto.nombre }}</h1>
     <form action="/fases/search/{{proyecto.id}}" method="get">
-    <label for="q">Nombre: </label>
-    <input type="text" name="q" value="{{ query|escape }}">
-    <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/fases/proyecto/{{proyecto.id}}" class="button"><i class="icon-filter"></i>Limpiar</a>
+    <label for="q"></label>
+    <input type="text" name="q" value="{{ query|escape }}" class="search-query" placeholder="Buscar Nombre del fase">
+    <div class="btn-group">
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </div>
+    <a href="/fases/proyecto/{{proyecto.id}}" class="btn btn-success"><i class="icon-refresh"></i></a>
     </form>
+
 
 <ul class="object-tools">
     <li>
@@ -53,7 +56,7 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>__Nro__</a>
+                    <a>Nro</a>
                 </div>
             </th>
              <th scope="col">
@@ -63,22 +66,27 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Estado__</a>
+                    <a>Estado</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Fecha_de_Inicio</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a> __Detalle__  </a>
+                    <a>Detalle</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Modificar_</a>
+                    <a>Modificar</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Eliminar_</a>
+                    <a>Eliminar</a>
                 </div>
             </th>
                         <th scope="col">
@@ -88,12 +96,12 @@
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Asignar_Rol___</a>
+                    <a>Asignar_Usuario</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Desasignar__Rol__</a>
+                    <a>Desasignar_Usuario</a>
                 </div>
             </th>
         </tr>
@@ -101,15 +109,16 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.orden }}</td>
-				<td>{{ dato.nombre }}</td>
-                <td>{{ dato.estado }}</td>
-                <td><a href="/fases/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/fases/editar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/fases/eliminar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Eliminar</a></td>
-                <td><a href="/tiposDeItem/fase/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Tipos De Items</a></td>
-                <td><a href="/fases/asignar/{{dato.id}}" class="button">Asignar Rol a Usuario</a></td>
-                <td><a href="/fases/des/{{dato.id}}" class="button">Desasignar Rol a Usuario</a></td>
+                <td><center>{{ dato.orden }}</center></td>
+				<td><center>{{ dato.nombre }}</center></td>
+                <td><center>{{ dato.estado }}</center></td>
+                <td><center>{{ dato.fInicio }}</center></td>
+                <td><center><a href="/fases/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/fases/editar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-pencil icon-white"></i></a></center></td>
+                <td><center><a href="/fases/eliminar/{{ dato.pk }}" class="btn btn-danger"><i class=" icon-trash icon-white"></i></a></center></td>
+                <td><center><a href="/tiposDeItem/fase/{{ dato.id }}" class="btn btn-warning"><i class="icon-briefcase icon-white"></i></a></center></td>
+                <td><center><a href="/fases/asignar/{{dato.id}}" class="btn btn-inverse"><i class="icon-user icon-white"></i></a></center></td>
+                <td><center><a href="/fases/des/{{dato.id}}" class="btn btn-info"><i class="icon-user icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

@@ -18,6 +18,15 @@
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
+        <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: Fecha de inicio debe ser menor a la fecha de finalizacion</li>
+                {% elif mensaje == 1 %}
+                <li>Error: La fecha debe ser mayor al dia de hoy</li>
+                {% elif mensaje == 2 %}
+                <li>Error: El usuario elegido no esta autorizado para ser Lider</li>
+            {% endif %}
+        </ul>
     {{ formulario.as_p }}
         </div>
     <div class="submit-row">

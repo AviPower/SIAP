@@ -2,7 +2,6 @@ __author__ = 'marcel'
 
 from django.forms import ModelForm
 from django import forms
-from SIAP import settings
 from apps.fases.models import Fase
 from django.contrib.auth.models import Group
 
@@ -12,11 +11,10 @@ class FaseForm(ModelForm):
         model = Fase
 
 class CrearFaseForm(ModelForm):
-    roles = forms.ModelMultipleChoiceField(queryset=Group.objects.all().exclude(name='Lider') )
 
     class Meta:
         model = Fase
-        fields = ('nombre', 'descripcion', 'maxItems', 'fInicio', 'roles')
+        fields = ('nombre', 'descripcion', 'maxItems', 'fInicio')
 
 class ModificarFaseForm(ModelForm):
     class Meta:

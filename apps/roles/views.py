@@ -92,19 +92,19 @@ def eliminar_rol(request, id_rol):
     @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
     """
 
-
     dato = get_object_or_404(Group, pk=id_rol)
     fases=Fase.objects.filter(roles__id=dato.id)
+    grupos = Group.objects.all()
     if dato.name=='Lider':
-        messages.add_message(request, settings.DELETE_MESSAGE, "El rol lider no se puede eliminar")
+        return render_to_response('roles/listar_roles.html', {'datos': grupos, 'mensaje':0}, context_instance=RequestContext(request))
     else:
         if fases.count()==0:
             dato.delete()
-            messages.add_message(request, settings.DELETE_MESSAGE, "Rol eliminado")
+            return render_to_response('roles/listar_roles.html', {'datos': grupos,'mensaje':1}, context_instance=RequestContext(request))
         else:
-            messages.add_message(request, settings.DELETE_MESSAGE, "El rol posee fase(s) asociada(s). No se puede eliminar")
+            return render_to_response('roles/listar_roles.html', {'datos': grupos,'mensaje':2}, context_instance=RequestContext(request))
     grupos = Group.objects.all()
-    return render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
+    return render_to_response('roles/listar_roles.html', {'datos': grupos, 'mensaje':1000}, context_instance=RequestContext(request))
 
 
 class RegisterSuccessView(TemplateView):
