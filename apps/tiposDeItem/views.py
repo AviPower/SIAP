@@ -18,9 +18,15 @@ from apps.tiposDeItem.models import TipoItem, Atributo
 @login_required
 @permission_required('tipoItem')
 def crear_tipoItem(request, id_fase):
-    '''
+    """
     vista para crear un tipo de Item, que consta de un nombre y una descripcion
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return rrender_to_response('tiposDeItem/creacion_correcta.html', {'id_fase': id_fase},
+                                      context_instance=RequestContext(request)) si no existe una instancia o
+                                render_to_response('tiposDeItem/crear_tipoDeItem.html', {'tipoItem_form': tipoItem_form},
+                              context_instance=RequestContext(request)) si ya existe.
+    """
     if request.method == 'POST':
         # formulario enviado
         tipoItem_form = TipoItemForm(request.POST)
@@ -42,9 +48,14 @@ def crear_tipoItem(request, id_fase):
 @login_required
 @permission_required('tipoItem')
 def listar_tiposItem(request, id_fase):
-    '''
+    """
     vista para listar los tipos de Item pertenecientes a una fase dada
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+                              context_instance=RequestContext(request))
+    """
+
 
     tiposItem = TipoItem.objects.filter(fase_id=id_fase).order_by('nombre')
     fase = Fase.objects.get(id=id_fase)
@@ -55,9 +66,13 @@ def listar_tiposItem(request, id_fase):
 @login_required
 @permission_required('tipoItem')
 def detalle_tipoItem(request, id_tipoItem):
-    '''
-    vista para ver los detalles del tipo de item <id_tipoItem>
-    '''
+    """
+    Vista para ver los detalles del tipo de item <id_tipoItem>
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_tipoItem: referencia al tipo de item dentro de la base de datos
+    @return render_to_response('tiposDeItem/detalle_tipoDeItem.html', {'datos': dato, 'atributos': atributos},
+                              context_instance=RequestContext(request))
+    """
 
     dato = get_object_or_404(TipoItem, pk=id_tipoItem)
     atributos = Atributo.objects.filter(tipoItem__id=id_tipoItem)
@@ -68,10 +83,14 @@ def detalle_tipoItem(request, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def crear_atributo(request, id_tipoItem):
-    '''
-    vista para crear un tipo de atributo, que consta de un nombre, un tipo, un valor por defecto
+    """
+    Vista para crear un tipo de atributo, que consta de un nombre, un tipo, un valor por defecto
     y esta relacionado con un tipo de Item
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_tipoItem: referencia al tipo de item dentro de la base de datos
+    @return render_to_response(render_to_response('tiposDeItem/crear_atributo.html'...) de acuerdo al tipo de atributo
+    del que se trate
+    """
 
     if request.method == 'POST':
         # formulario enviado
@@ -125,10 +144,15 @@ def crear_atributo(request, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def eliminar_atributo(request, id_atributo, id_tipoItem):
-    '''
+    """
     vista para eliminar el atributo <id_atributo>, si ningun otro tipo de Item esta relacionado a este atributo, el mismo
     es eliminado completamente.
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_tipoItem: referencia al tipo de item dentro de la base de datos
+    @return render_to_response(render_to_response('tiposDeItem/crear_atributo.html'...) de acuerdo al tipo de atributo
+    del que se trate
+
+    """
 
     atributo = get_object_or_404(Atributo, pk=id_atributo)
     tipoItem = get_object_or_404(TipoItem, pk=id_tipoItem)
@@ -146,9 +170,14 @@ def eliminar_atributo(request, id_atributo, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def modificar_atributo(request, id_atributo, id_tipoItem):
-    '''
+    """
     vista para modifica el atributo <id_atributo>
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_atributo: referencia a un atributo de un tipo de item
+    @param id_tipoItem: referencia al tipo de item a cambiar su atributo
+    @return render_to_response('return render_to_response('tiposDeItem/editar_atributo.html', ...) con diferentes variantes de
+    acuerdo a los tipos de atributo
+    """
     atributo = get_object_or_404(Atributo, pk=id_atributo)
     if request.method == 'POST':
         #formulario enviado
@@ -195,9 +224,14 @@ def modificar_atributo(request, id_atributo, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def editar_tipoItem(request, id_tipoItem):
-    '''
+    """
     vista para cambiar el nombre y la descripcion del tipo de item, y ademas agregar atributos al mismo
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_atributo: referencia a un atributo de un tipo de item
+    @param id_tipoItem: referencia al tipo de item a cambiar su atributo
+    @return render_to_response('return render_to_response('tiposDeItem/editar_atributo.html', ...) con diferentes variantes de
+    acuerdo a los tipos de atributo
+    """
     tipoItem = get_object_or_404(TipoItem, id=id_tipoItem)
     atributos = Atributo.objects.filter(tipoItem__id=id_tipoItem)
     id_fase = tipoItem.fase_id
@@ -222,9 +256,16 @@ def editar_tipoItem(request, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def importar_tipoItem(request, id_tipoItem, id_fase):
-    '''
+    """
     Vista para importar un tipo de Item, dado en <id_fase>
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_atributo: referencia a un atributo de un tipo de item
+    @param id_tipoItem: referencia al tipo de item a cambiar su atributo
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return render_to_response('tiposDeItem/creacion_correcta.html', {'id_fase': id_fase},
+        context_instance=RequestContext(request)) o render_to_response('tiposDeItem/crear_tipoDeItem.html', {'tipoItem_form': formulario},
+                              context_instance=RequestContext(request))
+    """
     tipoItem = get_object_or_404(TipoItem, id=id_tipoItem)
     if request.method == 'POST':
         formulario = TipoItemForm(request.POST,
@@ -249,9 +290,13 @@ def importar_tipoItem(request, id_tipoItem, id_fase):
 @login_required
 @permission_required('tipoItem')
 def eliminar_tipoItem(request, id_tipoItem):
-    '''
+    """
     Vista para eliminar un tipo de Item. Tambien se encarga de la eliminacion de atributos no referenciados
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_tipoItem: referencia al tipo de item a cambiar su atributo
+    @return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+                              context_instance=RequestContext(request))
+    """
     tipoItem = get_object_or_404(TipoItem, pk=id_tipoItem)
     fase = tipoItem.fase
     for atributo in tipoItem.atributo_set.all():
@@ -268,9 +313,14 @@ def eliminar_tipoItem(request, id_tipoItem):
 @login_required
 @permission_required('tipoItem')
 def listar_tiposItemProyecto(request, id_fase):
-    '''
+    """
     vista para listar las fases pertenecientes a un proyecto
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return render_to_response('tiposDeItem/importar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+                              context_instance=RequestContext(request))
+
+    """
     fase = get_object_or_404(Fase, id=id_fase)
     proyecto_id = fase.proyecto_id
     fases = Fase.objects.filter(proyecto_id=proyecto_id)
@@ -286,9 +336,11 @@ def listar_tiposItemProyecto(request, id_fase):
 @permission_required('fase')
 def buscar_tiposItem(request,id_fase):
     """
-    vista para buscar
+    vista para filtrar
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return: render_to_response()
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+                              context_instance=RequestContext(request))
     """
     query = request.GET.get('q', '')
     fase = Fase.objects.get(id=id_fase)

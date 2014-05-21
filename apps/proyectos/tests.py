@@ -17,9 +17,11 @@ class SIAPTestCase(TestCase):
         Test para buscar un proyecto
         '''
         c = Client()
+        print "\n\n-------------------Buscando Proyectos-----"
         c.login(username='admin', password='admin')
         #Test para proyecto buscar existente
         resp = c.get('/proyectos/search/?q=SIAP33')
+        print "Status 200, indica exito\n"
         self.assertEqual(resp.status_code, 200)
         self.assertEqual([proyecto.nombre for proyecto in resp.context['datos']], ['SIAP33'])
 
@@ -31,14 +33,16 @@ class SIAPTestCase(TestCase):
 
         c = Client()
         c.login(username='admin', password='admin')
-
+        print "\n--------Listando los detalles de un proyecto-------"
         #Test para proyecto existente
         resp = c.get('/proyectos/1')
         self.assertEqual(resp.status_code, 200)
+        print "Status 200, indica exito\n"
         self.assertEqual(resp.context['proyecto'].pk, 1)
         self.assertEqual(resp.context['proyecto'].nombre, 'SIAP')
 
         #Test para proyecto inexistente
+        print "\nMostrando un proyecto inexistente\n"
         resp = c.get('/proyectos/1000')
         self.assertEqual(resp.status_code, 404)
 
@@ -46,12 +50,13 @@ class SIAPTestCase(TestCase):
         '''
          Test para ver si lista correctamente un proyecto
         '''
-
+        print "\n\n--------Listando los proyectos-------"
         c = Client()
         c.login(username='admin', password='admin')
         #proyecto= Proyecto.objects.create(id=3, nombre='pruebaProyecto',descripcion='prueba',observaciones='prueba',fecha_ini='2012-12-01',fecha_fin='2013-12-01',lider_id=1)
         resp = c.get('/proyectos/')
         self.assertEqual(resp.status_code, 200)
+        print "Status 200, indica exito\n"
         self.assertEqual([proyecto.pk for proyecto in resp.context['datos']], [1, 2, 3, 4, 5, 6, 7])
 
     def test_ver_equipo(self):
@@ -61,9 +66,10 @@ class SIAPTestCase(TestCase):
 
         c = Client()
         c.login(username='admin', password='admin')
-
+        print "\n----------Verifica si la url de visualizar el equipo de trabajo realiza correctamente su operacion"
         resp = c.get('/proyectos/equipo/1')
         self.assertEqual(resp.status_code, 200)
+        print "\nStatus 200, indica exito\n"
         self.assertEqual([lider.pk for lider in resp.context['comite']], [10, 19, 1])
 
     def test_modficar_proyecto(self):
@@ -71,10 +77,12 @@ class SIAPTestCase(TestCase):
          Test para ver si modifica correctamente un proyecto
         '''
         c = Client()
+        print "\n\n--------Se intenta modificar los proyectos-------"
         c.login(username='admin', password='admin')
         #test para verificar que si no modifica nada, no guarda
         resp = c.post('/proyectos/modificar/1')
         self.assertEqual(resp.status_code, 200)
+        print "Status 200, indica exito, se redirige adecuadamente\n"
 
 
     def test_importar(self):
@@ -99,10 +107,11 @@ class SIAPTestCase(TestCase):
 
         c = Client()
         c.login(username='admin', password='admin')
+        print "-------------------Creando Proyectos-----"
         #prueba importar un proyecto y asignarle como nombre un nombre ya existente. Retorna un mensaje de nivel 20,
         #informando que ya existe un proyecto con ese nombre
         resp = c.post('/proyectos/registrar/', {'nombre': 'SIAP'})
-
+        print "Crea correctamente el proyecto,  llena el formulario de la url /proyectos/registrar/ mediante el cual llama al metodo 'crear_rol' que recibe el request"
         self.assertEqual(resp.status_code, 200)
 
         self.assertEqual(resp.context['messages'].level, 20)
@@ -113,7 +122,7 @@ class SIAPTestCase(TestCase):
                        'fecha_ini': '20/02/2014', 'fecha_fin': '20/02/2015', 'lider': 1, 'comite': 1}, follow=True)
         self.assertEqual(resp.status_code, 200)
         self.assertRedirects(resp, 'http://testserver/proyectos/register/success/')
-
+        print "Status 200, indica exito en la operacion\n"
         #no registra correctamente ya que la fecha de inicio es despues de la de fin
         resp = c.post('/proyectos/registrar/',
                       {'nombre': 'Proyecto nuevo 2', 'descripcion': 'ds', 'observaciones': 'sdasd',
@@ -124,27 +133,9 @@ class SIAPTestCase(TestCase):
 
 class ProyectoTest(TestCase):
 
-    def crear_user(self, nombre):
-        usuario = User.objects.create(username=nombre, first_name='runJoey', last_name='passit',
-                                      last_login='2014-05-09T18:13:37.081Z',
-                                      groups=[], user_permissions=[], password='fija',
-                                      email='seka@gmail.com', date_joined='2014-05-01T22:24:29.173Z')
-
-        p1 = Perfiles.objects.create(usuario=usuario, telefono= '0981',
-                                    direccion = "Bara", lider = True)
-        print('hola')
-        return p1
-
-
-    #def crear_comite(self, lista_usuarios []):
-
-    #return lista_usuarios
 
     def setUp(self):
         print "\n-----------------TEST PROYECTO------------------------------"
-      #  u1 = self.crear_user('juan')
-        #u2 = self.crear_user('marcos')
-        #u3 = self.crear_user('maria')
 
         u4 = User.objects.create(username='avelinaaa', first_name='runJoey', last_name='passit',
                                        password='fija')
@@ -158,9 +149,12 @@ class ProyectoTest(TestCase):
         print("Creo el proyecto mediante el metodo setUp()")
 
 
+
+
+
     def test_ABMProyecto(self):
         valido=False
-        print "\n----------Se procede a buscar el proyecto de prueba creado"
+
         valido = Proyecto.objects.filter(nombre="prueba").exists()
         if valido:
             print "\nSe encontro el Proyecto creado"
@@ -180,11 +174,14 @@ class ProyectoTest(TestCase):
                 print "\nEl proyecto fue modificado adecuadamente con nombre= nombreCambiado"
 
         print "\n----------Se procede a borrar el proyecto "
-        pro= Proyecto.objects.filter(nombre="prueba")
-        try:
-            print "\nProyecto borrado "
-            pro.delete()
-        except: print "\nError al borrar el proyecto"
+        valido = False
+        valido= Proyecto.objects.filter(nombre="nombresCambiado").exists()
+        if valido:
+                pro = Proyecto.objects.filter(nombre="nombresCambiado")
+                pro.delete()
+                print "\nProyecto Borrado"
+        if valido==False:
+             print "Error al borrar el proyecto, se debe dar un nombre de uno existente"
 
 
 

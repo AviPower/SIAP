@@ -22,9 +22,10 @@ class FaseTest(TestCase):
                                            lider= u4,
                                            observaciones="esta es una observacion")
 
-        Fase.objects.create(nombre='faseprueba', descripcion="Este es una fase",
+        faseprueba = Fase.objects.create(nombre='faseprueba', descripcion="Este es una fase",
                             maxItems = 3,  fInicio="2014-01-12", orden = 3,
                             fCreacion="2014-01-10", proyecto = proyecto)
+        faseprueba.save()
         print("Creo la fase mediante el metodo setUp")
 
 
@@ -33,11 +34,10 @@ class FaseTest(TestCase):
         valido=False
         print "\n----------Se procede a buscar la fase de prueba creada"
         valido = Fase.objects.filter(nombre="faseprueba").exists()
-        print ("valido=", valido)
         if valido:
             print "\nSe encontro la fase creada"
         if valido==False:
-            print "\n-No se ha creado la fase"
+            print "\nNo se ha creado la fase"
         print "\n----------Ahora se busca una fase que no existe"
         valido=False
         valido=Proyecto.objects.filter(nombre="fasepruebanoexiste").exists()
@@ -45,22 +45,20 @@ class FaseTest(TestCase):
             print "\nNo existe la fase "
         print "\n----------Se procede a buscar la fase creada para modificar su nombre"
         valido = Fase.objects.filter(nombre="faseprueba").exists()
-        print ("valido para modificar=", valido)
         if valido:
             print "\nSe encontro la fase y se procedera a cambiar el valor del campo nombre"
-            valido = Fase.objects.filter(nombre="faseprueba").update(nombre= "nuevoNombre")
-            print ("valido para modificar despues de actualizar=", valido)
+            Fase.objects.filter(nombre="faseprueba").update(nombre ="nuevonombre")
+            #faseMod.nombre = "nuevonombre"
+            #faseMod.save()
+            valido = Fase.objects.filter(nombre="nuevonombre").exists()
             if valido:
                 print "\nLa fase fue modificada adecuadamente con nombre= nuevoNombre"
 
         print "\n----------Se procede a borrar la fase "
-       # valido = False
-        valido= Fase.objects.filter(nombre="faseprueba").exists()
-        fas = Fase.objects.filter(nombre="faseprueba")
-        print ("valido=", valido)
-        print ("nombre=", dir(fas.values_list()))
+        valido = False
+        valido= Fase.objects.filter(nombre="nuevoNNombre").exists()
         if valido:
-                fas = Fase.objects.filter(nombre="faseprueba")
+                fas = Fase.objects.filter(nombre="nuevoNNombre")
                 fas.delete()
                 print "\nFase Borrada"
         if valido==False:
