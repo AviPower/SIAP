@@ -4,7 +4,7 @@ from django.conf.urls import patterns, url
 from django.contrib import admin
 admin.autodiscover()
 from views import listar_fases, registrar_fase, detalle_fase, buscar_fases, asignar_rol, asignar_usuario, asociar
-from views import editar_fase,fases_todas, importar_fase, eliminar_fase, des, desasociar,rol_proyecto,\
+from views import editar_fase,fases_todas, importar_fase, eliminar_fase, desasignar_usuario, desasociar,rol_proyecto,\
     crearol_proyecto,detallerol_proyecto, modificarrol_proyecto, eliminarrol_proyecto
 
 urlpatterns = patterns('',
@@ -25,6 +25,6 @@ urlpatterns = patterns('',
         url(r'^asignar/(?P<id_fase>\d+)$', asignar_usuario, name='asignar_usuario'),
         url(r'^asignar/(?P<id_usuario>\d+)/(?P<id_fase>\d+)$', asignar_rol, name='asignar_rol'),
         url(r'^asociar/(?P<id_rol>\d+)-(?P<id_usuario>\d+)-(?P<id_fase>\d+)$', asociar,name='asociar'),
-        url(r'^des/(?P<id_fase>\d+)$', des, name='des'),
+        url(r'^desasignar/(?P<id_fase>\d+)$', desasignar_usuario, name='des'),
         url(r'^desasignar/(?P<id_usuario>\d+)/(?P<id_fase>\d+)$', desasociar,name='desasociar'),
         )

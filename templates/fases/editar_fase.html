@@ -8,11 +8,13 @@
 <link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 </head>
     <div class="breadcrumbs">
-    <a href="/fases/proyecto/{{id_proyecto}}">Fases</a>
+    <a href="/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>
+    <a href="/fases/proyecto/{{proyecto.id}}">Fases</a>
     "> Modificar Fases"
     </div>
     <div id="content">
     <h1>Modificar Fase {{ fase.nombre|title }}</h1>
+    <p>Fecha del proyecto comprendida del  "{{ proyecto.fecha_ini }}"  al  "{{ proyecto.fecha_fin }}"</p>
         <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">

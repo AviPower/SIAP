@@ -25,11 +25,11 @@
     <!-- Content -->
     <div id="content" class="change-list" style="width: 1000px">
     <div class="breadcrumbs">
-    <a href="/proyectos/">Proyectos</a>>>
-        <a href="/fases/proyecto/{{proyecto.id}}">Fases</a>>>
-    "Administracion de Fases"
+    <a href="/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>
+        <a href="/fases/proyecto/{{proyecto.id}}">Fase {{ fase.nombre }}</a>>>
+    "Desasociar Usuarios"
     </div>
-        <h1>Rol para la Fase {{ fase.nombre }}</h1>
+        <h1>Desasociar del Proyecto {{ proyecto.nombre }}</h1>
 
 <div id="content-main">
 
@@ -54,7 +54,7 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a> Asignar  </a>
+                    <a> Desasignar  </a>
                 </div>
             </th>
         </tr>
@@ -62,10 +62,10 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.username }}</td>
-				<td>{{ dato.first_name }}</td>
-                <td>{{ dato.last_name }}</td>
-                <td><a class="btn"  href="/fases/desasignar/{{ dato.pk }}/{{ fase }}"><li  class="icon-minus"></li></a></td>
+                <td><center>{{ dato.username }}</center></td>
+				<td><center>{{ dato.first_name }}</center></td>
+                <td><center>{{ dato.last_name }}</center></td>
+                <td><center><a class="btn"  href="/fases/desasignar/{{ dato.pk }}/{{ fase.id }}"><li  class="icon-minus"></li></a></center></td>
             </tr>
             {% empty %}
                 <li>Aún no hay usuarios registrados</li>

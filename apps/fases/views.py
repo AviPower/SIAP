@@ -41,7 +41,8 @@ def registrar_fase(request, id_proyecto):
                 fecha=datetime.strptime(str(request.POST["fInicio"]),'%d/%m/%Y')
                 fecha=fecha.strftime('%Y-%m-%d')
                 fecha1=datetime.strptime(fecha,'%Y-%m-%d')
-                newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],fInicio = fecha,estado = "PEN", proyecto_id = id_proyecto)
+                newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],
+                               fInicio = fecha,estado = "PEN", proyecto_id = id_proyecto)
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
 
@@ -54,14 +55,16 @@ def registrar_fase(request, id_proyecto):
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
                            #Fecha de inicio no concuerda con fase anterior
-                           return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':1,'id':id_proyecto,'proyecto':proyecto}, context_instance=RequestContext(request))
+                           return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':1,'id':id_proyecto,'proyecto':proyecto},
+                                                     context_instance=RequestContext(request))
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                                 #Fecha de inicio no concuerda con proyecto
                                 print(fecha1)
                                 print(datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d'))
                                 print (datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d'))
-                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':2,'id':id_proyecto,'proyecto':proyecto}, context_instance=RequestContext(request))
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':2,'id':id_proyecto,'proyecto':proyecto},
+                                                          context_instance=RequestContext(request))
                             else:
                                 newFase.orden=orden.count()+1 #Calculo del orden de la fase a crear
                                 newFase.save()
@@ -72,7 +75,8 @@ def registrar_fase(request, id_proyecto):
                         return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
         formulario = CrearFaseForm() #formulario inicial
-    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'id':id_proyecto, 'proyecto':proyecto, 'mensaje':mensaje}, context_instance=RequestContext(request))
+    return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'id':id_proyecto, 'proyecto':proyecto, 'mensaje':mensaje},
+                              context_instance=RequestContext(request))
 
 
 
@@ -99,7 +103,8 @@ def editar_fase(request,id_fase):
     Vista para editar un proyecto,o su líder o los miembros de su comité
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_proyecto: referencia al proyecto de la base de datos
-    @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
+    @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o
+    render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
     """
     fase= Fase.objects.get(id=id_fase)
     id_proyecto= fase.proyecto_id
@@ -113,7 +118,8 @@ def editar_fase(request,id_fase):
         if fase_form.is_valid():
             if len(str(request.POST["fInicio"])) != 10 : #comprobacion de formato de fecha
                 mensaje=0
-                return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                          context_instance=RequestContext(request))
             else:
                 fecha=datetime.strptime(str(request.POST["fInicio"]),'%d/%m/%Y')
                 fecha=fecha.strftime('%Y-%m-%d')
@@ -126,15 +132,18 @@ def editar_fase(request,id_fase):
                        siguiente = Fase.objects.get(orden=(fase.orden)+1, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
                             mensaje=1
-                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                      context_instance=RequestContext(request))
                        else:
                            if fecha1>datetime.strptime(str(siguiente.fInicio),'%Y-%m-%d'):
                                mensaje=2
-                               return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                               return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                         context_instance=RequestContext(request))
                            else:
                                 if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                                     mensaje=3
-                                    return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                                    return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                              context_instance=RequestContext(request))
                                 else:
                                     fase_form.save()
                                     return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
@@ -142,11 +151,13 @@ def editar_fase(request,id_fase):
                    siguiente = Fase.objects.get(orden=(fase.orden)+1, proyecto_id=id_proyecto)
                    if fecha1>datetime.strptime(str(siguiente.fInicio),'%Y-%m-%d'):
                         mensaje=2
-                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                  context_instance=RequestContext(request))
                    else:
                         if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                             mensaje=3
-                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                      context_instance=RequestContext(request))
                         else:
                             fase_form.save()
 
@@ -155,25 +166,28 @@ def editar_fase(request,id_fase):
                     anterior = Fase.objects.get(orden=(fase.orden)-1, proyecto_id=id_proyecto)
                     if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
                         mensaje=1
-                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                  context_instance=RequestContext(request))
                     else:
                         if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                             mensaje=3
-                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                            return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                      context_instance=RequestContext(request))
                         else:
                             fase_form.save()
                             return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
                 else:
                     if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                         mensaje=3
-                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+                        return render_to_response('fases/editar_fase.html', { 'form': fase_form,'mensaje':mensaje, 'fase': fase, 'proyecto':proyecto},
+                                                  context_instance=RequestContext(request))
                     else:
                         fase_form.save()
                         return render_to_response('fases/creacion_correcta.html',{'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
     else:
         # formulario inicial
         fase_form = ModificarFaseForm(instance=fase)
-    return render_to_response('fases/editar_fase.html', { 'form': fase_form, 'fase': fase, 'id_proyecto':id_proyecto}, context_instance=RequestContext(request))
+    return render_to_response('fases/editar_fase.html', { 'form': fase_form, 'fase': fase, 'proyecto':proyecto}, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('fase')
@@ -213,7 +227,8 @@ def importar_fase(request, id_fase,id_proyecto):
                 fecha=datetime.strptime(str(request.POST["fInicio"]),'%d/%m/%Y')
                 fecha=fecha.strftime('%Y-%m-%d')
                 fecha1=datetime.strptime(fecha,'%Y-%m-%d')
-                newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],fInicio = fecha, estado = "PEN", proyecto_id = id_proyecto)
+                newFase = Fase(nombre = request.POST["nombre"],descripcion = request.POST["descripcion"],maxItems = request.POST["maxItems"],fInicio = fecha, estado = "PEN",
+                               proyecto_id = id_proyecto)
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
                 if aux>0:
@@ -225,12 +240,14 @@ def importar_fase(request, id_fase,id_proyecto):
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
                             mensaje=1
-                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto},
+                                                      context_instance=RequestContext(request))
 
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                                 mensaje=2
-                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto}, context_instance=RequestContext(request))
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto},
+                                                          context_instance=RequestContext(request))
 
                             else:
 
@@ -262,7 +279,7 @@ def detalle_fase(request, id_fase):
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
     if proyecto.estado!='PEN':
         return render_to_response('fases/error_activo.html',{'proyecto':dato}, context_instance=RequestContext(request))
-    return render_to_response('fases/detalle_fase.html', {'datos': dato,'proyecto_id':dato.proyecto_id}, context_instance=RequestContext(request))
+    return render_to_response('fases/detalle_fase.html', {'datos': dato,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -310,14 +327,17 @@ def asignar_usuario(request,id_fase):
     Vista auxiliar para obtener un listado de usuarios para asociar a la fase
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/lista_usuarios.html'...) en otro caso
+    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/asignar_usuarios.html'...) en otro caso
     """
     usuarios=User.objects.filter(is_active=True)
     fase=Fase.objects.get(id=id_fase)
+    roles=Group.objects.filter(fase__id=id_fase)
+    for rol in roles:       #Un usuario tiene un rol por fase
+        usuarios=usuarios.exclude(groups__id=rol.id)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
         return render_to_response('fases/error_activo.html')
-    return render_to_response('fases/lista_usuarios.html', {'datos': usuarios, 'fase' : fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    return render_to_response('fases/asignar_usuarios.html', {'datos': usuarios, 'fase' : fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -328,15 +348,17 @@ def asignar_rol(request,id_usuario, id_fase):
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_usuario: referencia al usuario dentro de la base de datos
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/listar_roles.html'... ) en otros casos
+    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/asignar_rol.html'... ) en otros casos
     """
-    fase=Fase.objects.get(id=id_fase)
-    usuario=User.objects.get(id=id_usuario)
-    roles=Group.objects.filter(fase__id=id_fase)
-    proyecto = Proyecto.objects.get(id=fase.proyecto_id)
+    fase=Fase.objects.get(id=id_fase) # objecto fase
+    usuario=User.objects.get(id=id_usuario) # objeto del usuario seleccionado
+    roles=Group.objects.filter(fase__id=id_fase) #filtra roles de la fase
+    proyecto = Proyecto.objects.get(id=fase.proyecto_id) #objecto proyecto
     if proyecto.estado!='PEN':
         return render_to_response('fases/error_activo.html')
-    return render_to_response('fases/listar_roles.html', {'roles': roles, 'usuario':usuario, 'fase':id_fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    return render_to_response('fases/asignar_rol.html',
+                              {'roles': roles,'usuario':usuario, 'fase':fase,'proyecto':proyecto},
+                              context_instance=RequestContext(request))
 
 
 @login_required
@@ -360,7 +382,7 @@ def asociar(request,id_rol,id_usuario,id_fase):
 
 @login_required
 @permission_required('fase')
-def des(request,id_fase):
+def desasignar_usuario(request,id_fase):
     """
     vista para listar a los usuario de una fase, para poder desasociarlos
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
@@ -376,8 +398,8 @@ def des(request,id_fase):
     for rol in roles:
         p=User.objects.filter(groups__id=rol.id)
         for pp in p:
-            usuarios.append(pp)
-    return render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':id_fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+            usuarios.append(pp) #lista todos los usuarios con rol en la fas
+    return render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('fase')
@@ -394,9 +416,9 @@ def desasociar(request,id_usuario, id_fase):
     if proyecto.estado!='PEN':
         return render_to_response('fases/error_activo.html')
     usuario=User.objects.get(id=id_usuario)
-    roles=Group.objects.filter(fase__id=id_fase)
+    roles=Group.objects.filter(fase__id=id_fase) #filtra los roles de la fase
     for rol in roles:
-        usuario.groups.remove(rol)
+        usuario.groups.remove(rol) #remueve el rol del usuario
         usuario.save()
 
     return HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
@@ -415,7 +437,6 @@ def rol_proyecto(request, id_fase):
     roles=Group.objects.filter(fase__id=id_fase)
     return render_to_response('fases/roles_proyecto.html', {'proyectos': proyecto,'fase':fase,'roles':roles},
                               context_instance=RequestContext(request))
-
 
 
 @login_required
@@ -503,7 +524,7 @@ def eliminarrol_proyecto(request, id_rol, id_fase):
     vista para eliminar el rol <id_rol>. Se comprueba que dicho rol no tenga fases asociadas.
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_rol: referencia a los roles
-    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
+    @return: render_to_response('roles/asignar_rol.html', {'datos': grupos}, context_instance=RequestContext(request))
     """
 
     dato = get_object_or_404(Group, pk=id_rol)
