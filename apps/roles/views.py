@@ -9,6 +9,7 @@ from apps.roles.forms import GroupForm
 from django.shortcuts import render_to_response
 from django.db.models import Q
 from apps.fases.models import Fase
+from apps.roles.models import Rol
 from django.contrib import messages
 from SIAP import settings
 

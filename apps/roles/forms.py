@@ -1,5 +1,6 @@
 __author__ = 'alvarenga'
 from django import forms
+from apps.roles.models import Rol
 from django.contrib.auth.models import Group, Permission
 
 

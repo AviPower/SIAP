@@ -328,19 +328,3 @@ def ver_equipo(request, id_proyecto):
     return render_to_response('proyectos/ver_equipo.html',
                               {'proyectos': dato, 'lider': lider, 'comite': comite, 'usuarios': usuarios},
                               context_instance=RequestContext(request))
-
-@login_required
-@permission_required('proyectos')
-def rol_proyecto(request, id_proyecto):
-    """
-    vista que lista los roles que se asignan al proyecto
-    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @param id_proyecto: referencia al proyecto de la base de datos
-    @return: render_to_response
-    """
-    dato = get_object_or_404(Proyecto, pk=id_proyecto)
-    proyecto=Proyecto.objects.get(id=id_proyecto)
-    roles=Group.objects.filter()
-    return render_to_response('proyectos/roles_proyecto.html',
-                              {'proyectos': proyecto,'roles':roles},
-                              context_instance=RequestContext(request))

@@ -1,4 +1,39 @@
 __author__ = 'alvarenga'
+
+from django.db import models
+from django.contrib.auth.models import User
+from apps.proyectos.models import Proyecto
+
+# Create your models here.
+class Rol(models.Model):
+    nombre= models.CharField(max_length=50)
+    usuario= models.ForeignKey(User)                             # El usuario que tiene dicho rol
+    proyecto= models.ForeignKey(Proyecto, null=True)                # A que proyecto se asocia dicho rol
+    #Permisos
+    crear_item= models.BooleanField(default=False,verbose_name='Crear Item')
+    editar_item= models.BooleanField(default=False,verbose_name='Editar Item')
+    consultar_items= models.BooleanField(default=False,verbose_name='Consultar Item')
+    establecer_relacion= models.BooleanField(default=False,verbose_name='Establecer Relacion')
+    eliminar_relacion= models.BooleanField(default=False,verbose_name='Eliminar Relacion')
+    aprobar_item= models.BooleanField(default=False,verbose_name='aprobar item')
+    revivir_item= models.BooleanField(default=False,verbose_name='Revivir Item')
+    reversionar_item= models.BooleanField(default=False,verbose_name='Reversionar Item')
+    #consultar_relaciones= models.BooleanField(default=False,verbose_name='consultar Relaciones')
+
+    agregar_atributo= models.BooleanField(default=False,verbose_name='Agregar Atributo')
+    eliminar_atributo= models.BooleanField(default=False, verbose_name='Eliminar Atributo')
+    completar_atributos= models.BooleanField(default=False, verbose_name='Editar_atributos')
+    consultar_atributos= models.BooleanField(default=False,verbose_name='Consultar Atributos')
+    crear_tipodeitem= models.BooleanField(default=False,verbose_name='Crear Tipo Item')
+    modificar_tipodeitem= models.BooleanField(default=False, verbose_name='Modificar Tipo Item')
+    eliminar_tipodeitem= models.BooleanField(default=False, verbose_name='Eliminar Tipo Item')
+    #crear_lineabase= models.BooleanField(default=False)             # - Permisos de Administracion de Lineas Base
+
+
+    def __unicode__(self):
+        return self.nombre
+
+
 from apps.items.models import Item
 from apps.tiposDeItem.models import TipoItem
 from django.contrib.auth.models import Group, Permission

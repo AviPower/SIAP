@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from apps.fases.models import Fase
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from django.db.models import Q
 from django.contrib import messages
 from SIAP import settings
@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.shortcuts import render
 from apps.proyectos.models import Proyecto
 from apps.fases.forms import FaseForm, ModificarFaseForm, CrearFaseForm
+from apps.roles.forms import GroupForm
 from datetime import datetime
 
 
@@ -44,7 +45,7 @@ def registrar_fase(request, id_proyecto):
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
 
-                if aux>0:#comprobacion de pertenencia de roles
+                if aux>0:
                     aux=1
                 else:
                     proyecto=Proyecto.objects.get(id=id_proyecto)
@@ -400,3 +401,120 @@ def desasociar(request,id_usuario, id_fase):
 
     return HttpResponseRedirect('/fases/proyecto/'+str(fase.proyecto_id))
 
+@login_required
+@permission_required('fase')
+def rol_proyecto(request, id_fase):
+    """
+    vista que lista los roles que se asignan al proyecto por fase
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia al proyecto fase de la base de datos
+    @return: render_to_response
+    """
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    roles=Group.objects.filter(fase__id=id_fase)
+    return render_to_response('fases/roles_proyecto.html', {'proyectos': proyecto,'fase':fase,'roles':roles},
+                              context_instance=RequestContext(request))
+
+
+
+@login_required
+@permission_required('fase')
+def crearol_proyecto(request, id_fase):
+    """
+    vista que crea los roles que se asignan al proyecto por fase
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia al proyecto fase de la base de datos
+    @return: render_to_response
+    """
+
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    if request.method == 'POST':
+        # formulario enviado
+        group_form = GroupForm(request.POST)
+
+        if group_form.is_valid():
+            # formulario validado correctamente
+            rol=group_form.save() #agarra el rol del formulario
+            fase.roles.add(rol) #asigna el rol a la fase
+            fase.save()
+            return HttpResponseRedirect('/fases/roles/'+str(id_fase))
+
+    else:
+        # formulario inicial
+        group_form = GroupForm()
+    return render_to_response('fases/crear_rol.html', {'group_form': group_form,'proyectos': proyecto,'fase':fase},
+                              context_instance=RequestContext(request))
+
+@login_required
+@permission_required('fase')
+def detallerol_proyecto(request,id_rol,id_fase):
+    """
+    Vista para asociar un rol perteneciente a una face a un usuario, asociandolo de esta manera a la fase, y al proyecto
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_rol: referencia al rol de usuario
+    @param id_fase: referencia a la fase dentro de la base de datos
+    @return: render_to_response
+    """
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    rol = Group.objects.get(id=id_rol)
+    dato = get_object_or_404(Group, pk=id_rol)
+    permisos = Permission.objects.filter(group__id=id_rol)
+    return render_to_response('fases/detalle_rol.html',
+                              {'rol': dato, 'permisos': permisos,'fase':fase,'proyectos':proyecto},
+                              context_instance=RequestContext(request))
+
+
+@login_required
+@permission_required('fase')
+def modificarrol_proyecto(request, id_rol, id_fase):
+    """
+    vista que modificar los roles que se asignan al proyecto por fase
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: referencia al proyecto fase de la base de datos
+    @return: render_to_response
+    """
+
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+
+    rol= Group.objects.get(id=id_rol)
+    if request.method == 'POST':
+        # formulario enviado
+        rol_form = GroupForm(request.POST, instance=rol)
+
+        if rol_form.is_valid():
+            # formulario validado correctamente
+            rol_form.save()
+            return HttpResponseRedirect('/fases/roles/'+str(id_fase))
+
+    else:
+        # formulario inicial
+        rol_form = GroupForm(instance=rol)
+    return render_to_response('fases/editar_rol.html', { 'rol': rol_form, 'dato':rol,'fase':fase,'proyectos':proyecto},
+                              context_instance=RequestContext(request))
+
+@login_required
+@permission_required('group')
+def eliminarrol_proyecto(request, id_rol, id_fase):
+    """
+    vista para eliminar el rol <id_rol>. Se comprueba que dicho rol no tenga fases asociadas.
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_rol: referencia a los roles
+    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
+    """
+
+    dato = get_object_or_404(Group, pk=id_rol)
+    users=User.objects.filter(groups__id=dato.id)#usuarios asociados a este rol
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    roles=Group.objects.filter(fase__id=id_fase)
+    if users.count()==0:
+        dato.delete()
+        return render_to_response('fases/roles_proyecto.html', {'proyectos': proyecto,'fase':fase,'roles':roles,'mensaje':1}, context_instance=RequestContext(request))
+    else:
+        return render_to_response('fases/roles_proyecto.html', {'proyectos': proyecto,'fase':fase,'roles':roles,'mensaje':2}, context_instance=RequestContext(request))
+    roles=Group.objects.filter(fase__id=id_fase)
+    return render_to_response('fases/roles_proyecto.html', {'proyectos': proyecto,'fase':fase,'roles':roles, 'mensaje':1000}, context_instance=RequestContext(request))

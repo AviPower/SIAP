@@ -39,4 +39,4 @@ class Proyecto(models.Model):
 
     #Dato Fecha y Hora, almacena la fecha actual
     #tiempo_registro = models.DateTimeField(auto_now=True)
-    roles = models.ManyToManyField(Group)#Un proyecto puede tener mucho roles y no puedo hacer Foreignkey en tabla Group
+    #roles = models.ManyToManyField(Group)#Un proyecto puede tener mucho roles y no puedo hacer Foreignkey en tabla Group

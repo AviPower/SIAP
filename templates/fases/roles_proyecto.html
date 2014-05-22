@@ -23,25 +23,32 @@
 <!-- Container -->
 <div id="container">
     <!-- Content -->
+
     <div id="content" class="change-list" style="width: 700px">
+<div class="breadcrumbs">
+    <a href="/proyectos/">Proyecto {{ proyectos.nombre }}</a>>>
+    <a href="/fases/proyecto/{{proyectos.id}}" > Fase {{ fase.nombre }}</a>
+    > "Lista de roles para proyecto"
+    </div>
 
         <h1>Roles del proyecto {{ proyectos.nombre }}</h1>
+<form >
 
+    <a href="/fases/roles/{{fase.id}}" class="btn btn-success"><i class="icon-refresh"></i></a>
+    </form>
+
+<div id="content-main">
 <ul class="object-tools">
     <li>
-        <a href="/roles/crear" class="addlink">Crear Rol</a>
+        <a href="/fases/roles/crear/{{fase.id}}" class="addlink">Crear Rol</a>
     </li>
 </ul>
-<div id="content-main">
-
         <div class="results" >
         <ul class="errorlist">
-            {% if  mensaje == 0 %}
-            <li>Error: El rol Lider no se puede eliminar</li>
-                {% elif mensaje == 1 %}
+                {% if mensaje == 1 %}
                 <li>Error: Rol eliminado</li>
                 {% elif mensaje == 2 %}
-                <li>Error:  No se puede eliminar. El rol posee fase asociada.</li>
+                <li>Error:  No se puede eliminar. El rol posee Usuario(s) asociado(s).</li>
             {% endif %}
         </ul>
             <table >
@@ -75,12 +82,13 @@
         </tr>
         </thead>
         <tbody>
-        {% for dato in roles  %}
+        {% for rol in roles  %}
             <tr>
-
-                <td><center><a href="/roles/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
-                <td><center><a href="/roles/modificar/{{ dato.pk }}" class="btn btn-warning"><i class="icon-pencil icon-white"></i></a></center></td>
-                <td><center><a href="/roles/eliminar/{{ dato.pk }}" class="btn btn-danger"><i class=" icon-trash icon-white"></i></a></center></td>
+                <td><center>{{ rol.id }}</center></td>
+				<td><center>{{ rol.name }}</center></td>
+                <td><center><a href="/fases/roles/detalle/{{ rol.pk }}-{{ fase.id }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/fases/roles/modificar/{{ rol.pk }}-{{ fase.id }}" class="btn btn-warning"><i class="icon-pencil icon-white"></i></a></center></td>
+                <td><center><a href="/fases/roles/eliminar/{{ rol.pk }}-{{ fase.id }}" class="btn btn-danger"><i class=" icon-trash icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

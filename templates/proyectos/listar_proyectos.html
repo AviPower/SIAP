@@ -85,11 +85,7 @@
                     <a>Modificar</a>
                 </div>
             </th>
-             <th scope="col">
-                <div class="text">
-                    <a>Roles</a>
-                </div>
-            </th>
+
             <th scope="col">
                 <div class="text">
                     <a>Importar</a>
@@ -122,7 +118,7 @@
                 <td><center>{{ dato.fecha_fin }}</center></td>
                 <td><center><a href="/proyectos/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
                 <td><center><a href="/proyectos/modificar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-pencil icon-white"></i></a></center></td>
-                <td><center><a href="/proyectos/roles/{{ dato.pk }}" class="btn "><i class=" icon-shopping-cart icon-black"></i></a></center></td>
+
                 <td><center><a href="/proyectos/importar/{{ dato.pk }}" class="btn btn-warning"><i class="icon-share icon-white"></i></a></center></td>
                 <td><center><a href="/fases/proyecto/{{ dato.pk }}" class="btn btn-danger"><i class=" icon-list-alt icon-white"></i></a></center></td>
                 <td><center><a href="/proyectos/equipo/{{ dato.pk }}" class="btn btn-inverse"><i class="icon-user icon-white"></i></a></center></td>
