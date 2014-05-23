@@ -29,7 +29,9 @@ def listar_proyectos(request):
     fases=[]
     proyectos=[]
     #las fases de en las cuales el usuario tiene un rol
+
     for rol in roles:
+        print(rol.id)
         fase=Fase.objects.get(roles=rol.id)
         fases.append(fase)
     #los proyectos a los que pertenecen esas fases
@@ -40,7 +42,7 @@ def listar_proyectos(request):
     for p in proyectosLider:
         proyectos.append(p)
     setproyectos=set(proyectos)
-    return render_to_response('items/abrir_proyecto.html', {'datos': setproyectos}, context_instance=RequestContext(request))
+    return render_to_response('items/ingresar_proyecto.html', {'datos': setproyectos}, context_instance=RequestContext(request))
 
 @login_required
 def listar_fases(request, id_proyecto):

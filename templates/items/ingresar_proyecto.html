@@ -25,7 +25,7 @@
     <!-- Content -->
     <div id="content" class="change-list">
 
-        <h1>Proyectos del usuario {{ user.username }}</h1>
+        <h1>Listado de Proyectos del Usuario {{ user.username }}</h1>
 
 
 
@@ -36,9 +36,24 @@
             <table >
         <thead>
         <tr>
+            <th scope="col">
+                <div class="text">
+                    <a>Nro</a>
+                </div>
+            </th>
             <th scope="col" class="sortable" >
                 <div class="text">
                     <a>Nombre</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Fecha_de_inicio</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Fecha_de_finalizacion</a>
                 </div>
             </th>
              <th scope="col">
@@ -53,7 +68,7 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Abrir__</a>
+                    <a>Ingresar</a>
                 </div>
             </th>
         </tr>
@@ -61,10 +76,13 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
+                <td><center>{{ dato.id }}</center></td>
                 <td><center>{{ dato.nombre }}</center></td>
+                <td><center>{{ dato.fecha_ini}}</center></td>
+                <td><center>{{ dato.fecha_fin }}</center></td>
 				<td><center>{{ dato.estado }}</center></td>
                 <td><center>{{ dato.lider }}</center></td>
-                <td><center><a href="/desarrollo/proyectos/fases/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>ir>></a></center></td>
+                <td><center><a href="/desarrollo/proyectos/fases/{{ dato.pk }}" class="btn btn-success"><i class="icon-folder-open icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>
