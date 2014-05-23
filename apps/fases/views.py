@@ -286,7 +286,7 @@ def detalle_fase(request, id_fase):
 @permission_required('fase')
 def eliminar_fase(request,id_fase):
     """
-    Vista para eliminar una fase de un proyecto. Busca la fase por su id_fase y lo destruye.
+    Vista para eliminar una fase de un proyecto. Busca la fase por su id_fase y lo destruye. Tambien remueve los usuarios asociados
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
     @return: render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
@@ -294,6 +294,16 @@ def eliminar_fase(request,id_fase):
     fase = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado =='PEN':
+        roles=Group.objects.all().exclude(name='Lider')
+        for rol in roles:
+            fase2=Fase.objects.get(roles__id=rol.id)
+            if fase2.id==fase.id:
+                print(fase2.id,fase.id)
+                user=User.objects.filter(groups__id=rol.id) #obtiene todos los usuarios con ese rol
+                for us in user: #recorre la lista de usuario para desasociarlos cada uno
+                    us.groups.remove(rol) #remueve el rol del usuario
+                    us.save()   #guarda los cambios
+                rol.delete() #elimina el rol que estaba vinculado a la fase del proyecto
         fase.delete()
     fases = Fase.objects.filter(proyecto_id=proyecto.id).order_by('orden')
     return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
