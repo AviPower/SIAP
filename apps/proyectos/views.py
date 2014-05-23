@@ -227,7 +227,6 @@ def cambiar_estado_proyecto(request, id_proyecto):
     proyecto = Proyecto.objects.get(id=id_proyecto)
     nombre = proyecto.nombre
     comite = User.objects.filter(comite__id=id_proyecto)
-
     if request.method == 'POST':
         proyecto_form = CambiarEstadoForm(request.POST, instance=proyecto)
         if proyecto_form.is_valid():
@@ -236,10 +235,12 @@ def cambiar_estado_proyecto(request, id_proyecto):
                 for miembros in comite:
                     cantidad += 1
                 if cantidad % 2 == 0:
-                    return render_to_response('proyectos/cambio_estado_fallido.html', {'dato': id_proyecto},
+                    print('hola')
+                    return render_to_response('proyectos/cambiar_estado_proyecto.html',
+                                              {'proyectos': proyecto_form, 'nombre': nombre,'dato': id_proyecto, 'mensaje':0},
                                               context_instance=RequestContext(request))
                 if cantidad < 3:
-                    return render_to_response('proyectos/cambio_estado_fallido.html', {'dato': id_proyecto},
+                    return render_to_response('proyectos/cambio_estado_proyecto.html', {'proyectos': proyecto_form, 'nombre': nombre,'dato': id_proyecto, 'mensaje':0},
                                               context_instance=RequestContext(request))
                 fases = Fase.objects.filter(proyecto_id=id_proyecto)
                 #obtener todos los roles del proyectos
@@ -267,17 +268,19 @@ def cambiar_estado_proyecto(request, id_proyecto):
                             break
 
                 if contador != comite.count():
-                    return render_to_response('proyectos/cambio_estado_fallido_nocomite.html', {'dato': id_proyecto},
+                    return render_to_response('proyectos/cambiar_estado_proyecto.html',
+                                              {'proyectos': proyecto_form, 'nombre': nombre,'dato': id_proyecto, 'mensaje':1},
                                               context_instance=RequestContext(request))
 
                 if (fases.count() == 0):
-                    return render_to_response('proyectos/cambio_estado_fallido_nofases.html', {'dato': id_proyecto},
+                    return render_to_response('proyectos/cambiar_estado_proyecto.html',
+                                              {'proyectos': proyecto_form, 'nombre': nombre,'dato': id_proyecto, 'mensaje':2},
                                               context_instance=RequestContext(request))
                 for fase in fases:
                     tipoItem = TipoItem.objects.filter(fase_id=fase.id)
                     if tipoItem.count() == 0:
-                        return render_to_response('proyectos/cambio_estado_fallido_notipositem.html',
-                                                  {'dato': id_proyecto, 'fase': fase},
+                        return render_to_response('proyectos/cambiar_estado_proyecto.html',
+                                              {'proyectos': proyecto_form, 'nombre': nombre,'dato': id_proyecto,'fase':fase.id, 'mensaje':3},
                                                   context_instance=RequestContext(request))
 
                 for fase in fases:
@@ -296,8 +299,7 @@ def cambiar_estado_proyecto(request, id_proyecto):
         # formulario inicial
         proyecto_form = CambiarEstadoForm(instance=proyecto)
         return render_to_response('proyectos/cambiar_estado_proyecto.html',
-                                  {'proyectos': proyecto_form, 'nombre': nombre},
-                                  context_instance=RequestContext(request))
+                                  {'proyectos': proyecto_form, 'nombre': nombre,'mensaje':1000}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -310,7 +312,7 @@ def ver_equipo(request, id_proyecto):
     @return: render_to_response('proyectos/ver_equipo.html', {'proyectos':dato,'lider': lider, 'comite':comite, 'usuarios':usuarios}, context_instance=RequestContext(request))
     """
     dato = get_object_or_404(Proyecto, pk=id_proyecto)
-    comite = User.objects.filter(comite__id=id_proyecto)
+    comite = User.objects.filter(comite__id=id_proyecto) #filtra usuarios del comite
     lider = get_object_or_404(User, pk=dato.lider_id)
     fases = Fase.objects.filter(proyecto_id=id_proyecto)
     nombre_roles = []
@@ -319,11 +321,10 @@ def ver_equipo(request, id_proyecto):
         roles = Group.objects.filter(fase__id=fase.id)
         for rol in roles:
             nombre_roles.append(rol)
-            #for nombre in nombre_roles:
             u = User.objects.filter(groups__id=rol.id)
 
             for user in u:
-                uu = user.first_name + " " + user.last_name + "  -  " + rol.name + " en la fase   " + fase.nombre + "\n"
+                uu = user.first_name + " " + user.last_name + "  -  Rol " + rol.name + " asignado a la fase   " + fase.nombre + "\n"
                 usuarios.append(uu)
     return render_to_response('proyectos/ver_equipo.html',
                               {'proyectos': dato, 'lider': lider, 'comite': comite, 'usuarios': usuarios},

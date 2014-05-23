@@ -61,10 +61,10 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.id }}</td>
-				<td>{{ dato.nombre }}</td>
-                <td><a href="/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/tiposDeItem/importar/{{ dato.pk }}-{{ fase.id }}" class="button"><i class="icon-trash"></i>Importar</a></td>
+                <td><center>{{ dato.id }}</center></td>
+				<td><center>{{ dato.nombre }}</center></td>
+                <td><center><a href="/tiposDeItem/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/tiposDeItem/importar/{{ dato.pk }}-{{ fase.id }}" class="btn btn-warning"><i class="icon-share icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

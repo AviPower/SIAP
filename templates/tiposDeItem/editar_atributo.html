@@ -9,12 +9,12 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/tiposDeItem/modificar/{{ id_tipoItem }}">Modificar Tipo De Item</a>
+    <a href="/tiposDeItem/modificar/{{ tipoItem.id }}">Modificar Tipo De Item {{ tipoItem.nombre }}</a>
     ">Modificar Atributo"
     </div>
 
                 <div id="content">
-                <h1>Modificar Atributo</h1>
+                <h1>Modificar Atributo </h1>
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">

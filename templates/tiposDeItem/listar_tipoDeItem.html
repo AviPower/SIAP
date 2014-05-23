@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Fases
+	Tipo de Item
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -25,15 +25,20 @@
     <!-- Content -->
     <div id="content" class="change-list" style="width: 1000px">
     <div class="breadcrumbs">
-    <a href="/fases/proyecto/{{ fase.proyecto_id }}">Fases</a>
-    ">Administracion de Tipos de Item"
+        <a href="/proyectos/">Proyecto {{ proyectos.nombre }}</a>>>
+        <a href="/fases/proyecto/{{proyectos.id}}" > Fase {{ fase.nombre }}</a>>
+    "Tipos de Item"
     </div>
+
         <h1>Administracion de Tipos de Item de la fase {{ fase.nombre }}</h1>
+
     <form action="/tiposDeItem/search/{{fase.id}}" method="get">
-    <label for="q">Nombre: </label>
-    <input type="text" name="q" value="{{ query|escape }}">
-    <li class="icon-search"></li><input type="submit" value="Buscar">
-    <a href="/tiposDeItem/fase/{{fase.id}}" class="button"><i class="icon-filter"></i>Limpiar</a>
+    <label for="q"></label>
+    <input type="text" name="q" value="{{ query|escape }}" class="search-query" placeholder="Buscar Nombre Tipo de item">
+    <div class="btn-group">
+                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+    </div>
+    <a href="/tiposDeItem/fase/{{fase.id}}" class="btn btn-success"><i class="icon-refresh"></i></a>
     </form>
 
 <ul class="object-tools">
@@ -53,7 +58,7 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>__Nro__</a>
+                    <a>Nro</a>
                 </div>
             </th>
              <th scope="col">
@@ -63,17 +68,22 @@
             </th>
              <th scope="col">
                 <div class="text">
-                    <a> ___Detalle___  </a>
+                    <a> Detalle </a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>___Modificar___</a>
+                    <a> Crea Atributo </a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Modificar</a>
                 </div>
             </th>
                         <th scope="col">
                 <div class="text">
-                    <a>_Eliminar_</a>
+                    <a>Eliminar</a>
                 </div>
             </th>
         </tr>
@@ -81,11 +91,12 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td>{{ dato.id }}</td>
-				<td>{{ dato.nombre }}</td>
-                <td><a href="/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-eye-open"></i>Detalle</a></td>
-                <td><a href="/tiposDeItem/modificar/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>Modificar</a></td>
-                <td><a href="/tiposDeItem/eliminar/{{ dato.id }}" class="button"><i class="icon-list-alt"></i>Eliminar</a></td>
+                <td><center>{{ dato.id }}</center></td>
+				<td><center>{{ dato.nombre }}</center></td>
+                <td><center><a href="/tiposDeItem/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/tiposDeItem/{{ dato.id }}/crear_atributo" class="btn btn-info"><i class="icon-leaf icon-white"></i></a></center></td>
+                <td><center><a href="/tiposDeItem/modificar/{{ dato.pk }}" class="btn btn-warning"><i class="icon-pencil icon-white"></i></a></center></td>
+                <td><center><a href="/tiposDeItem/eliminar/{{ dato.id }}" class="btn btn-danger"><i class=" icon-trash icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

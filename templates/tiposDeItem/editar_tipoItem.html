@@ -8,7 +8,9 @@
 <link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 </head>
     <div class="breadcrumbs">
-    <a href="/tiposDeItem/fase/{{id_fase}}">Tipos de Item en Fase</a>
+    <a href="/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>>
+        <a href="/fases/proyecto/{{proyecto.id}}" > Fase {{ fase.nombre }}</a>>>
+    <a href="/tiposDeItem/fase/{{fase.id}}">Tipo de Item {{ dato.nombre }}</a>>
     "> Modificar Tipo Item"
     </div>
 
@@ -17,11 +19,6 @@
 
         <fieldset class="module aligned wide">
         <form method="post">{% csrf_token %}
-    <ul class="object-tools">
-    <li>
-        <a href="/tiposDeItem/{{ dato.id }}/crear_atributo" class="addlink">Nuevo Atributo</a>
-    </li>
-    </ul>
 
     <div class="form-row">
     {{ tipoItem }}
@@ -29,8 +26,9 @@
         {% for atributo in atributos %}
             <div>
             {{ atributo.nombre }}
-            <a class="btn" href="/tiposDeItem/eliminar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}"> Eliminar</a>
-            <a class="btn" href="/tiposDeItem/modificar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}">Modificar</a>
+                <a href="/tiposDeItem/modificar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}"class="btn btn-warning"><i class="icon-pencil icon-white"></i>Modificar</a>
+            <a href="/tiposDeItem/eliminar/tipo_atributo/{{ atributo.pk }}-{{ dato.id }}" class="btn btn-info"><i class=" icon-trash icon-white"></i> Eliminar</a>
+
             </div>
             {% endfor %}
         </div>

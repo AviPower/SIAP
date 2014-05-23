@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from SIAP import settings
 from apps.fases.models import Fase
+from apps.proyectos.models import Proyecto
 from apps.tiposDeItem.forms import TipoItemForm, AtributoForm, TipoItemModForm
 from apps.tiposDeItem.models import TipoItem, Atributo
 
@@ -27,6 +28,8 @@ def crear_tipoItem(request, id_fase):
                                 render_to_response('tiposDeItem/crear_tipoDeItem.html', {'tipoItem_form': tipoItem_form},
                               context_instance=RequestContext(request)) si ya existe.
     """
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
     if request.method == 'POST':
         # formulario enviado
         tipoItem_form = TipoItemForm(request.POST)
@@ -41,7 +44,7 @@ def crear_tipoItem(request, id_fase):
     else:
         # formulario inicial
         tipoItem_form = TipoItemForm()
-    return render_to_response('tiposDeItem/crear_tipoDeItem.html', {'tipoItem_form': tipoItem_form},
+    return render_to_response('tiposDeItem/crear_tipoDeItem.html', {'tipoItem_form': tipoItem_form, 'fase':fase,'proyecto':proyecto},
                               context_instance=RequestContext(request))
 
 
@@ -59,7 +62,8 @@ def listar_tiposItem(request, id_fase):
 
     tiposItem = TipoItem.objects.filter(fase_id=id_fase).order_by('nombre')
     fase = Fase.objects.get(id=id_fase)
-    return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase},
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    return render_to_response('tiposDeItem/listar_tipoDeItem.html', {'datos': tiposItem, 'fase': fase,'proyectos':proyecto},
                               context_instance=RequestContext(request))
 
 
@@ -73,10 +77,11 @@ def detalle_tipoItem(request, id_tipoItem):
     @return render_to_response('tiposDeItem/detalle_tipoDeItem.html', {'datos': dato, 'atributos': atributos},
                               context_instance=RequestContext(request))
     """
-
     dato = get_object_or_404(TipoItem, pk=id_tipoItem)
+    fase = Fase.objects.get(id=dato.fase_id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
     atributos = Atributo.objects.filter(tipoItem__id=id_tipoItem)
-    return render_to_response('tiposDeItem/detalle_tipoDeItem.html', {'datos': dato, 'atributos': atributos},
+    return render_to_response('tiposDeItem/detalle_tipoDeItem.html', {'datos': dato, 'atributos': atributos,'fase':fase,'proyecto':proyecto},
                               context_instance=RequestContext(request))
 
 
@@ -91,6 +96,9 @@ def crear_atributo(request, id_tipoItem):
     @return render_to_response(render_to_response('tiposDeItem/crear_atributo.html'...) de acuerdo al tipo de atributo
     del que se trate
     """
+    dato = get_object_or_404(TipoItem, pk=id_tipoItem)
+    fase = Fase.objects.get(id=dato.fase_id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
 
     if request.method == 'POST':
         # formulario enviado
@@ -108,22 +116,22 @@ def crear_atributo(request, id_tipoItem):
                     fecha = datetime.strptime(str(valor), '%d/%m/%Y')
                 except ValueError:
                     return render_to_response('tiposDeItem/crear_atributo.html',
-                                              {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
-                                               'mensaje': 0}, context_instance=RequestContext(request))
+                                              {'atributo_form': atributo_form, 'tipoItem': dato,
+                                               'mensaje': 0,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
             else:
                 if datatype == "NUM":
                     a = valor.isdigit()
                     if not a:
                         return render_to_response('tiposDeItem/crear_atributo.html',
-                                                  {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
-                                                   'mensaje': 1}, context_instance=RequestContext(request))
+                                                  {'atributo_form': atributo_form, 'tipoItem': dato,
+                                                   'mensaje': 1,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
                 else:
                     if datatype == "LOG":
                         if valor != "Verdadero" and valor != "Falso":
                             return render_to_response('tiposDeItem/crear_atributo.html',
-                                                      {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
-                                                       'mensaje': 2}, context_instance=RequestContext(request))
+                                                      {'atributo_form': atributo_form, 'tipoItem': dato,
+                                                       'mensaje': 2,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
             if mensaje == 1000:  #valida que ya no halla errores de validacion
                 atributo = Atributo(nombre=request.POST["nombre"], tipo=request.POST["tipo"],
                                     valorDefecto=request.POST["valorDefecto"])
@@ -137,7 +145,7 @@ def crear_atributo(request, id_tipoItem):
         # formulario inicial
         atributo_form = AtributoForm()
     return render_to_response('tiposDeItem/crear_atributo.html',
-                              {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem},
+                              {'atributo_form': atributo_form, 'tipoItem': dato,'fase':fase,'proyecto':proyecto},
                               context_instance=RequestContext(request))
 
 
@@ -178,6 +186,7 @@ def modificar_atributo(request, id_atributo, id_tipoItem):
     @return render_to_response('return render_to_response('tiposDeItem/editar_atributo.html', ...) con diferentes variantes de
     acuerdo a los tipos de atributo
     """
+    tipoItem = get_object_or_404(TipoItem, id=id_tipoItem)
     atributo = get_object_or_404(Atributo, pk=id_atributo)
     if request.method == 'POST':
         #formulario enviado
@@ -195,21 +204,21 @@ def modificar_atributo(request, id_atributo, id_tipoItem):
                     fecha = datetime.strptime(str(valor), '%d/%m/%Y')
                 except ValueError:
                     return render_to_response('tiposDeItem/editar_atributo.html',
-                                              {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
+                                              {'atributo_form': atributo_form, 'tipoItem': tipoItem,
                                                'mensaje': 0}, context_instance=RequestContext(request))
             else:
                 if datatype == "NUM":
                     a = valor.isdigit()
                     if not a:
                         return render_to_response('tiposDeItem/editar_atributo.html',
-                                                  {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
+                                                  {'atributo_form': atributo_form, 'tipoItem': tipoItem,
                                                    'mensaje': 1}, context_instance=RequestContext(request))
 
                 else:
                     if datatype == "LOG":
                         if valor != "Verdadero" and valor != "Falso":
                             return render_to_response('tiposDeItem/editar_atributo.html',
-                                                      {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem,
+                                                      {'atributo_form': atributo_form, 'tipoItem': tipoItem,
                                                        'mensaje': 2}, context_instance=RequestContext(request))
             if mensaje == 1000:  #valida que ya no halla errores de validacion
                 atributo_form.save()
@@ -218,7 +227,7 @@ def modificar_atributo(request, id_atributo, id_tipoItem):
         # formulario inicial
         atributo_form =AtributoForm(instance=atributo)
     return render_to_response('tiposDeItem/editar_atributo.html',
-                              {'atributo_form': atributo_form, 'id_tipoItem': id_tipoItem, 'mensaje':1000},
+                              {'atributo_form': atributo_form, 'tipoItem': tipoItem, 'mensaje':1000},
                               context_instance=RequestContext(request))
 
 @login_required
@@ -235,6 +244,8 @@ def editar_tipoItem(request, id_tipoItem):
     tipoItem = get_object_or_404(TipoItem, id=id_tipoItem)
     atributos = Atributo.objects.filter(tipoItem__id=id_tipoItem)
     id_fase = tipoItem.fase_id
+    fase = Fase.objects.get(id=tipoItem.fase_id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
     if request.method == 'POST':
         # formulario enviado
         tipoItem_form = TipoItemModForm(request.POST, instance=tipoItem)
@@ -249,7 +260,7 @@ def editar_tipoItem(request, id_tipoItem):
         # formulario inicial
         tipoItem_form = TipoItemModForm(instance=tipoItem)
     return render_to_response('tiposDeItem/editar_tipoItem.html',
-                              {'atributos': atributos, 'tipoItem': tipoItem_form, 'dato': tipoItem, 'id_fase': id_fase},
+                              {'atributos': atributos, 'tipoItem': tipoItem_form, 'dato': tipoItem, 'fase': fase, 'proyecto':proyecto},
                               context_instance=RequestContext(request))
 
 

@@ -9,8 +9,10 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/tiposDeItem/fase/{{datos.fase.id}}">Tipos de Item en Fase</a>
-    "> Detalle_Tipo_de_Item"
+    <a href="/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>>
+        <a href="/fases/proyecto/{{proyecto.id}}" > Fase {{ fase.nombre }}</a>>>
+    <a href="/tiposDeItem/fase/{{datos.fase.id}}">Tipos de Item en Fase</a>>
+    " Detalle Tipo de Item"
     </div>
 
                 <div id="content">
@@ -18,8 +20,8 @@
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
-            <div><strong>Nombre: </strong>{{ datos.nombre }}</div>
             <div><strong>Codigo: </strong>{{ datos.id }}</div>
+            <div><strong>Nombre: </strong>{{ datos.nombre }}</div>
             <div><strong>Descripción: </strong>{{datos.descripcion }}</div>
             <h5><strong>Tipos de Atributo: </strong></h5>
             {% for atributo in atributos %}

@@ -9,12 +9,14 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/tiposDeItem/modificar/{{ id_tipoItem }}">Modificar Tipo De Item</a>
+    <a href="/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>>
+        <a href="/fases/proyecto/{{proyecto.id}}" > Fase {{ fase.nombre }}</a>>>
+    <a href="/tiposDeItem/fase/{{fase.id}}">Tipo de Item {{ tipoItem.nombre }}</a>>
     ">Nuevo Atributo"
     </div>
 
                 <div id="content">
-                <h1>Crear Atributo</h1>
+                <h1>Crear Atributo </h1>
        <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">

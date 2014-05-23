@@ -47,7 +47,7 @@
         <tbody>
         {% for dato in roles  %}
             <tr>
-                <td><a class="btn btn-large btn-warning" href="/fases/asociar/{{ dato.pk }}-{{ usuario.pk }}-{{ fase.id }}"><li class="icon-plus-sign icon-white"></li> {{ dato.name }}</a>
+                <td><center><a class="btn btn-large btn-warning" href="/fases/asociar/{{ dato.pk }}-{{ usuario.pk }}-{{ fase.id }}"><li class="icon-plus-sign icon-white"></li> {{ dato.name }}</a></center>
 </td>
             </tr>
             {% empty %}

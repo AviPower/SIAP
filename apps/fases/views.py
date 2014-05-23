@@ -399,7 +399,7 @@ def desasignar_usuario(request,id_fase):
         p=User.objects.filter(groups__id=rol.id)
         for pp in p:
             usuarios.append(pp) #lista todos los usuarios con rol en la fas
-    return render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    return render_to_response('fases/desasignar_usuarios.html', {'datos': usuarios,'fase':fase,'proyecto':proyecto,'roles':roles}, context_instance=RequestContext(request))
 
 @login_required
 @permission_required('fase')

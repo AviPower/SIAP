@@ -28,9 +28,25 @@
     <div id="content" class="colM">
     <h1>Cambiar Estado del Proyecto {{ nombre|title }} </h1>
 <form action="" method="post">{% csrf_token %}
+    <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: El proyecto no posee la cantidad suficiente, o posee un numero par de miembros del comite. Modifiquelos, por favor.
+                <a href="/proyectos/modificar/{{ dato }}" class="btn btn-danger">Modificar</a></li>
+                {% elif mensaje == 1 %}
+                <li>Error: El proyecto posee miembros del comite que no pertenecen a ninguna fase.. Favor asignarlos a una..
+                <a href="/fases/proyecto/{{ dato }}" class="btn btn-danger">Asignar Rol</a></li>
+                {% elif mensaje == 2 %}
+                <li>Error: El proyecto no posee ninguna fase. Agregue una o mas fases al proyecto, por favor.
+                <a href="/fases/proyecto/{{ dato }}" class="btn btn-danger">Agregar Fases</a></li>
+                {% elif mensaje == 3 %}
+                <li>Error: La fase {{ fase.nombre }} aun no posee Tipos de Item.
+                <a href="/tiposDeItem/registrar/{{ fase }}" class="btn btn-danger">Agregar Tipo de Item</a></li>
+            {% endif %}
+        </ul>
+
     {{ proyectos }}
 
-    <input type="submit" value="Guardar cambios">
+    <input class="btn btn-primary" type="submit" value="Guardar cambios">
 </form>
 
 

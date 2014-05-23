@@ -12,11 +12,11 @@
     "> Ver_Equipo"
     </div>
     <div id="content">
-    <h1>Equipo de {{proyecto.nombre|title}}</h1>
+    <h1>Equipo de {{proyectos.nombre|title}}</h1>
         <fieldset class="module aligned wide">
 <form method="post">{% csrf_token %}
     <div class="form-row">
-    <div><strong>Lider: </strong>{{ lider.first_name}} {{ lider.last_name}}</div>
+    <div><strong>Lider: </strong>{{ lider.first_name}} {{ lider.last_name}} ({{ lider.username }})</div>
             <div><strong> Miembros del comite: </strong></div>
             {% for integrante in comite %}
                 <li>{{ integrante.first_name}} {{ integrante.last_name}}</li>
