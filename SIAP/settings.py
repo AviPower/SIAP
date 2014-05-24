@@ -51,7 +51,8 @@ INSTALLED_APPS = (
     'apps.roles',
     'apps.fases',
     'apps.tiposDeItem',
-    'apps.items'
+    'apps.items',
+    'apps.solicitudes'
 )
 
 DELETE_MESSAGE = 50

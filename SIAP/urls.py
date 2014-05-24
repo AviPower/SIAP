@@ -22,4 +22,6 @@ urlpatterns = patterns('',
     #Administracion Desarrollo items Proyectos en ejecucion
     url(r'^desarrollo/',include('apps.items.urls')),
     url(r'^denegado/$',TemplateView.as_view(template_name='403.html')),
+    #SOLICITUDES DE CAMBIO
+    url(r'^solicitudes/',include('apps.solicitudes.urls')),
 )
