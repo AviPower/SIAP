@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	abrir_fase
+	Linea Base
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -23,40 +23,37 @@
 <!-- Container -->
 <div id="container">
     <!-- Content -->
-    <div id="content" class="change-list">
-<div class="breadcrumbs">
-    <a href="/desarrollo/proyectos/">Proyectos en Ejecucion</a>
-    ">Fases"
+    <div id="content" class="change-list" style="width: 1050px">
+    <div class="breadcrumbs">
+        <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>
+        <a href="/desarrollo/proyectos/fases/{{ proyecto.id }}">Fase en Ejecucion {{ fase.nombre }}</a>>
+    ">Administracion de Linea Base"
     </div>
-        <h1>Fases del proyecto {{ proyecto.nombre }}</h1>
+        <h1>Administracion de Linea Base</h1>
 
+<ul class="object-tools">
+    <li>
 
-
+        <a href="/lineaBase/crear/{{ fase.id }}" class="addlink">Generar Linea Base</a>
+    </li>
+</ul>
 <div id="content-main">
 
-        <div class="results" >
 
-            <table >
+
+
+        <div class="results" >
+        <center><table >
         <thead>
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>Orden</a>
+                    <a>__Nombre__</a>
                 </div>
             </th>
-             <th scope="col">
+            <th scope="col">
                 <div class="text">
-                    <a> _Nombre_ </a>
-                </div>
-            </th>
-             <th scope="col">
-                <div class="text">
-                    <a>__Estado__</a>
-                </div>
-            </th>
-             <th scope="col">
-                <div class="text">
-                    <a>__Abrir__</a>
+                    <a>_Ver Detalle_</a>
                 </div>
             </th>
         </tr>
@@ -64,15 +61,13 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td><center>{{ dato.orden }}</center></td>
-				<td><center>{{ dato.nombre }}</center></td>
-                <td><center>{{ dato.estado }}</center></td>
-                <td><center><a href="/desarrollo/fases/tiposDeItem/{{ dato.pk }}" class="button"><i class="icon-pencil"></i>ir>></a></center></td>
+                <td><center>{{ dato.nombre}}</center></td>
+                <td><center><a href="#"  class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>
 
-        </table>
+        </table></center>
         </div>
 
 

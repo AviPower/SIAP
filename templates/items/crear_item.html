@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Nuevo_Proyecto
+	Nuevo_Item
 {% endblock %}
 {% block content %}
     <head>
@@ -9,15 +9,18 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/proyectos/">Proyectos</a>
-    "> Nuevo Proyecto"
+        <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a> >>>>
+        <a href="/desarrollo/proyectos/fases/{{ proyecto.id }}">Fase en Ejecucion {{ fase.nombre }}</a> >>>
+        <a href="/desarrollo/item/listar/{{ fase.id }}">Administracion de Items</a> >>
+        <a href="/desarrollo/item/selectTipoItem/{{fase.id }}" > Seleccion de Tipo de Item</a> >
+        "Crear Item"
     </div>
 
                 <div id="content">
-                <h1>Crear Proyecto</h1>
+                <h1>Crear Item</h1>
        <fieldset class="module aligned wide">
 <form method='post' action='' enctype="multipart/form-data">{% csrf_token %}
-    <div class="form-row">
+    <div class="form-row" >
     	{{formulario.as_p}}
         <br>
 {% if not hijo %}
@@ -30,7 +33,7 @@ Antecesor:
 </select>
 {% endif %}
 {% if atri !=  0%}
-Atributos
+<div><center>Atributos
 	            	<div style="height:150px;width:430px;overflow:auto;">
 	            	<table width="50%" border="1">
 					<tr>
@@ -50,9 +53,10 @@ Atributos
 					</table>
 				    <br>
             </div>
-{% endif %}
+{% endif %}</center>
+    </div>
     <br>
-        <input type="file" name="file" id="id_file" />
+        <center><input type="file" name="file" id="id_file" /></center>
 	<br>
         </div>
     <div class="submit-row">

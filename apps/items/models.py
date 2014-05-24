@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import Group
 from apps.tiposDeItem.models import TipoItem, Atributo
+from apps.fases.models import Fase
 
 # Create your models here.
 ESTADOS = (
@@ -29,6 +30,7 @@ class Item(models.Model):
     fecha_creacion=models.DateField(verbose_name='Fecha de Creacion')
     fecha_mod=models.DateField(verbose_name='Fecha de Modificacion')
     tipo_item=models.ForeignKey(TipoItem)
+    fase=models.ForeignKey(Fase)
 
 class VersionItem(models.Model):
     id_item=models.ForeignKey(Item, verbose_name='Item', related_name='itemVersion')

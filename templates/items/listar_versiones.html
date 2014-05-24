@@ -85,9 +85,8 @@
                 <td>{{ dato.version }}</td>
                 <td>{{ dato.estado }}</td>
 		                <td><center><a class="btn"  href="/desarrollo/item/detalle/version/{{ dato.id }}"><li class="icon-eye-open"></li> Ver Detalle</a></center> </td>
-                <td><center><a class="btn"  href="/desarrollo/item/detalle/version/{{ dato.id }}"> reversionar</a></center> </td>
-                        <td><form class="ask-plain" action='{% url 'items.viewsItems.reversionar_item' dato.id %}'  >
-                        <input class="btn" type="submit" value="Volver a esta version" ><li class="icon-backward"></li></form></td>
+                <td><center><a class="btn"  href="/desarrollo/item/reversionar/{{ dato.id }}"> reversionar</a></center> </td>
+
             </tr>
         {% endfor %}
         </tbody>

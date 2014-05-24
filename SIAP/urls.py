@@ -22,4 +22,7 @@ urlpatterns = patterns('',
     #Administracion Desarrollo items Proyectos en ejecucion
     url(r'^desarrollo/',include('apps.items.urls')),
     url(r'^denegado/$',TemplateView.as_view(template_name='403.html')),
+
+    #Administracion de Linea Base
+    url(r'^lineaBase/',include('apps.lineaBase.urls')),
 )
