@@ -6,6 +6,27 @@ from apps.proyectos.models import Proyecto
 
 # Create your models here.
 class Rol(models.Model):
+    """
+    Clase del Modelo que representa al proyecto con sus atributos.
+    @cvar nombre: Cadena de caracteres
+    @cvar usuario: Clave foranea a la tabla User
+    @cvar proyecto: Clave foranea a la tabla Proyecto
+    @cvar crear_item: Campo booelano
+    @cvar editar_item: Campo booelano
+    @cvar consultar_items: Campo booelano
+    @cvar establecer_relacion: Campo booelano
+    @cvar eliminar_relacion: Campo booelano
+    @cvar aprobar_item: Campo booelano
+    @cvar revivir_item: Campo booelano
+    @cvar reversionar_item: Campo booelano
+    @cvar agregar_atributo: Campo booelano
+    @cvar eliminar_atributo: Campo booelano
+    @cvar completar_atributos: Campo booelano
+    @cvar consultar_atributos: Campo booelano
+    @cvar crear_tipodeitem: Campo booelano
+    @cvar modificar_tipodeitem: Campo booelano
+    @cvar eliminar_tipodeitem: Campo booelano
+    """
     nombre= models.CharField(max_length=50)
     usuario= models.ForeignKey(User)                             # El usuario que tiene dicho rol
     proyecto= models.ForeignKey(Proyecto, null=True)                # A que proyecto se asocia dicho rol

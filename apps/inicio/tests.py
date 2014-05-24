@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 '''Created on April 11, 2014
 @author: msekatcheff
 
@@ -20,7 +20,7 @@ class SIAPTestSuite_it1(unittest.TestCase):
 
     def setUp(self):
         """
-        Función que inicializa el test con Datos de Prueba sobre usuarios
+        Funcion que inicializa el test con Datos de Prueba sobre usuarios
         sobre datos de la BD
         """
 
@@ -80,7 +80,7 @@ from .models import Perfiles
 class UserFormTestCase(TestCase):
 
     def test_valid_form(self):
-        "Enviar válida data."
+
         user = User.objects.create(username='avi',first_name='avelina',last_name='alvarenga',email='avi@avi.com')
         perfil=Perfiles()
         perfil.usuario=user

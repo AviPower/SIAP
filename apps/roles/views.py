@@ -44,7 +44,7 @@ def lista_roles(request):
     """
     vista para listar los roles existentes en el sistema
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return: render_to_response('roles/asignar_rol.html', {'datos': grupos}, context_instance=RequestContext(request))
+    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
     """
 
     grupos = Group.objects.all()
@@ -56,7 +56,7 @@ def buscarRol(request):
     """
     vista para buscar un rol entre todos los registrados en el sistema
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return: return render_to_response('roles/asignar_rol.html', {'datos': results}, context_instance=RequestContext(request))
+    @return: return render_to_response('roles/listar_roles.html', {'datos': results}, context_instance=RequestContext(request))
     """
     query = request.GET.get('q', '')
     if query:
@@ -90,7 +90,7 @@ def eliminar_rol(request, id_rol):
     vista para eliminar el rol <id_rol>. Se comprueba que dicho rol no tenga fases asociadas.
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_rol: referencia a los roles
-    @return: render_to_response('roles/asignar_rol.html', {'datos': grupos}, context_instance=RequestContext(request))
+    @return: render_to_response('roles/listar_roles.html', {'datos': grupos}, context_instance=RequestContext(request))
     """
 
     dato = get_object_or_404(Group, pk=id_rol)
@@ -134,4 +134,3 @@ def editar_rol(request,id_rol):
         # formulario inicial
         rol_form = GroupForm(instance=rol)
     return render_to_response('roles/editar_rol.html', { 'rol': rol_form, 'dato':rol}, context_instance=RequestContext(request))
-

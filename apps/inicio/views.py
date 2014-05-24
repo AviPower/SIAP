@@ -6,8 +6,8 @@ from .models import Perfiles
 
 class Registrarse(FormView):
     """
-    Recibe un
-    @param @type {FormView}
+    Recibe un @ctype  {FormView} y asigna un template para la operacion
+    @c param FormView
     """
     template_name = 'inicio/registrarse.html'
     form_class = UserForm
@@ -15,7 +15,9 @@ class Registrarse(FormView):
 
     def form_valid(self, form):
         """
-        
+        Formulario que valida los datos de usuario y perfil. Luego limpia los datos para comprobacion
+        @param self: referencia al objeto
+        @param form: Formulario de validacion del usuario
         """
         user = form.save()
         perfil = Perfiles()

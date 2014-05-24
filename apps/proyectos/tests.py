@@ -1,9 +1,9 @@
+# -*- coding: utf-8 -*-
 from lib2to3.fixer_util import p1
 
 __author__ = 'alvarenga'
 
 from django.test import TestCase, Client
-from apps.proyectos.models import Proyecto
 from django.contrib.auth.models import User
 from apps.inicio.models import Perfiles
 from apps.proyectos.models import Proyecto

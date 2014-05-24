@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'teaser'
 from django.test import TestCase, Client
 from apps.fases.models import Fase
