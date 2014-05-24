@@ -25,11 +25,10 @@
     <!-- Content -->
     <div id="content" class="change-list">
 <div class="breadcrumbs">
-    <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>
-    <a href="/desarrollo/proyectos/fases/{{ fase.proyecto_id }}">Fase en Ejecucion {{ fase.nombre }}</a>>
-    "Tipos de Item"
+    <a href="/desarrollo/proyectos/">Proyecto en Ejecucion {{ proyecto.nombre }}</a>
+    >"Listado de Fases"
     </div>
-        <h1>Tipos de Item de la fase {{ fase.nombre }}</h1>
+        <h1>Fases del proyecto {{ proyecto.nombre }}</h1>
 
 
 
@@ -42,7 +41,7 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>codigo</a>
+                    <a>Orden</a>
                 </div>
             </th>
              <th scope="col">
@@ -50,14 +49,29 @@
                     <a> _Nombre_ </a>
                 </div>
             </th>
+            <th scope="col">
+                <div class="text">
+                    <a> Fecha_de_Inicio </a>
+                </div>
+            </th>
              <th scope="col">
                 <div class="text">
-                    <a><center>Descripcion</center></a>
+                    <a>_Estado_</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a><center>Detalle</center></a>
+                    <a>Tipos_de_Items</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>Items</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Linea_Base</a>
                 </div>
             </th>
         </tr>
@@ -65,10 +79,13 @@
         <tbody>
         {% for dato in datos  %}
             <tr>
-                <td><center>{{ dato.id }}</center></td>
+                <td><center>{{ dato.orden }}</center></td>
 				<td><center>{{ dato.nombre }}</center></td>
-                <td><center>{{ dato.descripcion }}</center></td>
-                <td><center><a href="/desarrollo/fases/tiposDeItem/detalle/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center>{{ dato.fInicio }}</center></td>
+                <td><center>{{ dato.estado }}</center></td>
+                <td><center><a href="/desarrollo/fases/tiposDeItem/{{ dato.pk }}"class="btn btn-warning"><i class="icon-briefcase icon-white"></i></a></center></td>
+                <td><center><a href="/desarrollo/item/listar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-tasks icon-white"></i></a></center></td>
+                <td><center><a href="/lineaBase/listar/{{ dato.pk }}"class="btn btn-inverse"><i class="icon-inbox icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

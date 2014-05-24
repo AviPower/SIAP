@@ -9,8 +9,10 @@
 
 </head>
     <div class="breadcrumbs">
-    <a href="/desarrollo/item/listar/{{ datos.tipo_item.id }}">Item en Fase</a>
-    "> Detalle__Item"
+    <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a> >>>
+        <a href="/desarrollo/proyectos/fases/{{ proyecto.id }}">Fase en Ejecucion {{ fase.nombre }}</a>>>
+        <a href="/desarrollo/item/listar/{{ fase.id }}">Administracion de Items</a> >
+    " Detalle Item"
     </div>
 
                 <div id="content">
@@ -47,10 +49,9 @@
                 <strong>Archivos: </strong>
                 {% for archivo in archivos %}
 
-                    <form  action='{% url 'items.viewsItems.des' archivo.id %}'>
-                        <input type="submit" value='Descargar {{ archivo.archivo }}'>
+                    <form  action="/desarrollo/item/descargar/{{ archivo.id}}">
                         </form>
-
+                    <a href="/desarrollo/item/descargar/{{ archivo.id}}" class="btn btn-success"><i class="icon-download-alt icon-white"></i>{{ archivo.archivo }}</a>
 
                 {% endfor %}
               </div>

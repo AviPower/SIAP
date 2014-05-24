@@ -8,7 +8,10 @@
 <link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 </head>
     <div class="breadcrumbs">
-    <a href="/desarrollo/item/listar/{{ titem.id }}">Modificar Item</a>
+    <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a> >>>>
+        <a href="/desarrollo/proyectos/fases/{{ proyecto.id }}">Fase en Ejecucion {{ fase.nombre }}</a> >>>
+        <a href="/desarrollo/item/listar/{{ fase.id }}">Administracion de Items</a> >>
+    <a href="/desarrollo/item/modificar/{{ titem }}">Modificar Item</a>
     "> Archivos "
     </div>
 
@@ -20,16 +23,20 @@
 
     <div class="form-row">
     {{ tipoItem }}
-        <h5><strong>Tipos de Atributo: </strong></h5>
+        <h5><strong>Archivos: </strong></h5>
         {% for dato in archivos %}
             <div>
             {{ dato.archivo }}
-            <a class="btn" href="/desarrollo/item/archivos/eliminar/{{ dato.id }}"> Eliminar</a>
+            <a  href="/desarrollo/item/archivos/eliminar/{{ dato.id }}" class="btn btn-danger"><i class=" icon-trash icon-white"></i> Eliminar</a>
             </div>
             {% endfor %}
         </div>
+    <br>
+        <center><input type="file" name="file" id="id_file" /></center>
+	<br>
+
     <div class="submit-row">
-    <input type="submit" value="Guardar Cambios" />
+    <input type="submit" value="Confirmar" />
         </div>
 </form>
             </fieldset>

@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Item_Existosa
+	Proyecto_no_registrado
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -13,7 +13,6 @@
 <meta name="robots" content="NONE,NOARCHIVE" />
 </head>
 
-
 <body class="">
 
 <!-- Container -->
@@ -21,20 +20,31 @@
 
 
 <div class="breadcrumbs">
-<a href='/desarrollo/item/listar/{{id_fase}}' > Regresar al listado</a>
-&rsaquo; Creo un Item
+<a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a> >>>
+        <a href="/desarrollo/proyectos/fases/{{ proyecto.id }}">Fase en Ejecucion {{ fase.nombre }}</a>>>
+        <a href="/desarrollo/item/listar/{{ fase.id }}">Administracion de Items</a> >
+&rsaquo; Estados del Item
 </div>
-
-
 
     <!-- Content -->
     <div id="content" class="colM">
+    <h1>Cambiar Padre del Item {{ item.nombre|title }} </h1>
+<form  method='post' action='' enctype="multipart/form-data">{% csrf_token %}
+Padre:
+<select name="entradalista">
+    {% for item in items %}
+    <option>{{ item.nombre}}</option>
+    {% endfor %}
+
+</select>
 
 
-<h1>Registro de Item, exitoso</h1>
 
-<p>Item registrado Correctamente.</p>
 
+    <br>
+    <br>
+    <input type="submit" value="Cambiar relacion">
+    </form>
 
 
         <br class="clear" />
