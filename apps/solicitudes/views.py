@@ -24,9 +24,9 @@ __text__ = 'Este modulo contiene funciones que permiten el control de solicitude
 @permission_required('fases')
 def registrar_solicitud(request):
     """
-    vista para crear un rol, que consta de un nombre y una lista de permisos
+    vista para crear un solicitud, que consta de un nombre y una lista de permisos
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return: return HttpResponseRedirect('/roles/register/success/') o render_to_response('roles/crear_rol.html', { 'group_form': group_form}, context_instance=RequestContext(request))
+    @return: return HttpResponseRedirect o render_to_response
     """
     if request.method == 'POST':
         # formulario enviado
@@ -35,7 +35,7 @@ def registrar_solicitud(request):
         if solicitud_form.is_valid():
             # formulario validado correctamente
             solicitud_form.save()
-            return HttpResponseRedirect('/solicitudes/register/success/')
+            return HttpResponseRedirect('/solicitudes/listar/')
 
     else:
         # formulario inicial
