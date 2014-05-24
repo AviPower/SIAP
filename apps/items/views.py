@@ -18,10 +18,11 @@ from django import forms
 
 @login_required
 def listar_proyectos(request):
-
-    '''
+    """
     vista para listar los proyectos asignados a un usuario expecifico
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @return render_to_response('items/ingresar_proyecto.html', {'datos': setproyectos}, context_instance=RequestContext(request))
+    """
     usuario = request.user
     #proyectos del cual es lider y su estado es activo
     proyectosLider = Proyecto.objects.filter(lider_id=usuario.id, estado='ACT')
@@ -47,10 +48,12 @@ def listar_proyectos(request):
 
 @login_required
 def listar_fases(request, id_proyecto):
-
-    '''
+    """
     vista para listar las fases asignadas a un usuario de un proyecto especifico
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_proyecto: clave foranea al proyecto
+    @return: render_to_response(...)
+    """
     #busca todas las fases del proyecto
     fasesProyecto=Fase.objects.filter(proyecto_id=id_proyecto, estado='EJE')
     usuario = request.user
@@ -75,11 +78,14 @@ def listar_fases(request, id_proyecto):
     return render_to_response('items/ingresar_fase.html', {'datos': fases, 'nivel':nivel, 'proyecto':proyecto}, context_instance=RequestContext(request))
 
 def es_miembro(id_usuario, id_fase,permiso):
-    '''
+    """
     funcion que recibe el id de un usuario y de una fase y devuelve true si el usuario tiene alguna fase asignada
     o false si no tiene ningun rol en esa fase
     Ademas verifica que el estado de la fase se EJE
-    '''
+    @param id_usuario: clave foranea al usuario
+    @param id_fase: clave foranea a la fase
+    @return booelean
+    """
 
     fase=get_object_or_404(Fase,id=id_fase) #busca la fase
     usuario=User.objects.get(id=id_usuario) #busca el usuario
@@ -109,10 +115,12 @@ def es_miembro(id_usuario, id_fase,permiso):
 
 @login_required
 def listar_tiposDeItem(request, id_fase):
-
-    '''
+    """
     vista para listar los tipos de item de las fases asignadas a un usuario de un proyecto especifico
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: clave foranea a la fase
+    @return render_to_response(...)
+    """
     #se comprueba que el usuario sea miembro de esa fase, si no es alguien sin permisos
     flag=es_miembro(request.user.id, id_fase,'') # true si es mienbro de la fase
 
@@ -145,11 +153,13 @@ def detalle_tiposDeItem(request, id_tipoItem):
 
 
 def cantidad_items(id_tipoItem):
-    '''
+    """
     funcion para contar la cantidad de items ya creados en una fase
     Si aun no se alcanzo el limite devuelve True,
     Ademas verifica que la fase a agregar items no tenga estado FIN
-    '''
+    @param id_tipoItem: clave foranea al tipoItem
+    @return: boolean
+    """
     titem=get_object_or_404(TipoItem,id=id_tipoItem)
     fase=Fase.objects.get(id=titem.fase_id)
     if fase.estado=='FIN':
@@ -165,9 +175,12 @@ def cantidad_items(id_tipoItem):
 
 
 def seleccion_tipoItem(request,id_fase):
-    '''
+    """
     funcion que determinara el tipo de item
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_fase: clave foranea a la fase
+    @return render_to_response('items/seleccion_TipoItem.html', { 'TipoItem':Titem, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    """
 
     fase = Fase.objects.get(id=id_fase)
     #if fase.estado=='EJE':
@@ -181,10 +194,13 @@ def seleccion_tipoItem(request,id_fase):
 @login_required
 
 def crear_item(request,id_tipoItem):
-    '''
+    """
     Vista para crear un item y asignarlo a un tipo de item. Ademas se dan las opciones de agregar un
     archivo al item, y de completar todos los atributos de su tipo de item
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_tipoItem: clave foranea al tipoItem
+    @ return render_to_response('items/...) o render_to_response('403.html')
+    """
     atri=1
 #if cantidad_items(id_tipoItem):
     id_fase=TipoItem.objects.get(id=id_tipoItem).fase_id
@@ -255,11 +271,13 @@ def crear_item(request,id_tipoItem):
 
 
 def puede_add_items(id_fase):
-    '''
+    """
     Funcion que verifica que ya se pueden agregar items a una fase. Si es la primera fase, se puede
     Si no, se verifica que la fase anterior tenga items en una linea base para poder agregar items a la
     fase siguiente.
-    '''
+    @param id_fase: clave foranea a la fase
+    @return: boolean
+    """
     fase=Fase.objects.get(id=id_fase)
     if fase.orden==1:
         return True
@@ -277,9 +295,12 @@ def puede_add_items(id_fase):
 @login_required
 
 def listar_items(request,id_fase):
-    '''
+    """
     vista para listar los items pertenecientes a la fase
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea a la fase
+    @return render_to_response(..) o HttpResponse(...)
+    """
     titem=get_object_or_404(Fase,id=id_fase)
     fase=Fase.objects.filter(id=id_fase)
     if es_miembro(request.user.id,fase,''):
@@ -298,9 +319,10 @@ def listar_items(request,id_fase):
         return render_to_response('403.html')
 
 def generar_version(item):
-    '''
+    """
     funcion para generar y guardar una nueva version de un item a modificar
-    '''
+    @param item: item asociado
+    """
     today = datetime.now() #fecha actual
     dateFormat = today.strftime("%Y-%m-%d") # fecha con format
     item_viejo=VersionItem(id_item=item, nombre=item.nombre, descripcion=item.descripcion, fecha_mod=dateFormat, version=item.version, costo=item.costo, tiempo=item.tiempo, tipo_item=item.tipo_item, relacion=item.relacion, tipo=item.tipo, estado=item.estado )
@@ -308,9 +330,12 @@ def generar_version(item):
 
 
 def editar_item(request,id_item):
-    '''
+    """
     vista para cambiar el nombre y la descripcion del tipo de item, y ademas agregar atributos al mismo
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response(..) o HttpResponse(...)
+    """
     id_tipoItem=get_object_or_404(Item,id=id_item).tipo_item_id
     id_fase=get_object_or_404(TipoItem,id=id_tipoItem).fase_id
     fase=Fase.objects.get(id=id_fase)
@@ -349,9 +374,12 @@ def editar_item(request,id_item):
 @login_required
 ###################FALTA CORREGIR VOLVER A CARGAR
 def listar_archivos(request, id_item):
-    '''
-    vista para gestionar los archivos de un item dado'
-    '''
+    """
+    vista para gestionar los archivos de un item dado
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response(..)
+    """
 
     titem=get_object_or_404(Item,id=id_item).tipo_item
     fase=titem.fase_id
@@ -371,9 +399,12 @@ def listar_archivos(request, id_item):
 @login_required
 
 def eliminar_archivo(request, id_archivo):
-    '''
+    """
     vista que recibe el id de un archivo y lo borra de la base de datos
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_archivo: clave foranea al archivo a eliminar
+    @return HttpResponseRedirect('/desarrollo/item/archivos/'+str(item.id))
+    """
 
     archivo=get_object_or_404(Archivo,id=id_archivo)
     item=archivo.id_item
@@ -382,10 +413,12 @@ def eliminar_archivo(request, id_archivo):
 
 @login_required
 def detalle_item(request, id_item):
-
-    '''
+    """
     vista para ver los detalles del item <id_item>
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response(..)
+    """
     item=get_object_or_404(Item,id=id_item)
     tipoitem=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fase=tipoitem.fase_id
@@ -404,6 +437,9 @@ def detalle_item(request, id_item):
 def listar_versiones(request,id_item):
     '''
     vista para listar todas las versiones existentes de un item dado
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return HttpResponseRedirect('/desarrollo/item/archivos/'+str(item.id))
     '''
     item=get_object_or_404(Item,id=id_item)
     titem=get_object_or_404(TipoItem,id=item.tipo_item_id)
@@ -418,10 +454,12 @@ def listar_versiones(request,id_item):
 
 @login_required
 def detalle_version_item(request, id_version):
-
-    '''
+    """
     vista para ver los detalles del item <id_item>
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response(..)
+    """
     item=get_object_or_404(VersionItem,id=id_version)
     tipoitem=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fase=tipoitem.fase_id
@@ -433,9 +471,11 @@ def detalle_version_item(request, id_version):
         return render_to_response('403.html')
 
 def volver_item(version,rel):
-    '''
+    """
     funcion que vuelve a  una version anterior de un item dado
-    '''
+    @param version: version a comprobar
+    @param rel: relacion
+    """
     today = datetime.now() #fecha actual
     dateFormat = today.strftime("%Y-%m-%d") # fecha con format
     item=get_object_or_404(Item,id=version.id_item_id)
@@ -453,11 +493,12 @@ def volver_item(version,rel):
     item.save()
 
 def comprobar_relacion(version):
-    '''
+    """
     comprueba que el item a reversionar este relacionado con un item que aun esta activo (true)
     de lo contrario (false)
     Ademas comprueba que no se formen ciclos al modificar una relacion del tipo padre-hijo
-    '''
+    @param version: version a comprobar
+    """
 
     if version.relacion==None:
         return True
@@ -476,9 +517,12 @@ def comprobar_relacion(version):
 @login_required
 
 def reversionar_item(request, id_version):
-    '''
+    """
     vista para volver a una version anterior de un item
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response('items/creacion_correcta.html', ...) o render_to_response('403.html')
+    """
     version=get_object_or_404(VersionItem,id=id_version)
     item=get_object_or_404(Item,id=version.id_item_id)
 
@@ -505,27 +549,35 @@ def reversionar_item(request, id_version):
 
 
 def descargar(idarchivo):
-    '''
+    """
     Funcion que recibe el id de un archivo y retorna el objeto archivo dado el id recibido
-    '''
+    @param idarchivo: clave al archivo
+    @return archivo.archivo
+    """
     archivo=get_object_or_404(Archivo,id=idarchivo)
 
     return archivo.archivo
 
 @login_required
 def descargo_archivo(request, idarchivo):
-    '''
+    """
     Vista para descargar un archivo de un item especifico
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al archivo a cargar
+    @return StreamingHttpResponse(descargar(idarchivo),content_type='application/force-download')
+    """
     return StreamingHttpResponse(descargar(idarchivo),content_type='application/force-download')
 
 @login_required
 
 def crear_item_hijo(request,id_item):
-    '''
+    """
     Vista para crear un item como hijo de uno ya creado y asignarlo a un tipo de item. Ademas se dan las opciones de agregar un
     archivo al item, y de completar todos los atributos de su tipo de item
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response('items/...) o HttpResponse(...)
+    """
     item=get_object_or_404(Item,id=id_item)
     if item.estado=='FIN' or item.estado=='VAL' or item.estado=='PEN':
         atri=1
@@ -580,11 +632,14 @@ def crear_item_hijo(request,id_item):
 
 @login_required
 def cambiar_estado_item(request,id_item):
-    '''
+    """
     vista para cambiar el estado de un item, teniendo en cuenta:
     1) Si se quiere pasar de PEN  a VAL, se verifica que el estado de su padre tambien sea VAL
     2) Si se quiere pasar de VAL a PEN se verifica que el estado de sus hijos tambien sea PEN
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response('items/...) de acuerdo a los diferentes estados que puede tener un item
+    """
 
     item=get_object_or_404(Item,id=id_item)
     id_fase=get_object_or_404(Item,id=id_item).fase_id
@@ -626,6 +681,12 @@ def cambiar_estado_item(request,id_item):
 @login_required
 
 def cambiar_padre(request, id_item):
+    """
+    Cambia la relacion padre-hijo de los items
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response('items/cambiar_padres.html', { 'items':items, 'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request)) o return HttpResponseRedirect('/denegado')
+    """
     item=get_object_or_404(Item,id=id_item)
     tipo=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fase=get_object_or_404(Fase,id=tipo.fase_id)
@@ -666,9 +727,12 @@ def cambiar_padre(request, id_item):
 @login_required
 
 def cambiar_antecesor(request, id_item):
-    '''
+    """
     vista para cambiar la relacion de un item, del tipo antecesor
-    '''
+    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
+    @param id_item: clave foranea al item
+    @return render_to_response('items/cambiar_antecesor.html', { 'items':items, 'tipoitem':item,'fase':fas,'proyecto':proyecto}, context_instance=RequestContext(request))
+    """
     item=get_object_or_404(Item,id=id_item)
     tipo=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fas=get_object_or_404(Fase,id=tipo.fase_id)

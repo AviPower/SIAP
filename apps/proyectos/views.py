@@ -25,7 +25,7 @@ def registrar_proyecto(request):
     """
     Vista para registrar un nuevo proyecto con su lider y miembros de su comite de cambios
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return HttpResponseRedirect('/proyectos/register/success') si el rol líder fue correctamente asignado o
+    @return HttpResponseRedirect('/proyectos/register/success') si el rol lider fue correctamente asignado o
     render_to_response('proyectos/registrar_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request)) al formulario
     """
 
@@ -106,7 +106,7 @@ def importar_proyecto(request, id_proyecto):
 @permission_required('proyectos')
 def RegisterSuccessView(request):
     """
-    Vista llamada en caso de creación correcta de un proyecto, redirige a un template de éxito
+    Vista llamada en caso de creacion correcta de un proyecto, redirige a un template de exito
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @return: render_to_response('proyectos/creacion_correcta.html', context_instance=RequestContext(request))
     """
@@ -130,7 +130,7 @@ def RegisterFailedView(request, id_proyecto):
 @permission_required('proyectos')
 def detalle_proyecto(request, id_proyecto):
     """
-    Vista para ver los detalles del proyecto del sistema, junto con su líder y los miembros del comité
+    Vista para ver los detalles del proyecto del sistema, junto con su lider y los miembros del comite
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_proyecto: referencia al proyecto de la base de datos
     @return: render_to_response('proyectos/detalle_proyecto.html', {'proyecto': dato, 'comite': comite, 'lider':lider}, context_instance=RequestContext(request))
@@ -184,7 +184,7 @@ def buscar_proyecto(request):
 @permission_required('proyectos')
 def editar_proyecto(request, id_proyecto):
     """
-    Vista para editar un proyecto,o su líder o los miembros de su comité
+    Vista para editar un proyecto,o su lider o los miembros de su comite
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_proyecto: referencia al proyecto de la base de datos
     @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
@@ -217,7 +217,7 @@ def editar_proyecto(request, id_proyecto):
 def cambiar_estado_proyecto(request, id_proyecto):
     """
     Vista para cambiar el estado de un proyecto, verificando que esto sea posible: para estar activo debe tener la cantidad
-    necesaria de miembros del comité (cantidad impar)
+    necesaria de miembros del comite (cantidad impar)
     Si cambia a activo todas sus fases pasan al estado activo
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_proyecto: referencia al proyecto de la base de datos

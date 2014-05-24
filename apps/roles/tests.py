@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'alvarenga'
 from django.test import Client
 from django.test import TestCase
@@ -95,7 +96,7 @@ class SIAPTestCase(TestCase):
         resp = c.post('/roles/modificar/5',{'name':"Rol 4"},follow=True)
         bool3 = self.assertEqual(resp.status_code, 200)
         if bool3:
-            print "Si llego aquí redirige adecuadamente"
+            print "Si llego aqui redirige adecuadamente"
         self.assertRedirects(resp, 'http://testserver/roles/register/success/')
         #modificacion incorrecta, no redirige, ya que el nombre de la fase ya existe
         resp = c.post('/roles/crear/',{'name':"Rol 1"})

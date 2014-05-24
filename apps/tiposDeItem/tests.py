@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.test import TestCase
 from apps.tiposDeItem.models import TipoItem
 

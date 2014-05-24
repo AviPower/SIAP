@@ -59,7 +59,6 @@ def listar_tiposItem(request, id_fase):
                               context_instance=RequestContext(request))
     """
 
-
     tiposItem = TipoItem.objects.filter(fase_id=id_fase).order_by('nombre')
     fase = Fase.objects.get(id=id_fase)
     proyecto=Proyecto.objects.get(id=fase.proyecto_id)
@@ -159,7 +158,6 @@ def eliminar_atributo(request, id_atributo, id_tipoItem):
     @param id_tipoItem: referencia al tipo de item dentro de la base de datos
     @return render_to_response(render_to_response('tiposDeItem/crear_atributo.html'...) de acuerdo al tipo de atributo
     del que se trate
-
     """
 
     atributo = get_object_or_404(Atributo, pk=id_atributo)

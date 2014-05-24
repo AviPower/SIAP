@@ -25,7 +25,7 @@ def registrar_fase(request, id_proyecto):
     """
     Vista para registrar una nueva fase dentro de proyecto
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @return HttpResponseRedirect('/fases/register/success') si el rol líder fue correctamente asignado o
+    @return HttpResponseRedirect('/fases/register/success') si el rol lider fue correctamente asignado o
     render_to_response('proyectos/registrar_proyecto.html',{'formulario':formulario}, context_instance=RequestContext(request)) al formulario
     """
     mensaje=100
@@ -100,11 +100,10 @@ def listar_fases(request,id_proyecto):
 @permission_required('proyectos, fases')
 def editar_fase(request,id_fase):
     """
-    Vista para editar un proyecto,o su líder o los miembros de su comité
+    Vista para editar un proyecto,o su lider o los miembros de su comite
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_proyecto: referencia al proyecto de la base de datos
-    @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o
-    render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
+    @return: HttpResponseRedirect('/proyectos/register/success/') cuando el formulario es validado correctamente o render_to_response('proyectos/editar_proyecto.html', { 'proyectos': proyecto_form, 'nombre':nombre}, context_instance=RequestContext(request))
     """
     fase= Fase.objects.get(id=id_fase)
     id_proyecto= fase.proyecto_id
@@ -275,6 +274,7 @@ def detalle_fase(request, id_fase):
     """
 
 
+
     dato = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
     if proyecto.estado!='PEN':
@@ -286,7 +286,7 @@ def detalle_fase(request, id_fase):
 @permission_required('fase')
 def eliminar_fase(request,id_fase):
     """
-    Vista para eliminar una fase de un proyecto. Busca la fase por su id_fase y lo destruye. Tambien remueve los usuarios asociados
+    Vista para eliminar una fase de un proyecto. Busca la fase por su id_fase y lo destruye.
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
     @return: render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
@@ -337,7 +337,7 @@ def asignar_usuario(request,id_fase):
     Vista auxiliar para obtener un listado de usuarios para asociar a la fase
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/asignar_usuarios.html'...) en otro caso
+    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/lista_usuarios.html'...) en otro caso
     """
     usuarios=User.objects.filter(is_active=True)
     fase=Fase.objects.get(id=id_fase)
@@ -358,7 +358,7 @@ def asignar_rol(request,id_usuario, id_fase):
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_usuario: referencia al usuario dentro de la base de datos
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/asignar_rol.html'... ) en otros casos
+    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/listar_roles.html'... ) en otros casos
     """
     fase=Fase.objects.get(id=id_fase) # objecto fase
     usuario=User.objects.get(id=id_usuario) # objeto del usuario seleccionado
