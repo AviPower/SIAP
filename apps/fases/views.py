@@ -240,13 +240,13 @@ def importar_fase(request, id_fase,id_proyecto):
                        anterior = Fase.objects.get(orden=cantidad, proyecto_id=id_proyecto)
                        if fecha1<datetime.strptime(str(anterior.fInicio),'%Y-%m-%d'):
                             mensaje=1
-                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto},
+                            return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto, 'proyecto':proyecto},
                                                       context_instance=RequestContext(request))
 
                        else:
                             if datetime.strptime(str(proyecto.fecha_ini),'%Y-%m-%d')>=fecha1 or datetime.strptime(str(proyecto.fecha_fin),'%Y-%m-%d')<=fecha1:
                                 mensaje=2
-                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto},
+                                return render_to_response('fases/registrar_fases.html',{'formulario':formulario,'mensaje':mensaje,'id':id_proyecto, 'proyecto':proyecto},
                                                           context_instance=RequestContext(request))
 
                             else:
