@@ -12,10 +12,10 @@ instalacion:
 
     EntornoVirtual = virtualenv
 
-    Framework = Django 1.6
+    Framework = Django 1.6.2
 
 
-algunos comandos usados
+algunos comandos usados:
 
 
   apt-get install postgresql pgadmin3
