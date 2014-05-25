@@ -17,6 +17,7 @@ instalacion:
 
 algunos comandos usados
 
+
   apt-get install postgresql pgadmin3
 
   sudo apt-get install psycopg2
