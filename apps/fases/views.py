@@ -91,7 +91,9 @@ def listar_fases(request,id_proyecto):
     fases = Fase.objects.filter(proyecto_id=id_proyecto).order_by('orden')
     proyecto = Proyecto.objects.get(id=id_proyecto)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html',{'datos': fases, 'proyecto' : id_proyecto}, context_instance=RequestContext(request))
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     else:
         return render_to_response('fases/listar_fases.html', {'datos': fases, 'proyecto' : proyecto}, context_instance=RequestContext(request))
 
@@ -109,7 +111,9 @@ def editar_fase(request,id_fase):
     id_proyecto= fase.proyecto_id
     proyecto = Proyecto.objects.get(id=id_proyecto)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     if request.method == 'POST':
         # formulario enviado
         mensaje =100
@@ -231,7 +235,7 @@ def importar_fase(request, id_fase,id_proyecto):
                 aux=0
                 orden=Fase.objects.filter(proyecto_id=id_proyecto)
                 if aux>0:
-                    messages.add_message(request, settings.DELETE_MESSAGE, "Error: No hacemos nada")
+                    messages.add_message(request, settings.DELETE_MESSAGE, "Er: No hacemos nada")
                 else:
                     proyecto=Proyecto.objects.get(id=id_proyecto)
                     cantidad = orden.count()
@@ -270,7 +274,7 @@ def detalle_fase(request, id_fase):
     Vista para ver los detalles del usuario <id_user> del sistema
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return: render_to_response('fases/error_activo.html' o render_to_response('fases/detalle_fase.html'
+    @return: render_to_response
     """
 
 
@@ -278,7 +282,9 @@ def detalle_fase(request, id_fase):
     dato = get_object_or_404(Fase, pk=id_fase)
     proyecto = Proyecto.objects.get(id=dato.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html',{'proyecto':dato}, context_instance=RequestContext(request))
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     return render_to_response('fases/detalle_fase.html', {'datos': dato,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 
@@ -337,7 +343,7 @@ def asignar_usuario(request,id_fase):
     Vista auxiliar para obtener un listado de usuarios para asociar a la fase
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return: render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/lista_usuarios.html'...) en otro caso
+    @return: render_to_response
     """
     usuarios=User.objects.filter(is_active=True)
     fase=Fase.objects.get(id=id_fase)
@@ -346,7 +352,9 @@ def asignar_usuario(request,id_fase):
         usuarios=usuarios.exclude(groups__id=rol.id)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     return render_to_response('fases/asignar_usuarios.html', {'datos': usuarios, 'fase' : fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 
@@ -358,14 +366,16 @@ def asignar_rol(request,id_usuario, id_fase):
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_usuario: referencia al usuario dentro de la base de datos
     @param id_fase: referencia a la fase dentro de la base de datos
-    @return render_to_response('fases/error_activo.html') si el estado es pendiente o render_to_response('fases/listar_roles.html'... ) en otros casos
+    @return render_to_response
     """
     fase=Fase.objects.get(id=id_fase) # objecto fase
     usuario=User.objects.get(id=id_usuario) # objeto del usuario seleccionado
     roles=Group.objects.filter(fase__id=id_fase) #filtra roles de la fase
     proyecto = Proyecto.objects.get(id=fase.proyecto_id) #objecto proyecto
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     return render_to_response('fases/asignar_rol.html',
                               {'roles': roles,'usuario':usuario, 'fase':fase,'proyecto':proyecto},
                               context_instance=RequestContext(request))
@@ -402,7 +412,9 @@ def desasignar_usuario(request,id_fase):
     fase=Fase.objects.get(id=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     roles=Group.objects.filter(fase__id=id_fase)
     usuarios=[]
     for rol in roles:
@@ -424,7 +436,9 @@ def desasociar(request,id_usuario, id_fase):
     fase=Fase.objects.get(id=id_fase)
     proyecto = Proyecto.objects.get(id=fase.proyecto_id)
     if proyecto.estado!='PEN':
-        return render_to_response('fases/error_activo.html')
+        proyectos = Proyecto.objects.all().exclude(estado='ELI')
+        return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1},
+                              context_instance=RequestContext(request))
     usuario=User.objects.get(id=id_usuario)
     roles=Group.objects.filter(fase__id=id_fase) #filtra los roles de la fase
     for rol in roles:

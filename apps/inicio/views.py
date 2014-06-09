@@ -33,8 +33,3 @@ class Registrarse(FormView):
         user.save()
         perfil.save()
         return super(Registrarse,self).form_valid(form)
-
-class SIAP(FormView):
-    template_name = 'inicio/siap.html'
-    form_class = UserForm
-    success_url = reverse_lazy('siap')

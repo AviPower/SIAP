@@ -43,10 +43,12 @@
 
 <div id="content-main">
 
-
-
-
         <div class="results" >
+           <ul class="errorlist">
+            {% if  mensaje == 1 %}
+            <li>Error: No se puede modificar. Ya no esta en estado Pendiente.</li>
+            {% endif %}
+        </ul>
         <table >
         <thead>
         <tr>

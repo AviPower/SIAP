@@ -1,6 +1,6 @@
 {% extends 'base2.html' %}
 {% block title %}
-	Proyecto_Existosa
+	Item_Existosa
 {% endblock %}
 {% block content %}
 <!DOCTYPE html>
@@ -21,8 +21,8 @@
 
 
 <div class="breadcrumbs">
-<a href="/proyectos/">Proyectos</a>
-&rsaquo; Ups!!
+<a href='/desarrollo/item/listar/{{id_fase}}' > Regresar al listado</a>
+&rsaquo; Cantidad Maxima
 </div>
 
 
@@ -31,9 +31,9 @@
     <div id="content" class="colM">
 
 
-<h1>No se puede modificar</h1>
+<h1>Denegado</h1>
 
-<p>Ya no esta en estado Pendiente.</p>
+<p>Cantidad Maxima de item superado.</p>
 
 
 

@@ -18,13 +18,17 @@
                 <div id="content">
                 <h1>Crear Linea Base</h1>
        <fieldset class="module aligned wide">
-<form method='post' action='' enctype="multipart/form-data">{% csrf_token %}
-    <div class="form-row" >
-    	{{formulario.as_p}}
-        <br>
+<form  method='post' action='' enctype="multipart/form-data">{% csrf_token %}
+    <div>
+        <ul>
+        <div><label>Nombre:</label>{{formulario.nombre}}</div>
+        <div><label>Items Validados:</label>
+    {% for item in items %}
 
+                                {{ item.nombre }}
+                            {% endfor %}{{formulario.items}}
+            <ul/></div>
     </div>
-
     <div class="submit-row">
     <input type="submit" value="Confirmar" />
         </div>

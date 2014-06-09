@@ -16,6 +16,11 @@
         <link href='http://fonts.googleapis.com/css?family=Advent+Pro:400,500' rel='stylesheet'>
 
         <script src="{{STATIC_URL}}js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+       <!--- <script>
+            var asd = "{{MEDIA_ROOT}}";
+            alert(asd);
+
+        </script> --->
     </head>
    
 <body>
@@ -26,7 +31,7 @@
       <div class="navbar-inner">
         <a class="brand" href="/">SIAP</a>
           <ul class="nav">
-            <li class="active"><a href="/siap/">Inicio</a></li>
+            <li class="active"><a href="/desarrollo/proyectos/">Inicio</a></li>
                  {% if  user.username == "admin" %}
                      <li class="dropdown">
                          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracion
@@ -39,15 +44,7 @@
                          </ul>
                      </li>
                  {% endif %}
-                     <li class="dropdown">
-                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Desarrollo
-                             <b class="caret"></b>
-                         </a>
-                         <ul class="dropdown-menu">
-                             <li><a href="/desarrollo/proyectos/">Abrir Proyecto</a></li>
-                         </ul>
-                     </li>
-                               <li class="dropdown">
+                    <li class="dropdown">
                          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Gestion de Cambios
                              <b class="caret"></b>
                          </a>
@@ -62,27 +59,26 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="/usuario/nuevo_pass/">Cambiar contraseña</a></li>
+                  <li><a href="/cerrar/">Cerrar Sesión</a></li>
               </ul>
           </li>
           </ul>
 
 
-<!---
-          <div class="busqueda">
-            <form class="navbar-search pull-left" method="POST" action="/usuario/search/">{% csrf_token %}
 
-                <input type="text" name="busqueda" class="search-query" placeholder="Buscar">
-                <div class="btn-group">
-                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+          <div class="busqueda">
+            <form class="navbar-search left" >{% csrf_token %}
+                <div>
+                    {% if user.is_authenticated %}
+                    <font color="white">
+
+                    <center>Bienvenido {{user.username|capfirst}}   <a class="btn btn-info"><i class="icon-user icon-white"></i></a></center>
+              </font>
                 </div>
             </form>
 
-          </div> --->
-          {% if user.is_authenticated %}
-              <font color="white">
-                  Bienvenido {{user.username|capfirst}}
-              </font>
-              <a href="/cerrar/">Salir</a>
+          </div>
+
               </div>
           {% endif %}
       </div>

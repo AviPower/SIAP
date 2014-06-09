@@ -154,7 +154,7 @@ def listar_proyectos(request):
 
     proyectos = Proyecto.objects.all().exclude(estado='ELI')
 
-    return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos},
+    return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1000},
                               context_instance=RequestContext(request))
 
 

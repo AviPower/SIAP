@@ -8,8 +8,8 @@ from apps.lineaBase.models import LineaBase
 ESTADOS = (
     ('PEN','Pendiente'),#abierta
     ('CON','En Construccion'),#desarrollo
-    ('FIN','Finalizado'),#cerrado
-    ('VAL','Validado'),#iniciado
+    ('FIN','Finalizado'),#cerrado cuando en una linea base
+    ('VAL','Validado'),#iniciado o aprobado
     ('REV','Revision'),#revisar
     ('ANU','Anulado'),#inactivo
 )
@@ -47,7 +47,7 @@ class Item(models.Model):
     fecha_mod=models.DateField(verbose_name='Fecha de Modificacion')
     tipo_item=models.ForeignKey(TipoItem)
     fase=models.ForeignKey(Fase)
-#    lineaBase=models.ForeignKey(LineaBase, null=True)
+    lineaBase=models.ForeignKey(LineaBase, null=True)
 
 class VersionItem(models.Model):
     """
@@ -76,6 +76,8 @@ class VersionItem(models.Model):
     tipo=models.CharField(null=True,max_length=10, choices=TIPOS, verbose_name='Tipo')
     fecha_mod=models.DateField(verbose_name='Fecha de Modificacion')
     tipo_item=models.ForeignKey(TipoItem)
+    fase=models.ForeignKey(Fase)
+    lineaBase=models.ForeignKey(LineaBase, null=True)
 
 class Archivo(models.Model):
     """

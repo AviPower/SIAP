@@ -109,34 +109,15 @@ def crear_lineaBase(request, id_fase):
                             items= request.POST.getlist('items')
                             for item in items:
                                 i=Item.objects.get(id=item)
-                                generar_version(i,request.user)
+                                generar_version(i)
                             for item in items:
                                 i=Item.objects.get(id=item)
                                 i.estado='FIN'
                                 i.lineaBase=cod
                                 i.save()
-                            return render_to_response('lineasBase/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
+                            return render_to_response('lineaBase/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
 
     else:
         formulario=LineaBaseForm(fase=fase)
-
-
-    return render_to_response('lineasBase/generar_lineaBase.html', {'formulario':formulario, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
-
-
-def liberar_lineaBase(request, id_fase):
-
-    '''
-    vista para liberar las lineas base de una fase
-    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @param id_fase: referencia a la fase dentro de la base de datos
-    @return render_to_response
-    '''
-
-    usuario = request.user
-    #proyectos del cual es lider y su estado es activo
-    fase=get_object_or_404(Fase,id=id_fase)
-    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
-    lineasbase=LineaBase.objects.filter(fase_id=id_fase)
-
-    return HttpResponse("<h1>No se pueden administrar los Items de esta fase. No hay item que liberar<h1>")
+        items=Item.objects.filter(estado='VAL', tipo_item__fase=fase.id, lineaBase=None)
+    return render_to_response('lineaBase/generar_lineaBase.html', {'formulario':formulario,'items':items, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))

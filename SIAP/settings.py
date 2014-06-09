@@ -34,7 +34,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 from django.core.urlresolvers import reverse_lazy
 
 LOGIN_URL = reverse_lazy('login')
-LOGIN_REDIRECT_URL = reverse_lazy('siap')
+LOGIN_REDIRECT_URL = reverse_lazy('listar_proyectos')
 LOGOUT_URL = reverse_lazy('logout')
 # Application definition
 
@@ -114,7 +114,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-MEDIA_URL = 'http://localhost/media/'
+MEDIA_URL = '/media/'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
@@ -124,4 +124,5 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
-MEDIA_ROOT = '/home/alvarenga/archivosSIAP/'
+
+MEDIA_ROOT = '/home/alvarenga/PycharmProjects/SIAP/media/'

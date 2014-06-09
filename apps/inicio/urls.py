@@ -1,7 +1,7 @@
 __author__ = 'alvarenga'
 
 from django.conf.urls import patterns, include, url
-from .views import Registrarse,SIAP
+from .views import Registrarse
 
 urlpatterns = patterns('',
 
@@ -12,8 +12,6 @@ urlpatterns = patterns('',
         name='logout'),
 
     url(r'^registrarse/$',Registrarse.as_view(),name='registrarse'),
-
-    url(r'^siap/$',SIAP.as_view(),name='siap'),
 
 
 )
