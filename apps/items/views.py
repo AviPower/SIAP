@@ -7,6 +7,7 @@ from django.http import HttpResponse, StreamingHttpResponse, HttpResponseRedirec
 from django.shortcuts import render, render_to_response, get_object_or_404
 from datetime import datetime
 # Create your views here.
+import pydot
 from django.template import RequestContext
 from django.core.urlresolvers import reverse_lazy
 from SIAP import settings
@@ -773,3 +774,85 @@ def cambiar_antecesor(request, id_item):
 #else:
 #  print('entro')
 # return HttpResponseRedirect('/denegado')
+
+def dibujarProyecto(proyecto):
+    '''
+    Funcion que grafica los items con sus relaciones de un proyecto dado
+    '''
+    #inicializar estructuras
+    grafo = pydot.Dot(graph_type='digraph',fontname="Verdana",rankdir="LR")
+    fases = Fase.objects.filter(proyecto_id=proyecto).order_by('orden')
+    clusters = []
+    clusters.append(None)
+    for fase in fases:
+        if(fase.estado=='FIN'):
+            cluster = pydot.Cluster(str(fase.orden),
+                                    label=str(fase.orden)+") "+fase.nombre,
+                                    style="filled",
+                                    fillcolor="gray")
+        else:
+            cluster = pydot.Cluster(str(fase.orden),
+                                    label=str(fase.orden)+") "+fase.nombre)
+        clusters.append(cluster)
+
+    for cluster in clusters:
+        if(cluster!=None):
+            grafo.add_subgraph(cluster)
+
+
+    lista=itemsProyecto(proyecto)
+    items=[]
+    for item in lista:
+        if item.estado!="ANU":
+            items.append(item)
+    #agregar nodos
+    for item in items:
+
+        if item.estado=="PEN":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="gray",
+                                                                 fontcolor="black"))
+        elif item.estado=="VAL":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="blue",
+                                                                 fontcolor="white"))
+        elif item.estado=="FIN":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="green",
+                                                                 fontcolor="white"))
+        elif item.estado=="REV":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="red",
+                                                                 fontcolor="white"))
+        elif item.estado=="CON":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="yellow",
+                                                                 fontcolor="white"))
+        elif item.estado=="BLO":
+            clusters[item.tipo_item.fase.orden].add_node(pydot.Node(str(item.id),
+                                                                 label=item.nombre,
+                                                                 style="filled",
+                                                                 fillcolor="magenta",
+                                                                 fontcolor="white"))
+    #agregar arcos
+    for item in items:
+        relaciones = Item.objects.filter(relacion=item).exclude(estado='ANU')
+        if relaciones!=None:
+            for relacion in relaciones:
+                grafo.add_edge(pydot.Edge(str(item.id),str(relacion.id),label='costo='+str(item.costo) ))
+
+    date=datetime.now()
+
+    name=str(date)+'grafico.jpg'
+    grafo.write_jpg(str(settings.BASE_DIR)+'/static/img/'+str(name))
+    return name
