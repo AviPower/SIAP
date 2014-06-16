@@ -20,3 +20,4 @@ class LineaBaseForm(forms.ModelForm):
     class Meta:
             model= LineaBase
             fields=['nombre',]
+

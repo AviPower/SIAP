@@ -13,12 +13,13 @@ class LineaBase(models.Model):
     - estado: puede encontrarse en 2 estados: Abierta y Cerrada.
     - id_fase: el id de la Fase a la que pertenece
     """
-    estados_probables= ( #########################Arreglar tablas######CERRADa
-        ('C','Cerrada'),
-        ('A','Abierta'),
-    )
-    nombre= models.CharField(max_length=50, null=False)
-    estado= models.CharField ( max_length = 10 ,  choices = estados_probables, default='A')
+    ESTADOS = (
+    ('CERRADA','Cerrada'),
+    ('ROTA','Rota'),
+
+)
+    nombre= models.CharField(max_length=100, null=False)
+    estado=models.CharField(max_length=8, verbose_name='Estado',choices=ESTADOS)
     fase=models.ForeignKey(Fase)
     activo= models.BooleanField(default=True)
 

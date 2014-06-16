@@ -121,3 +121,20 @@ def crear_lineaBase(request, id_fase):
         formulario=LineaBaseForm(fase=fase)
         items=Item.objects.filter(estado='VAL', tipo_item__fase=fase.id, lineaBase=None)
     return render_to_response('lineaBase/generar_lineaBase.html', {'formulario':formulario,'items':items, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+@login_required
+def detalle_lineabase(request, id_lb):
+
+    '''
+    vista para ver los detalles de la linea base especificada junto con sus items asosciados
+    '''
+    lineabase=get_object_or_404(LineaBase,id=id_lb)
+
+    fase=lineabase.fase
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    if es_lider(request.user.id, fase.proyecto_id):
+        items=Item.objects.filter(lineaBase=lineabase)
+        dato=lineabase
+        return render_to_response('lineaBase/detalle_lineaBase.html', {'datos': dato, 'items':items, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    else:
+        return render_to_response('403.html')

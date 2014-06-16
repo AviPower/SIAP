@@ -1,0 +1,36 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Linea_Base
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/desarrollo/proyectos/">Proyecto {{ proyecto.nombre }}</a>>>
+    <a href="/desarrollo/proyectos/fases/{{ fase.proyecto_id }}">Fase en Ejecucion {{ fase.nombre }}</a>>
+    <a href="/lineaBase/listar/{{datos.fase.id}}">Administracion de Linea Base</a>>
+    " Detalle Linea Base"
+    </div>
+
+                <div id="content">
+                <h1>Detalles de la Linea Base {{datos.nombre|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+            <div><strong>Nombre: </strong>{{ datos.nombre }}</div>
+            <div><strong>Estado: </strong>{{datos.estado }}</div>
+            <h5><strong>Items: </strong></h5>
+                    {% for item in items %}
+
+                   <li>{{ item.nombre }} </li>
+                         <ul>Version: {{ item.version }}</ul>
+            {% endfor %}
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}
