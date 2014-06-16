@@ -15,7 +15,7 @@ instalacion:
     Framework = Django 1.6.2
 
 
-algunos comandos usados:
+Algunos comandos usados:
 
 
   apt-get install postgresql pgadmin3
