@@ -28,3 +28,6 @@ algunos comandos usados:
 
   pip install psycopg2
 
+Instalacion para graficar:
+
+    apt-get install python-pydot pyparsing graphviz
