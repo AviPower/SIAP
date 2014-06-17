@@ -1,0 +1,45 @@
+{% extends 'base2.html' %}
+{% block title %}
+	Detalle_Solicitud
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
+
+</head>
+    <div class="breadcrumbs">
+    <a href="/desarrollo/proyectos/">Inicio</a>>
+    <a href="/solicitudes/listar/">Administracion de Solicitudes</a>>
+    " Detalle Linea Base"
+    </div>
+
+                <div id="content">
+                <h1>Detalles de la Linea Base {{datos.nombre|title}}</h1>
+       <fieldset class="module aligned wide">
+<form method="post">{% csrf_token %}
+    <div class="form-row">
+        <h1>Detalle de la solicitud {{ solicitud.nombre }}</h1>
+        <br>
+        <div><strong>Motivo: </strong>{{ solicitud.descripcion }}</div>
+        <div><strong>Solicitante: </strong>{{ solicitud.usuario.first_name }} {{ solicitud.usuario.last_name }}</div>
+        <div><strong>Proyecto: </strong>{{ solicitud.proyecto.nombre }}</div>
+        <div><strong>Fase: </strong>{{ solicitud.item.tipo_item.fase.nombre }}</div>
+        <div><strong>Item: </strong>{{ solicitud.item.nombre }}</div>
+        <div><strong>Costo total de la modificacion: </strong><div style="color:red"> {{ solicitud.costo }}</div></div>
+        <div><strong>Tiempo total de la modificacion: </strong><div style="color: red"> {{ solicitud.tiempo }}</div></div>
+        <div><strong>Votos a favor: </strong>{{ favor }}</div>
+        <div><strong>Votos en contra: </strong>{{ contra }}</div>
+        <div><strong>Miembros que ya votaron: </strong></div>
+        {% for miembro in usuarios %}
+        <div><li>Nombre: </li>{{ miembro.first_name }} {{ miembro.last_name }}</div>
+
+        {% empty %}
+        <div><strong>Ningun miembro ha emitido su voto </strong></div>
+        {% endfor %}
+        </div>
+</form>
+            </fieldset>
+                    </div>
+
+{% endblock %}

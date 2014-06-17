@@ -10,7 +10,7 @@ Nueva_Solicitud
 
 </head>
     <div class="breadcrumbs">
-    <a href="/solicitudes/listar/">Solicitudes</a>
+    <a href="/desarrollo/item/listar/{{ titem }}">Administracion de Item</a>
     "> Nueva Solicitud"
     </div>
 
@@ -20,7 +20,13 @@ Nueva_Solicitud
 <form method="post">{% csrf_token %}
     <div class="form-row">
     {{ formulario.as_p }}
-         <div><label></label>{{solicitud_form.as_p}}</div>
+         <br>
+
+        <div><strong>Proyecto: </strong>{{ proyecto.nombre }}</div>
+        <div><strong>Fase: </strong>{{ fase.nombre }}</div>
+        <div><strong>Item: </strong>{{ item.nombre }}</div>
+        <div><strong>Costo total de la modificacion: </strong><div style="color: red"> {{ costo }}</div></div>
+        <div><strong>Tiempo total de la modificacion: </strong><div style="color: red"> {{ tiempo }}</div></div>
         </div>
     <div class="submit-row">
     <input type="submit" value="Confirmar" />

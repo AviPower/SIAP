@@ -365,26 +365,94 @@ def generar_version(item):
 
 
 def editar_item(request,id_item):
-    """
+    '''
     vista para cambiar el nombre y la descripcion del tipo de item, y ademas agregar atributos al mismo
-    @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
-    @param id_item: clave foranea al item
-    @return render_to_response(..) o HttpResponse(...)
-    """
+    Si el item se encuentra con el estado CON (solicitud de cambio aprobada), se puede modificar el item solo si el
+    usuario es el que realizo la solicittud de cambio
+    '''
     id_tipoItem=get_object_or_404(Item,id=id_item).tipo_item_id
     id_fase=get_object_or_404(TipoItem,id=id_tipoItem).fase_id
-    fase=Fase.objects.get(id=id_fase)
-    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
-    flag=es_miembro(request.user.id,id_fase,'editar_item')
+    flag=es_miembro(request.user.id,id_fase,'cambiar_item')
     item_nuevo=get_object_or_404(Item,id=id_item)
+    atri=1
+    if flag==False:
+        return HttpResponseRedirect('/denegado')
+
+    atributos=AtributoItem.objects.filter(id_item=id_item)
+    if len(atributos)==0:
+        atri=0
+    if item_nuevo.estado=='CON':
+        archivos=Archivo.objects.filter(id_item=item_nuevo)
+        solicitudes=Solicitud.objects.filter(item=item_nuevo, estado='APROBADA')
+        solicitud=solicitudes[0]
+        solicitante=solicitud.usuario
+        if request.user==solicitante:
+            if request.method=='POST':
+                formulario = PrimeraFaseForm(request.POST, instance=item_nuevo)
+
+                if formulario.is_valid():
+
+                    if request.FILES.get('file')!=None:
+                        archivo=Archivo(archivo=request.FILES['file'],nombre='', id_item_id=id_item)
+                        archivo.save()
+                    #generar_version(item_nuevo,request.user)
+                    today = datetime.now() #fecha actual
+                    dateFormat = today.strftime("%Y-%m-%d") # fecha con format
+
+                    formulario.save()
+                    item_nuevo.fecha_mod=dateFormat
+                    #item_nuevo.version=item_nuevo.version+1
+                    item_nuevo.save()
+
+                    for atributo in atributos:
+
+                        a=request.POST[atributo.id_atributo.nombre]
+                        if a!=None:
+                            #validar atributos antes de guardarlos
+                            validar=True
+                            if atributo.id_atributo.tipo == "FEC":
+                                try:
+                                    fecha = datetime.strptime(str(a), '%d/%m/%Y')
+                                except ValueError:
+                                    validar=False
+                            else:
+                                if atributo.id_atributo.tipo == "NUM":
+                                    a = a.isdigit()
+                                    if not a:
+                                        validar=False
+
+                                else:
+                                    if atributo.id_atributo.tipo == "LOG":
+                                        if a != "Verdadero" and a != "Falso":
+                                            validar=False
+
+                            if validar==True:
+                                aa=AtributoItem.objects.get(id=atributo.id)
+                                aa.valor=a
+                                aa.save()
+                    return render_to_response('items/creacion_correcta.html',{'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+            else:
+
+                formulario = PrimeraFaseForm(instance=item_nuevo)
+            return render_to_response('items/modificar_item_solicitud.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem, 'atributos':atributos, 'atri':atri, 'archivos':archivos}, context_instance=RequestContext(request))
+        else:
+            return HttpResponseRedirect ('/denegado')
+
+    if flag==True and item_nuevo.estado=='BLO':
+        return HttpResponse('<h1> No se puede modificar el item, ya que ya ha sido generada una solicitud de cambio para el mismo</h1>')
+
+    if flag==True and item_nuevo.estado=='FIN':
+        return render_to_response('solicitudes/modificar_finalizado.html',{'id_item':item_nuevo.id, 'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
     if item_nuevo.estado=='PEN':
+
         if flag==True:
 
                 if request.method=='POST':
-                    generar_version(item_nuevo)
+
                     formulario = PrimeraFaseForm(request.POST, instance=item_nuevo)
 
                     if formulario.is_valid():
+                        generar_version(item_nuevo,request.user)
                         today = datetime.now() #fecha actual
                         dateFormat = today.strftime("%Y-%m-%d") # fecha con format
 
@@ -399,7 +467,7 @@ def editar_item(request,id_item):
 
                     formulario = PrimeraFaseForm(instance=item_nuevo)
                     hijo=True
-                    return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+                return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem}, context_instance=RequestContext(request))
 
         else:
                 return render_to_response('403.html')
@@ -933,7 +1001,7 @@ def getMaxIdItemEnLista(lista):
 
 
 
-def crear_solicitud_cambio(request,id_item):
+def crear_solicitud(request,id_item):
     '''
     Vista para la creacion de una solicitud de cambio para un item especificado en id_item
     '''
@@ -956,7 +1024,7 @@ def crear_solicitud_cambio(request,id_item):
             solicitud.save()
             item.estado='BLO'
             item.save()
-            return render_to_response('solicitudesCambio/creacion_correcta.html',{'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+            return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.fase_id))
     else:
         formulario=SolicitudCambioForm()
-    return render_to_response('solicitudesCambio/crear_solicitud.html',{'titem':id_tipoItem,'costo':costo, 'tiempo':tiempo, 'item':item, 'proyecto':proyecto, 'fase':fase,'formulario':formulario}, context_instance=RequestContext(request))
+    return render_to_response('solicitudes/crear_solicitud.html',{'titem':id_tipoItem,'costo':costo, 'tiempo':tiempo, 'item':item, 'proyecto':proyecto, 'fase':fase,'formulario':formulario}, context_instance=RequestContext(request))
