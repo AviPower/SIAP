@@ -370,9 +370,9 @@ def editar_item(request,id_item):
     Si el item se encuentra con el estado CON (solicitud de cambio aprobada), se puede modificar el item solo si el
     usuario es el que realizo la solicittud de cambio
     '''
-    id_tipoItem=get_object_or_404(Item,id=id_item).tipo_item_id
-    id_fase=get_object_or_404(TipoItem,id=id_tipoItem).fase_id
-    flag=es_miembro(request.user.id,id_fase,'cambiar_item')
+    fase=Fase.objects.get(id=id_fase)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    flag=es_miembro(request.user.id,id_fase,'editar_item')
     item_nuevo=get_object_or_404(Item,id=id_item)
     atri=1
     if flag==False:
@@ -442,7 +442,7 @@ def editar_item(request,id_item):
         return HttpResponse('<h1> No se puede modificar el item, ya que ya ha sido generada una solicitud de cambio para el mismo</h1>')
 
     if flag==True and item_nuevo.estado=='FIN':
-        return render_to_response('solicitudes/modificar_finalizado.html',{'id_item':item_nuevo.id, 'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+        return render_to_response('solicitudes/peticion_modificar.html',{'id_item':item_nuevo.id, 'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
     if item_nuevo.estado=='PEN':
 
         if flag==True:
@@ -467,7 +467,7 @@ def editar_item(request,id_item):
 
                     formulario = PrimeraFaseForm(instance=item_nuevo)
                     hijo=True
-                return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem}, context_instance=RequestContext(request))
+                return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
         else:
                 return render_to_response('403.html')
