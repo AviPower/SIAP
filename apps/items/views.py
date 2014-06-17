@@ -999,6 +999,13 @@ def getMaxIdItemEnLista(lista):
             max=item.id
     return max
 
+def grafo_relaciones(request,id_proyecto):
+    '''
+    Vista para la creacion y posterior vizualizacion de Grafo de relaciones
+    '''
+    name=dibujarProyecto(id_proyecto)
+    proyecto=Proyecto.objects.get(id=proyecto_id)
+    return render_to_response('items/grafo_relaciones.html', {'proyecto':id_proyecto,'name':nombre}, context_instance=RequestContext(request))
 
 
 def crear_solicitud(request,id_item):

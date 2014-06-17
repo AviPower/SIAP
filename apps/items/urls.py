@@ -2,7 +2,8 @@ from django.conf.urls import patterns, url
 from django.contrib import admin
 from apps.items.views import listar_proyectos,listar_fases,listar_tiposDeItem, crear_item, listar_items, detalle_item, crear_solicitud
 from apps.items.views import editar_item, eliminar_archivo,detalle_tiposDeItem, seleccion_tipoItem, crear_item_hijo,cambiar_estado_item
-from apps.items.views import listar_archivos, detalle_version_item, listar_versiones, reversionar_item,descargo_archivo, cambiar_padre, cambiar_antecesor
+from apps.items.views import listar_archivos, detalle_version_item, listar_versiones, reversionar_item,descargo_archivo, cambiar_padre,\
+    cambiar_antecesor,grafo_relaciones
 admin.autodiscover()
 
 
@@ -28,6 +29,6 @@ urlpatterns = patterns('',
 
         url(r'^item/padre/(?P<id_item>\d+)$',cambiar_padre,name='cambiar_padre'),
         url(r'^item/antecesor/(?P<id_item>\d+)$',cambiar_antecesor,name='cambiar_antecesor'),
-
+        url(r'^item/grafo/(?P<id_proyecto>\d+)$',grafo_relaciones,name='grafo_relaciones'),
         url(r'^item/solicitud/(?P<id_item>\d+)$',crear_solicitud,name='crear_solicitud'),
         )
