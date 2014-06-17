@@ -15,8 +15,39 @@ from apps.fases.models import Fase
 from apps.items.models import Item, Archivo, AtributoItem, VersionItem
 from apps.proyectos.models import Proyecto
 from apps.tiposDeItem.models import TipoItem, Atributo
-from apps.items.forms import EstadoItemForm, PrimeraFaseForm
+from apps.items.forms import EstadoItemForm, PrimeraFaseForm, SolicitudCambioForm
+from apps.solicitudes.models import Solicitud,Voto
 from django import forms
+
+def contar_solicitudes(id_usuario):
+    lista_proyectos=Proyecto.objects.filter(comite__id=id_usuario)
+    lista_solicitudes=[]
+    if len(lista_proyectos)==0:
+        return 0;
+
+    for proyecto in lista_proyectos:
+        lista=Solicitud.objects.filter(proyecto=proyecto,estado='PENDIENTE')
+        for solicitud in lista:
+            votos=Voto.objects.filter(solicitud_id=solicitud.id, usuario_id=id_usuario)
+            if(len(votos)==0):
+                lista_solicitudes.append(solicitud)
+    return len(lista_solicitudes)
+
+def itemsProyecto(proyecto):
+    '''
+    Funcion que recibe como parametro un proyecto y retorna todos los items del mismo
+    '''
+    fases = Fase.objects.filter(proyecto_id=proyecto)
+    items=[]
+    for fase in fases:
+        titem=TipoItem.objects.filter(fase=fase)
+        for t in titem:
+            item=Item.objects.filter(tipo_item=t)
+            for i in item:
+                if i.estado!='ANU':
+                    items.append(i)
+    return items
+
 
 @login_required
 def listar_proyectos(request):
@@ -856,3 +887,76 @@ def dibujarProyecto(proyecto):
     name=str(date)+'grafico.jpg'
     grafo.write_jpg(str(settings.BASE_DIR)+'/static/img/'+str(name))
     return name
+
+def recorridoEnProfundidad(item):
+    '''
+    Funcion que llama a recorrer items en profundidad
+    y retorna un vector con la suma del costo y del tiempo
+    '''
+    titem=item.tipo_item
+    fase=titem.fase
+    proyecto=fase.proyecto
+    listaitems =itemsProyecto(proyecto)
+    maxiditem = getMaxIdItemEnLista(listaitems)
+    global sumaCosto, sumaTiempo,visitados
+    visitados = [0]*(maxiditem+1)
+    sumaCosto=0
+    sumaTiempo=0
+    recorrer(item.id)
+    ret = [sumaCosto,sumaTiempo]
+    return ret
+
+def recorrer(id_item):
+    '''
+    Funcion para recorrer el grafo de items del proyecto en profundidad
+    Sumando el costo y el tiempo de cada uno
+    '''
+    global sumaCosto, sumaTiempo, visitados
+    visitados[id_item]=1
+    item=get_object_or_404(Item,id=id_item)
+    sumaCosto = sumaCosto + item.costo
+    sumaTiempo = sumaTiempo + item.tiempo
+    relaciones = Item.objects.filter(relacion=item.id)
+    for relacion in relaciones:
+        if(visitados[relacion.id]==0):
+            recorrer(relacion.id)
+
+def getMaxIdItemEnLista(lista):
+    '''
+    Funcion para hallar el id maximo de los items de una lista
+    '''
+    max=0
+    for item in lista:
+        if item.id>max:
+            max=item.id
+    return max
+
+
+
+def crear_solicitud_cambio(request,id_item):
+    '''
+    Vista para la creacion de una solicitud de cambio para un item especificado en id_item
+    '''
+    item=get_object_or_404(Item,id=id_item)
+    id_tipoItem=item.tipo_item.id
+    fase=item.tipo_item.fase
+    proyecto=fase.proyecto
+    costotiempo=recorridoEnProfundidad(item)
+    costo=costotiempo[0]
+    tiempo=costotiempo[1]
+    if es_miembro(request.user.id,fase.id,'agregar_solicitudcambio')!=True or item.estado!='FIN':
+        return HttpResponseRedirect('/denegado')
+    if request.method=='POST':
+        formulario = SolicitudCambioForm(request.POST)
+        if formulario.is_valid():
+            today = datetime.now()
+            dateFormat = today.strftime("%Y-%m-%d")
+            usuario=request.user
+            solicitud=Solicitud(nombre=request.POST['nombre'], descripcion=request.POST['descripcion'],item=item,proyecto=proyecto,usuario=usuario,fecha=dateFormat, costo=costo, tiempo=tiempo,estado='PENDIENTE')
+            solicitud.save()
+            item.estado='BLO'
+            item.save()
+            return render_to_response('solicitudesCambio/creacion_correcta.html',{'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+    else:
+        formulario=SolicitudCambioForm()
+    return render_to_response('solicitudesCambio/crear_solicitud.html',{'titem':id_tipoItem,'costo':costo, 'tiempo':tiempo, 'item':item, 'proyecto':proyecto, 'fase':fase,'formulario':formulario}, context_instance=RequestContext(request))

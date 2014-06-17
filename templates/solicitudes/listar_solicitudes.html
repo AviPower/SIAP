@@ -26,20 +26,7 @@
     <div id="content" class="change-list" style="width: 700px">
 
         <h1>Administracion de Solicitudes de Cambio</h1>
-     <form action="/solicitudes/search/" method="get">
-    <label for="q"></label>
-    <input type="text" name="q" value="{{ query|escape }}" class="search-query" placeholder="Buscar Nombre de Solicitudes de Cambio">
-    <div class="btn-group">
-                    <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
-                </div>
-    <a href="/solicitudes/" class="btn btn-success"><i class="icon-refresh"></i></a>
-    </form>
 
-<ul class="object-tools">
-    <li>
-        <a href="/solicitudes/registrar" class="addlink">Nueva Solicitud</a>
-    </li>
-</ul>
 <div id="content-main">
 
         <div class="results" >
@@ -55,21 +42,46 @@
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>Codigo</a>
+                    <a>Nombre</a>
                 </div>
             </th>
-             <th scope="col">
+            <th scope="col">
                 <div class="text">
-                    <a> __Solicitudes__ </a>
+                    <a>Proyecto</a>
                 </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Item</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Usuario Solicitante</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Detalle</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Votar</a>
+                </div>
+            </th>
         </tr>
         </thead>
         <tbody>
-        {% for dato in solicitudes  %}
+        {% for dato in datos  %}
             <tr>
-                <td><center>{{ dato.id }}</center></td>
-				<td><center>{{ dato.name }}</center></td>
-            </tr>
+                <td><center>{{dato.nombre }}</center></td>
+				<td><center>{{ dato.proyecto.nombre }}</center></td>
+                <td><center>{{ dato.item.nombre }}</center></td>
+                <td><center>{{ dato.usuario.first_name }} {{ dato.usuario.last_name }}</center></td>
+                <td><center><a href="/solicitudes/votacion/{{ dato.pk }}" class="btn btn-success"><i class="icon-eye-open icon-white"></i></a></center></td>
+                <td><center><a href="/solicitudes/votar/{{ dato.pk }}" class="btn btn-warning"><i class="icon-check icon-white"></i></a></center></td>
+
         {% endfor %}
         </tbody>
 

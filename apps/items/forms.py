@@ -1,7 +1,7 @@
 from django import forms
 
 from apps.items.models import Item
-
+from apps.solicitudes.models import Solicitud
 
 ESTADOS = (
 
@@ -20,3 +20,9 @@ class EstadoItemForm(forms.ModelForm):
     class Meta:
         model=Item
         fields=['estado']
+
+
+class SolicitudCambioForm(forms.ModelForm):
+    class Meta:
+        model=Solicitud
+        fields=['nombre', 'descripcion']

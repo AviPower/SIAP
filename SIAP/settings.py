@@ -126,3 +126,12 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 
 MEDIA_ROOT = '/home/alvarenga/PycharmProjects/SIAP/media/'
+
+EMAIL_HOST_USER = 'gestionsiap@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'sistemainformatico'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

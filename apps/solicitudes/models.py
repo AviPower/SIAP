@@ -3,14 +3,19 @@ __author__ = 'teaser'
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from apps.fases.models import Fase
+from apps.items.models import Item
 
 ESTADOS = (
+    ('RECHAZADA','Rechazada'),
+    ('APROBADA','Aprobada'),
+    ('PENDIENTE','Pendiente'),
+    ('EJECUTADA', 'Ejecutada')
+)
 
-    ('PEN', 'Pendiente'),
-    ('APR','Aprobada'),
-    ('REC', 'Rechazada'),
-    ('REA','Ejecutada')
+VOTO = (
+    ('APROBAR','A Favor'),
+    ('RECHAZAR','En contra'),
+
 )
 
 
@@ -26,12 +31,15 @@ class Solicitud(models.Model):
     @cvar voto: Clave foranea a la tabla Voto
     """
 
-    nombre= models.CharField(max_length=100, verbose_name='Nombre',unique=True)
-    descripcion= models.TextField(verbose_name='Descripcion')
-    fecha_solicitud=models.DateField(verbose_name='Fecha de solicitud',null=False)
-    estado=models.CharField(max_length=3,choices= ESTADOS, default='PEN')
-    #fase= models.ForeignKey(Fase, related_name='fase')
-    #voto = models.ForeignKey(Voto, verbose_name = "votacion" )
+    nombre=models.CharField(max_length=100, verbose_name='Nombre')
+    descripcion=models.TextField(max_length=140, verbose_name='Descripcion')
+    proyecto=models.ForeignKey(Proyecto)
+    item=models.ForeignKey(Item)
+    fecha=models.DateField(verbose_name='Fecha de Solicitud')
+    costo=models.PositiveIntegerField(verbose_name='Costo')
+    tiempo=models.PositiveIntegerField(verbose_name='Tiempo')
+    usuario=models.ForeignKey(User)
+    estado=models.CharField(max_length=10, verbose_name='Estado',choices=ESTADOS)
 
 
 
@@ -46,10 +54,11 @@ class Voto(models.Model):
     @cvar comite: Relacion muchos a muchos con la tabla User
     """
 
-    solicitud= models.ForeignKey(Solicitud, related_name='solicitud asociada')
-  #  usuario = models.ForeignKey(User, related_name='votante')
-    estado=models.CharField(max_length=3,choices= ESTADOS, default='PEN')
-    observaciones = models.TextField(verbose_name='Observaciones(Opcional)',blank=True)
-   # comite = models.ManyToManyField(User, related_name='comite')#una solicitud de cambio tiene varios usuarios miembros de su comite
-    # y un user puede estar en varias solicitudes
+    solicitud=models.ForeignKey(Solicitud)
+    usuario=models.ForeignKey(User)
+    voto=models.CharField(max_length=10, verbose_name='Voto',choices=VOTO, null=False)
+
+class ItemsARevision(models.Model):
+    item_bloqueado=models.ForeignKey(Item, unique=False, related_name='item_bloqueado')
+    item_revision=models.ForeignKey(Item, related_name='item_revision')
 
