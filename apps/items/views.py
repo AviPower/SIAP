@@ -372,7 +372,7 @@ def editar_item(request,id_item):
     '''
     fase=Fase.objects.get(id=id_fase)
     proyecto=Proyecto.objects.get(id=fase.proyecto_id)
-    flag=es_miembro(request.user.id,id_fase,'editar_item')
+    flag=es_miembro(request.user.id,id_fase,'change_item')
     item_nuevo=get_object_or_404(Item,id=id_item)
     atri=1
     if flag==False:
@@ -511,8 +511,17 @@ def eliminar_archivo(request, id_archivo):
 
     archivo=get_object_or_404(Archivo,id=id_archivo)
     item=archivo.id_item
+    if item.estado!='PEN' and item.estado!='CON':
+        return HttpResponse("<h1> No se puede modificar un item cuyo estado no sea pendiente")
+    titem=item.tipo_item
+    fase=titem.fase
+    if es_miembro(request.user.id, fase.id, 'delete_archivo')!=True:
+        return HttpResponseRedirect('/denegado')
     archivo.delete()
-    return HttpResponseRedirect('/desarrollo/item/archivos/'+str(item.id))
+    if item.estado=='PEN':
+        return HttpResponseRedirect('/desarrollo/item/archivos/'+str(item.id))
+    if item.estado=='CON':
+        return HttpResponseRedirect('/desarrollo/item/modificar/'+str(item.id))
 
 @login_required
 def detalle_item(request, id_item):
@@ -603,14 +612,20 @@ def comprobar_relacion(version):
     @param version: version a comprobar
     """
 
+    if version.relacion==version.id_item.relacion:
+        return True
     if version.relacion==None:
+        return True
+    if version.tipo=='Sucesor':
         return True
     relacion=get_object_or_404(Item,id=version.relacion_id)
 
     item=version.id_item
-    a=Item.objects.filter((Q(tipo='Hijo') & Q(relacion=item) & Q(id=relacion.id)) & (Q (estado='PEN') | Q(estado='FIN')  | Q(estado='VAL')))
-    if a!=None:
+    if validar_hijos(relacion, item)!=True:
         return False
+  #  a=Item.objects.filter((Q(tipo='Hijo') & Q(relacion=item) & Q(id=relacion.id)) & (Q (estado='PEN') | Q(estado='FIN')  | Q(estado='VAL')))
+   # if a!=None:
+    #    return False
     items=Item.objects.filter(estado='ANU')
     for i in items:
         if i==relacion:
@@ -687,7 +702,7 @@ def crear_item_hijo(request,id_item):
         id_tipoItem=get_object_or_404(Item,id=id_item).tipo_item_id
         if cantidad_items(id_tipoItem):
             id_fase=get_object_or_404(TipoItem,id=id_tipoItem).fase_id
-            flag=es_miembro(request.user.id,id_fase,'agregar_item')
+            flag=es_miembro(request.user.id,id_fase,'add_item')
             atributos=Atributo.objects.filter(tipoItem=id_tipoItem)
             if len(atributos)==0:
                 atri=0
@@ -781,6 +796,15 @@ def cambiar_estado_item(request,id_item):
         item_form = EstadoItemForm(instance=item)
         return render_to_response('items/cambiar_estado_item.html', { 'item_form': item_form, 'nombre':nombre,'titem':item,'mensaje':100,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
+def validar_hijos(item_hijo, item):
+    if item_hijo!=None:
+        while(item_hijo!=item and item_hijo!=None):
+            if item_hijo.relacion==item:
+                return False
+            else:
+                item_hijo=item_hijo.relacion
+    return True
+
 @login_required
 
 def cambiar_padre(request, id_item):
@@ -791,10 +815,12 @@ def cambiar_padre(request, id_item):
     @return render_to_response('items/cambiar_padres.html', { 'items':items, 'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request)) o return HttpResponseRedirect('/denegado')
     """
     item=get_object_or_404(Item,id=id_item)
+    if item.estado!='PEN':
+        return HttpResponse("<h1> No se puede modificar un item cuyo estado no sea pendiente")
     tipo=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fase=get_object_or_404(Fase,id=tipo.fase_id)
     proyecto=Proyecto.objects.get(id=fase.id)
-    if es_miembro(request.user.id,fase.id,'cambiar_item'):
+    if es_miembro(request.user.id,fase.id,'change_item'):
         items=[]
         titem=TipoItem.objects.filter(fase_id=fase.id)
         for i in titem:
@@ -817,10 +843,14 @@ def cambiar_padre(request, id_item):
                     itemss=Item.objects.filter(nombre=item_nombre)
                     for i in itemss:
                         item_rel=i
-                    item.relacion=item_rel
-                    item.tipo='Hijo'
-                    item.save()
-                    return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.fase_id))
+                    if validar_hijos(item_rel,item):
+
+                        item.relacion=item_rel
+                        item.tipo='Hijo'
+                        item.save()
+                        return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.tipo_item_id))
+                    else:
+                        messages.add_message(request,settings.DELETE_MESSAGE, "Este item genera ciclos. No puede ser su padre")
         if len(items)==0:
             messages.add_message(request,settings.DELETE_MESSAGE, "No hay otros items que pueden ser padres de este")
         return render_to_response('items/cambiar_padres.html', { 'items':items, 'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request))
@@ -840,39 +870,38 @@ def cambiar_antecesor(request, id_item):
     tipo=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fas=get_object_or_404(Fase,id=tipo.fase_id)
     proyecto=Proyecto.objects.get(id=fas.proyecto_id)
-    #if es_miembro(request.user.id,fas.id,'editar_item'):
-    proyecto=fas.proyecto_id
-    items=[]
-    fase_anterior=Fase.objects.filter(proyecto_id=proyecto, orden=fas.orden-1)
-    if len(fase_anterior)==0:
+    if es_miembro(request.user.id,fas.id,'change_item'):
+        proyecto=fas.proyecto_id
         items=[]
+        fase_anterior=Fase.objects.filter(proyecto_id=proyecto, orden=fas.orden-1)
+        if len(fase_anterior)==0:
+            items=[]
+        else:
+            for fase in fase_anterior:
+                titem=TipoItem.objects.filter(fase_id=fase.id)
+                for i in titem:
+                    ii=Item.objects.filter(tipo_item_id=i.id, estado='FIN')
+                    for it in ii:
+                        if it!=item.relacion:
+                            items.append(it)
+        if request.method=='POST':
+            item_nombre=request.POST.get('entradalista')
+            if item_nombre!=None:
+                    today = datetime.now() #fecha actual
+                    dateFormat = today.strftime("%Y-%m-%d") # fecha con format
+                    generar_version(item,request.user)
+                    item.fecha_mod=dateFormat
+                    item.version=item.version+1
+                    item_rel=Item.objects.get(nombre=item_nombre)
+                    item.relacion=item_rel
+                    item.tipo='Sucesor'
+                    item.save()
+                    return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.tipo_item_id))
+        if len(items)==0:
+            messages.add_message(request,settings.DELETE_MESSAGE, "No hay otros items que pueden ser antecesores de este")
+        return render_to_response('items/cambiar_antecesor.html', { 'items':items, 'tipoitem':item,'fase':fas,'proyecto':proyecto}, context_instance=RequestContext(request))
     else:
-        for fase in fase_anterior:
-            titem=TipoItem.objects.filter(fase_id=fase.id)
-            for i in titem:
-                ii=Item.objects.filter(tipo_item_id=i.id, estado='FIN')
-                for it in ii:
-                    if it!=item.relacion:
-                        items.append(it)
-    if request.method=='POST':
-        item_nombre=request.POST.get('entradalista')
-        if item_nombre!=None:
-                today = datetime.now() #fecha actual
-                dateFormat = today.strftime("%Y-%m-%d") # fecha con format
-                generar_version(item)
-                item.fecha_mod=dateFormat
-                item.version=item.version+1
-                item_rel=Item.objects.get(nombre=item_nombre)
-                item.relacion=item_rel
-                item.tipo='Sucesor'
-                item.save()
-                return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.tipo_item_id))
-    if len(items)==0:
-        messages.add_message(request,settings.DELETE_MESSAGE, "No hay otros items que pueden ser antecesores de este")
-    return render_to_response('items/cambiar_antecesor.html', { 'items':items, 'tipoitem':item,'fase':fas,'proyecto':proyecto}, context_instance=RequestContext(request))
-#else:
-#  print('entro')
-# return HttpResponseRedirect('/denegado')
+        return HttpResponseRedirect('/denegado')
 
 def dibujarProyecto(proyecto):
     '''
@@ -1004,8 +1033,8 @@ def grafo_relaciones(request,id_proyecto):
     Vista para la creacion y posterior vizualizacion de Grafo de relaciones
     '''
     name=dibujarProyecto(id_proyecto)
-    proyecto=Proyecto.objects.get(id=proyecto_id)
-    return render_to_response('items/grafo_relaciones.html', {'proyecto':id_proyecto,'name':nombre}, context_instance=RequestContext(request))
+    proyecto=Proyecto.objects.get(id=id_proyecto)
+    return render_to_response('items/grafo_relaciones.html', {'proyecto':id_proyecto,'name':name}, context_instance=RequestContext(request))
 
 
 def crear_solicitud(request,id_item):
@@ -1019,7 +1048,7 @@ def crear_solicitud(request,id_item):
     costotiempo=recorridoEnProfundidad(item)
     costo=costotiempo[0]
     tiempo=costotiempo[1]
-    if es_miembro(request.user.id,fase.id,'agregar_solicitudcambio')!=True or item.estado!='FIN':
+    if es_miembro(request.user.id,fase.id,'add_solicitud')!=True or item.estado!='FIN':
         return HttpResponseRedirect('/denegado')
     if request.method=='POST':
         formulario = SolicitudCambioForm(request.POST)

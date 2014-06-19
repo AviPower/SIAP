@@ -4,6 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from apps.items.models import Item
+from apps.proyectos.models import Proyecto
 
 ESTADOS = (
     ('RECHAZADA','Rechazada'),

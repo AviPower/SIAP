@@ -62,7 +62,7 @@ from django.contrib.contenttypes.models import ContentType
 # Create your models here.
 
 #Creamos mas permisos para el modelo Item "Atencion el codigo de abajo solo se debe ejecutar una vez
-content_ty = ContentType.objects.get_for_model(Item)
+#content_ty = ContentType.objects.get_for_model(Item)
 #Permission.objects.create(codename='crear_item',
  #                                     name='Se puede crear item',
   #                                    content_type=content_ty)

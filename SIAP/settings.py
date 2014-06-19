@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'SIAP.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
-    'produ': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bd_siap',
         'USER': 'adminbd',
@@ -88,7 +88,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     },
-    'default': {
+    'produ': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bd_siap_prod',
         'USER': 'adminbd',

@@ -12,6 +12,7 @@ ESTADOS = (
     ('VAL','Validado'),#iniciado o aprobado
     ('REV','Revision'),#revisar
     ('ANU','Anulado'),#inactivo
+    ('BLO','Bloqueado')
 )
 TIPOS = (
 

@@ -10,9 +10,8 @@ from apps.proyectos.models import Proyecto
 ESTADOS = (
 
     ('PEN','Pendiente'),
-    ('DES','Desarrollo'),
-    ('COMPL','Completa'),
-    ('COMPR','Comprometida'),
+    ('EJE','En Ejecucion'),
+    ('FIN','Finalizado'),
 )
 # usar get_estado_display()
 
