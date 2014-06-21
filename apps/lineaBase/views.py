@@ -102,6 +102,7 @@ def crear_lineaBase(request, id_fase):
                                     flag=True
                                     nombre=i.nombre
                         if flag==True:
+                            return render_to_response('lineaBase/generar_lineaBase.html', {'formulario':formulario,'items':items,'mensaje':0,'men':'El item ' + str(nombre)+ ' posee una relacion con un item no Finalizado' ,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
                             messages.add_message(request,settings.DELETE_MESSAGE,'El item ' + str(nombre)+ ' posee una relacion con un item no Finalizado')
                         else:
                             cod=lineabase=LineaBase(nombre=request.POST['nombre'], fase=fase, estado='C')
@@ -120,7 +121,7 @@ def crear_lineaBase(request, id_fase):
     else:
         formulario=LineaBaseForm(fase=fase)
         items=Item.objects.filter(estado='VAL', tipo_item__fase=fase.id, lineaBase=None)
-    return render_to_response('lineaBase/generar_lineaBase.html', {'formulario':formulario,'items':items, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+    return render_to_response('lineaBase/generar_lineaBase.html', {'formulario':formulario,'items':items, 'mensaje':1000,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 @login_required
 def detalle_lineabase(request, id_lb):

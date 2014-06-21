@@ -32,9 +32,13 @@
 <form action="" method="post">{% csrf_token %}
     <ul class="errorlist">
             {% if  mensaje == 0 %}
-            <li>Error: No se puede cambiar a Validado ya que su padre no ha sido validado o Finalizado.
+            <li>Error: No se puede cambiar a Validado ya que su padre no ha sido validado o Finalizado.</li>
                 {% elif mensaje == 1 %}
-                <li>Error: No se puede cambiar  a pendiente ya que tiene hijos con estados distintos a Pendiente.
+                <li>Error: No se puede cambiar  a pendiente ya que tiene hijos con estados distintos a Pendiente.</li>
+                {% elif mensaje == 2 %}
+                <li>Error: 'El estado no puede cambiar de en Revision/Construccion A Pendiente'.</li>
+                {% elif mensaje == 3 %}
+                <li>Error: No se puede validar el item porque aun no se han aplicado los cambios de la solicitud</li>
             {% endif %}
         </ul>
 

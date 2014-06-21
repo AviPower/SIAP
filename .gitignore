@@ -11,3 +11,4 @@ SIAP/wsgi.py
 media/archivos
 media/img
 #static/img
+*grafico.jpg

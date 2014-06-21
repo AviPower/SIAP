@@ -14,9 +14,10 @@ from SIAP import settings
 from apps.fases.models import Fase
 from apps.items.models import Item, Archivo, AtributoItem, VersionItem
 from apps.proyectos.models import Proyecto
+from apps.lineaBase.models import LineaBase
 from apps.tiposDeItem.models import TipoItem, Atributo
 from apps.items.forms import EstadoItemForm, PrimeraFaseForm, SolicitudCambioForm
-from apps.solicitudes.models import Solicitud,Voto
+from apps.solicitudes.models import Solicitud,Voto, ItemsARevision
 from django import forms
 
 def contar_solicitudes(id_usuario):
@@ -58,6 +59,8 @@ def listar_proyectos(request):
     """
     success_url = reverse_lazy('listar_proyectos')
     usuario = request.user
+    request.session['cantSolicitudes']=contar_solicitudes(request.user.id)
+    cantidad=contar_solicitudes(request.user.id)
     #proyectos del cual es lider y su estado es activo
     proyectosLider = Proyecto.objects.filter(lider_id=usuario.id, estado='ACT')
 
@@ -78,7 +81,7 @@ def listar_proyectos(request):
     for p in proyectosLider:
         proyectos.append(p)
     setproyectos=set(proyectos)
-    return render_to_response('items/ingresar_proyecto.html', {'datos': setproyectos}, context_instance=RequestContext(request))
+    return render_to_response('items/ingresar_proyecto.html', {'cantidadsolicitud':cantidad,'datos': setproyectos}, context_instance=RequestContext(request))
 
 @login_required
 def listar_fases(request, id_proyecto):
@@ -370,10 +373,11 @@ def editar_item(request,id_item):
     Si el item se encuentra con el estado CON (solicitud de cambio aprobada), se puede modificar el item solo si el
     usuario es el que realizo la solicittud de cambio
     '''
-    fase=Fase.objects.get(id=id_fase)
-    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
-    flag=es_miembro(request.user.id,id_fase,'change_item')
+
     item_nuevo=get_object_or_404(Item,id=id_item)
+    fase=Fase.objects.get(id=item_nuevo.fase_id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    flag=es_miembro(request.user.id,item_nuevo.fase_id,'change_item')
     atri=1
     if flag==False:
         return HttpResponseRedirect('/denegado')
@@ -430,11 +434,11 @@ def editar_item(request,id_item):
                                 aa=AtributoItem.objects.get(id=atributo.id)
                                 aa.valor=a
                                 aa.save()
-                    return render_to_response('items/creacion_correcta.html',{'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+                    return render_to_response('items/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
             else:
 
                 formulario = PrimeraFaseForm(instance=item_nuevo)
-            return render_to_response('items/modificar_item_solicitud.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem, 'atributos':atributos, 'atri':atri, 'archivos':archivos}, context_instance=RequestContext(request))
+            return render_to_response('items/modificar_item_solicitud.html', { 'formulario': formulario,'fase':fase,'proyecto':proyecto, 'item':item_nuevo, 'atributos':atributos, 'atri':atri, 'archivos':archivos}, context_instance=RequestContext(request))
         else:
             return HttpResponseRedirect ('/denegado')
 
@@ -442,7 +446,7 @@ def editar_item(request,id_item):
         return HttpResponse('<h1> No se puede modificar el item, ya que ya ha sido generada una solicitud de cambio para el mismo</h1>')
 
     if flag==True and item_nuevo.estado=='FIN':
-        return render_to_response('solicitudes/peticion_modificar.html',{'id_item':item_nuevo.id, 'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+        return render_to_response('solicitudes/peticion_modificar.html',{'id_item':item_nuevo.id,'fase':fase}, context_instance=RequestContext(request))
     if item_nuevo.estado=='PEN':
 
         if flag==True:
@@ -452,7 +456,7 @@ def editar_item(request,id_item):
                     formulario = PrimeraFaseForm(request.POST, instance=item_nuevo)
 
                     if formulario.is_valid():
-                        generar_version(item_nuevo,request.user)
+                        generar_version(item_nuevo)
                         today = datetime.now() #fecha actual
                         dateFormat = today.strftime("%Y-%m-%d") # fecha con format
 
@@ -461,13 +465,13 @@ def editar_item(request,id_item):
                         item_nuevo.version=item_nuevo.version+1
                         item_nuevo.save()
 
-                        return render_to_response('items/creacion_correcta.html',{'id_fase':id_fase, 'id_tipo_item':id_tipoItem}, context_instance=RequestContext(request))
+                        return render_to_response('items/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
 
                 else:
 
                     formulario = PrimeraFaseForm(instance=item_nuevo)
                     hijo=True
-                return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo,'titem':id_tipoItem,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+                return render_to_response('items/editar_item.html', { 'formulario': formulario, 'item':item_nuevo, 'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
         else:
                 return render_to_response('403.html')
@@ -754,17 +758,110 @@ def cambiar_estado_item(request,id_item):
     vista para cambiar el estado de un item, teniendo en cuenta:
     1) Si se quiere pasar de PEN  a VAL, se verifica que el estado de su padre tambien sea VAL
     2) Si se quiere pasar de VAL a PEN se verifica que el estado de sus hijos tambien sea PEN
+    3) Si quiere pasar un item de REV a VAL, el item que origino la solicitud de cambio debe estar con estado FIN y
+        solo el lider puede cambiar este estado
+    4) Si se quiere cambiar el estado de un item CON a VAL, se verifica que solo el que tiene la credencial pueda
+    cambiar el estado, y al cambiarlo, se crea una nueva linea base con todos los items de la anterior, se cambia el
+    estado del item a FIN y el estado de la solicitud a EJECUTADA
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @param id_item: clave foranea al item
     @return render_to_response('items/...) de acuerdo a los diferentes estados que puede tener un item
     """
 
     item=get_object_or_404(Item,id=id_item)
+
+    nombre=item.nombre
+    fase=item.tipo_item.fase
+    lider=fase.proyecto.lider
+    proyecto=Proyecto.objects.get(id=fase.id)
+    if not es_miembro(request.user.id, fase.id,''):
+        return HttpResponseRedirect ('/denegado')
+    titem=item.tipo_item_id
+
+    if item.estado=='REV' or item.estado=='CON':
+        estado_anterior=item.estado
+        if lider!=request.user and item.estado=='REV':
+            return HttpResponseRedirect ('/denegado')
+        solicitudes=Solicitud.objects.filter(item=item, estado='APROBADA')
+        if solicitudes is None and item.estado=='CON':
+            return HttpResponseRedirect ('/denegado')
+        if len(solicitudes)==0:
+            solicitud=None
+            solicitante=None
+        else:
+            solicitud=solicitudes[0]
+            solicitante=solicitud.usuario
+        if (solicitante!=request.user and item.estado=='CON'):
+            return HttpResponseRedirect ('/denegado')
+        if request.method == 'POST':
+            item_form = EstadoItemForm(request.POST, instance=item)
+            if item_form.is_valid():
+                    puede_modificar=True
+                    if item_form.cleaned_data['estado']=='VAL':
+                        if estado_anterior=='CON':
+                            #se obtienen todos los items perteneciente a la linea base rota
+                            item=get_object_or_404(Item, id=id_item)
+                            itemsLineaBase=Item.objects.filter(lineaBase=item.lineaBase)
+                            #se crea una linea base nueva
+                            vieja_lb=item.lineaBase
+                            cod=nueva_lb=LineaBase(nombre=vieja_lb.nombre+ ' Nueva', fase=vieja_lb.fase, estado='CERRADA')
+                            nueva_lb.save()
+                            for itemLB in itemsLineaBase:
+                                #se genera una nueva version para cada item
+                                generar_version(itemLB)
+                                #se agrega cada item a la nueva linea base
+                                instanciaItem=get_object_or_404(Item, id=itemLB.id)
+                                instanciaItem.version=item.version+1
+                                instanciaItem.lineaBase=cod
+                                instanciaItem.save()
+                            #se cambia el estado del item a FIN
+                            item.estado='FIN'
+                            item.version=item.version+1
+                            item.lineaBase=cod
+                            item.save()
+                            #se cambia el estado de la solicitud de cambio a ejecutada
+                            solicitud.estado='EJECUTADA'
+                            solicitud.save()
+                            #se borran de la lista los items que estan relacionados con el item modificado
+                            items_revision=ItemsARevision.objects.filter(item_bloqueado=item)
+                            for itemRev in items_revision:
+                                instanciaItemRev=get_object_or_404(ItemsARevision, id=itemRev.id)
+                                instanciaItemRev.delete()
+                            return render_to_response('items/creacion_correcta.html',{'id_tipo_item':titem}, context_instance=RequestContext(request))
+                        else:
+                            items_revision=ItemsARevision.objects.all()
+
+                            for itemR in items_revision:
+                                if itemR.item_revision.id==item.id:
+                                    puede_modificar=False
+                                    break
+
+                            if puede_modificar==False:
+                                messages.add_message(request,settings.DELETE_MESSAGE, 'No se puede validar el item porque aun no se han aplicado los cambios de la solicitud')
+                                return render_to_response('items/cambiar_estado_item.html', { 'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':3,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+                            else:
+                                if item.lineaBase is None:
+                                    item.estado='VAL'
+                                else:
+                                    item.estado='FIN'
+                                item.save()
+                                return render_to_response('items/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
+                    else:
+                        messages.add_message(request,settings.DELETE_MESSAGE, 'El estado no puede cambiar de en Revision/Construccion A Pendiente')
+                        return render_to_response('items/cambiar_estado_item.html', {  'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':2,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+        else:
+            # formulario inicial
+            item_form = EstadoItemForm(instance=item)
+        return render_to_response('items/cambiar_estado_item.html', {  'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':100,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
+
+
     id_fase=get_object_or_404(Item,id=id_item).fase_id
     fase=Fase.objects.get(id=id_fase)
     proyecto=Proyecto.objects.get(id=id_fase)
     nombre=item.nombre
     titem=item.tipo_item_id
+    if item.estado=='FIN':
+        return HttpResponse('<h1>No se puede cambiar el estado de un item finalizado<h1>')
     if request.method == 'POST':
         bandera=False
         item_form = EstadoItemForm(request.POST, instance=item)
@@ -779,7 +876,7 @@ def cambiar_estado_item(request,id_item):
                             if papa.estado=='VAL':
                                 bandera=False
                     if item_form.cleaned_data['estado']=='PEN':
-                            hijos=Item.objects.filter(relacion=item)
+                            hijos=Item.objects.filter(relacion=item).exclude(estado='ANU')
                             for hijo in hijos:
                                 if hijo.estado!='PEN' and hijo.tipo=='Hijo':
                                     # 'No se puede cambiar  a pendiente ya que tiene hijos con estados distintos a Pendiente'
@@ -889,7 +986,7 @@ def cambiar_antecesor(request, id_item):
             if item_nombre!=None:
                     today = datetime.now() #fecha actual
                     dateFormat = today.strftime("%Y-%m-%d") # fecha con format
-                    generar_version(item,request.user)
+                    generar_version(item)
                     item.fecha_mod=dateFormat
                     item.version=item.version+1
                     item_rel=Item.objects.get(nombre=item_nombre)
@@ -1028,13 +1125,14 @@ def getMaxIdItemEnLista(lista):
             max=item.id
     return max
 
-def grafo_relaciones(request,id_proyecto):
+def grafo_relaciones(request,id_fase):
     '''
     Vista para la creacion y posterior vizualizacion de Grafo de relaciones
     '''
-    name=dibujarProyecto(id_proyecto)
-    proyecto=Proyecto.objects.get(id=id_proyecto)
-    return render_to_response('items/grafo_relaciones.html', {'proyecto':id_proyecto,'name':name}, context_instance=RequestContext(request))
+    fase=Fase.objects.get(id=id_fase)
+    name=dibujarProyecto(fase.proyecto_id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
+    return render_to_response('items/grafo_relaciones.html', {'proyecto':proyecto,'fase':fase,'name':name}, context_instance=RequestContext(request))
 
 
 def crear_solicitud(request,id_item):

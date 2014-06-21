@@ -32,7 +32,15 @@
 <div id="content-main">
 
         <div class="results" >
-
+        <ul class="errorlist">
+            {% if  cantidadsolicitud > 0 %}
+                {% if  cantidadsolicitud > 1 %}
+                    <li> Tiene {{ cantidadsolicitud }} solicitudes pendientes</li>
+                    {% else %}
+                    <li> Tiene {{ cantidadsolicitud }} solicitud pendiente</li>
+                    {% endif %}
+            {% endif %}
+        </ul>
             <table >
         <thead>
         <tr>

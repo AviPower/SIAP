@@ -29,6 +29,6 @@ urlpatterns = patterns('',
 
         url(r'^item/padre/(?P<id_item>\d+)$',cambiar_padre,name='cambiar_padre'),
         url(r'^item/antecesor/(?P<id_item>\d+)$',cambiar_antecesor,name='cambiar_antecesor'),
-        url(r'^item/grafo/(?P<id_proyecto>\d+)$',grafo_relaciones,name='grafo_relaciones'),
+        url(r'^item/grafo/(?P<id_fase>\d+)$',grafo_relaciones,name='grafo_relaciones'),
         url(r'^item/solicitud/(?P<id_item>\d+)$',crear_solicitud,name='crear_solicitud'),
         )

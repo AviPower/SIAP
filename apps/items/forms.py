@@ -6,7 +6,7 @@ from apps.solicitudes.models import Solicitud
 ESTADOS = (
 
     ('PEN', 'Pendiente'),
-    ('FIN','Finalizado'),
+ #   ('FIN','Finalizado'),
     ('VAL', 'Validado'),
 )
 

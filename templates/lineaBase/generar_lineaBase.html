@@ -20,6 +20,15 @@
        <fieldset class="module aligned wide">
 <form  method='post' action='' enctype="multipart/form-data">{% csrf_token %}
     <div>
+    <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: {{ men }}</li>
+                {% elif mensaje == 1 %}
+                <li>Error: Rol eliminado</li>
+                {% elif mensaje == 2 %}
+                <li>Error:  No se puede eliminar. El rol posee fase asociada.</li>
+            {% endif %}
+        </ul>
         <ul>
         <div><label>Nombre:</label>{{formulario.nombre}}</div>
         <div><label>Items Validados:</label>
