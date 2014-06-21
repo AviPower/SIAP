@@ -87,6 +87,14 @@ DATABASES = {
         'PASSWORD': '2014is2',
         'HOST': 'localhost',
         'PORT': '5432',
+        },
+    'produ': {
+         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+         'NAME': 'bd_siap_prod',
+         'USER': 'adminbd',
+         'PASSWORD': '2014is2',
+         'HOST': 'localhost',
+         'PORT': '5432',
     }
 }
 

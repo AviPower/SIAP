@@ -79,6 +79,11 @@
                     <a>Ingresar</a>
                 </div>
             </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Finalizacion</a>
+                </div>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -91,6 +96,7 @@
 				<td><center>{{ dato.estado }}</center></td>
                 <td><center>{{ dato.lider }}</center></td>
                 <td><center><a href="/desarrollo/proyectos/fases/{{ dato.pk }}" class="btn btn-success"><i class="icon-folder-open icon-white"></i></a></center></td>
+                <td><center><a href="/solicitudes/finalizacionProyecto/{{ dato.pk }}"class="btn btn-inverse"><i class="icon-lock icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

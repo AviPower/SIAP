@@ -74,6 +74,11 @@
                     <a>Linea_Base</a>
                 </div>
             </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Finalizacion</a>
+                </div>
+            </th>
         </tr>
         </thead>
         <tbody>
@@ -86,6 +91,7 @@
                 <td><center><a href="/desarrollo/fases/tiposDeItem/{{ dato.pk }}"class="btn btn-warning"><i class="icon-briefcase icon-white"></i></a></center></td>
                 <td><center><a href="/desarrollo/item/listar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-tasks icon-white"></i></a></center></td>
                 <td><center><a href="/lineaBase/listar/{{ dato.pk }}"class="btn btn-inverse"><i class="icon-inbox icon-white"></i></a></center></td>
+                <td><center><a href="/solicitudes/finalizacionFase/{{ dato.pk }}"class="btn btn-inverse"><i class="icon-lock icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>
