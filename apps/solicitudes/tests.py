@@ -38,7 +38,6 @@ class SolicitudTest(TestCase):
                             tipo_item = tipoIt, fase = faseprueba
                             )
 
-
         Solicitud.objects.create(nombre='solici', descripcion="Esta es una solicitud",
                                            fecha="2014-01-12", proyecto = proyecto, item = item,
                                            costo = 3, tiempo = 4, usuario = user)
