@@ -70,7 +70,7 @@ def listar_proyectos(request):
     #las fases de en las cuales el usuario tiene un rol
 
     for rol in roles:
-        print(rol.id)
+        #print(rol.id)
         fase=Fase.objects.get(roles=rol.id)
         fases.append(fase)
     #los proyectos a los que pertenecen esas fases
@@ -239,7 +239,7 @@ def crear_item(request,id_tipoItem):
     """
     atri=1
     if cantidad_items(id_tipoItem):
-        print(cantidad_items(id_tipoItem))
+       # print(cantidad_items(id_tipoItem))
         id_fase=TipoItem.objects.get(id=id_tipoItem).fase_id
         flag=es_miembro(request.user.id,id_fase,'add_item')
         atributos=Atributo.objects.filter(tipoItem=id_tipoItem)
@@ -343,7 +343,6 @@ def listar_items(request,id_fase):
     fase=Fase.objects.filter(id=id_fase)
     if es_miembro(request.user.id,fase,''):
         items=Item.objects.filter(fase_id=id_fase)
-        print(items)
         if puede_add_items(fase):
             nivel = 3
             id_proyecto=Fase.objects.get(id=fase).proyecto_id
@@ -773,7 +772,7 @@ def cambiar_estado_item(request,id_item):
     nombre=item.nombre
     fase=item.tipo_item.fase
     lider=fase.proyecto.lider
-    proyecto=Proyecto.objects.get(id=fase.id)
+    proyecto=Proyecto.objects.get(id=fase.proyecto_id)
     if not es_miembro(request.user.id, fase.id,''):
         return HttpResponseRedirect ('/denegado')
     titem=item.tipo_item_id
@@ -792,6 +791,7 @@ def cambiar_estado_item(request,id_item):
             solicitud=solicitudes[0]
             solicitante=solicitud.usuario
         if (solicitante!=request.user and item.estado=='CON'):
+            print(solicitante)
             return HttpResponseRedirect ('/denegado')
         if request.method == 'POST':
             item_form = EstadoItemForm(request.POST, instance=item)
@@ -827,7 +827,7 @@ def cambiar_estado_item(request,id_item):
                             for itemRev in items_revision:
                                 instanciaItemRev=get_object_or_404(ItemsARevision, id=itemRev.id)
                                 instanciaItemRev.delete()
-                            return render_to_response('items/creacion_correcta.html',{'id_tipo_item':titem}, context_instance=RequestContext(request))
+                            return render_to_response('items/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
                         else:
                             items_revision=ItemsARevision.objects.all()
 
@@ -848,16 +848,20 @@ def cambiar_estado_item(request,id_item):
                                 return render_to_response('items/creacion_correcta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))
                     else:
                         messages.add_message(request,settings.DELETE_MESSAGE, 'El estado no puede cambiar de en Revision/Construccion A Pendiente')
+                        id_fase=get_object_or_404(Item,id=id_item).fase_id
+                        fase=Fase.objects.get(id=id_fase)
                         return render_to_response('items/cambiar_estado_item.html', {  'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':2,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
         else:
             # formulario inicial
             item_form = EstadoItemForm(instance=item)
+            id_fase=get_object_or_404(Item,id=id_item).fase_id
+            fase=Fase.objects.get(id=id_fase)
         return render_to_response('items/cambiar_estado_item.html', {  'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':100,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
 
 
     id_fase=get_object_or_404(Item,id=id_item).fase_id
     fase=Fase.objects.get(id=id_fase)
-    proyecto=Proyecto.objects.get(id=id_fase)
+
     nombre=item.nombre
     titem=item.tipo_item_id
     if item.estado=='FIN':
@@ -1079,7 +1083,8 @@ def dibujarProyecto(proyecto):
     date=datetime.now()
 
     name=str(date)+'grafico.jpg'
-    grafo.write_jpg(str(settings.BASE_DIR)+'/static/img/'+str(name))
+    #grafo.write_jpg(str(settings.BASE_DIR)+'/static/img/'+str(name))
+    grafo.write_jpg('/tmp/'+str(name))
     return name
 
 def recorridoEnProfundidad(item):
