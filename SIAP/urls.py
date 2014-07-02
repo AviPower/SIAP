@@ -26,4 +26,6 @@ urlpatterns = patterns('',
     url(r'^lineaBase/',include('apps.lineaBase.urls')),
     #SOLICITUDES DE CAMBIO
     url(r'^solicitudes/',include('apps.solicitudes.urls')),
+    #REPORTES
+    url(r'^reportes/',include('apps.reportes.urls')),
 )

@@ -30,7 +30,7 @@ class Fase(models.Model):
     @cvar roles: relacion muchos a muchos con la tabla de Grupos
     @cvar proyecto: clave foranea a proyecto
     """
-    nombre = models.CharField(max_length=100, verbose_name='Nombre', unique=True)
+    nombre = models.CharField(max_length=100, verbose_name='Nombre')
     descripcion = models.TextField(verbose_name='Descripcion')
     maxItems = models.SmallIntegerField(verbose_name='Cantidad max de Items')
     #posicion = models.SmallIntegerField(verbose_name='Posicion relativa de la fase dentro del proyecto')
