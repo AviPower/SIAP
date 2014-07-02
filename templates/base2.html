@@ -32,7 +32,7 @@
         <a class="brand" href="/">SIAP</a>
           <ul class="nav">
             <li class="active"><a href="/desarrollo/proyectos/">Inicio</a></li>
-                 {% if  user.username == "admin" %}
+                 {% if  user.is_superuser %}
                      <li class="dropdown">
                          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Administracion
                              <b class="caret"></b>
@@ -59,11 +59,17 @@
                              <b class="caret"></b>
                          </a>
                          <ul class="dropdown-menu">
-                             <li><a href="/usuario">Linea Base</a></li>
                              <li><a href="/solicitudes/listar/">Solicitudes de Cambio</a></li>
                          </ul>
                      </li>
-            <li class="dropdown">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Reportes sobre Proyecto
+                        <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                <li><a href="/reportes/listar_proyectos_reporte/">Reportes</a></li>
+              </ul>
+                    </li>
+              <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mi cuenta
                  <b class="caret"></b>
               </a>

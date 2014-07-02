@@ -386,7 +386,7 @@ def reporte_proyectoLider(id_proyecto):
     '''
 
     proyecto=get_object_or_404(Proyecto, id=id_proyecto)
-    doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_proyecto"+proyecto.nombre+".pdf",pagesize=letter,
+    doc = SimpleDocTemplate("/tmp/reporte_proyecto"+proyecto.nombre+".pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
 
@@ -504,13 +504,13 @@ def reporte_proyectoLider(id_proyecto):
             u=User.objects.filter(groups__id=rol.id)
             for user in u:
                 Story.append(Indenter(30))
-                uu=user.first_name + " " + user.last_name  +  "  -  " + rol.name  +" en la fase   " + fase.nombre +"\n"
+                uu=user.first_name + " " + user.last_name  +  "  - ROL: " + rol.name  +" en la fase   " + fase.nombre +"\n"
                 Story.append(Paragraph(uu, styles["SubItems"]))
                 Story.append(Indenter(-30))
 
 
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_proyecto"+proyecto.nombre+".pdf"
+    return "/tmp/reporte_proyecto"+proyecto.nombre+".pdf"
 
 
 def descargar_reporteProyectoLider(request, id_proyecto):
@@ -535,7 +535,7 @@ def reporte_lineas_base(id_proyecto):
 
     fases=Fase.objects.filter(proyecto_id=id_proyecto).order_by('orden')
     proyecto = get_object_or_404(Proyecto,id=id_proyecto)
-    doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_lineasBase"+proyecto.nombre+".pdf",pagesize=letter,
+    doc = SimpleDocTemplate("/tmp/reporte_lineasBase"+proyecto.nombre+".pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
 
@@ -598,7 +598,7 @@ def reporte_lineas_base(id_proyecto):
                 Story.append(Paragraph(text, styles["Items"]))
                 Story.append(Indenter(-42))
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_lineasBase"+proyecto.nombre+".pdf"
+    return "/tmp/reporte_lineasBase"+proyecto.nombre+".pdf"
 
 @login_required
 def descargar_reporteLB(request, id_proyecto):
@@ -637,7 +637,7 @@ def reporte_items(id_proyecto):
 
     fases=Fase.objects.filter(proyecto_id=id_proyecto).order_by('orden')
     proyecto = get_object_or_404(Proyecto,id=id_proyecto)
-    doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_items"+proyecto.nombre+".pdf",pagesize=letter,
+    doc = SimpleDocTemplate("/tmp/reporte_items"+proyecto.nombre+".pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
 
@@ -738,7 +738,7 @@ def reporte_items(id_proyecto):
 
 
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_items"+proyecto.nombre+".pdf"
+    return "/tmp/reporte_items"+proyecto.nombre+".pdf"
 
 
 def descargar_reporteItems(request, id_proyecto):
@@ -762,7 +762,7 @@ def reporte_versiones_items(id_proyecto):
     proyecto = get_object_or_404(Proyecto,id=id_proyecto)
     items = itemsProyecto(proyecto.id)
 
-    doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_versiones"+proyecto.nombre+".pdf",pagesize=letter,
+    doc = SimpleDocTemplate("/tmp/reporte_versiones"+proyecto.nombre+".pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
 
@@ -858,7 +858,7 @@ def reporte_versiones_items(id_proyecto):
 
 
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_versiones"+proyecto.nombre+".pdf"
+    return "/tmp/reporte_versiones"+proyecto.nombre+".pdf"
 
 
 def descargar_reporteVersionesItems(request, id_proyecto):
@@ -878,7 +878,7 @@ def reporte_solicitudes(id_proyecto):
     '''
 
     proyecto = get_object_or_404(Proyecto,id=id_proyecto)
-    doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_solicitudes"+proyecto.nombre+".pdf",pagesize=letter,
+    doc = SimpleDocTemplate("/tmp/reporte_solicitudes"+proyecto.nombre+".pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
 
@@ -910,19 +910,19 @@ def reporte_solicitudes(id_proyecto):
     dateFormat = date.strftime("%d-%m-%Y")
     Story.append(Paragraph('Fecha: ' + str(dateFormat),styles['Subtitulos']))
     solicitudes=[]
-    solicitudesPen=SolicitudCambio.objects.filter(proyecto=proyecto,estado='PENDIENTE')
+    solicitudesPen=Solicitud.objects.filter(proyecto=proyecto,estado='PENDIENTE')
     for s in solicitudesPen:
         solicitudes.append(s)
     pen=0
-    solicitudesApr=SolicitudCambio.objects.filter(proyecto=proyecto,estado='APROBADA')
+    solicitudesApr=Solicitud.objects.filter(proyecto=proyecto,estado='APROBADA')
     for s in solicitudesApr:
         solicitudes.append(s)
     apr=0
-    solicitudesRec=SolicitudCambio.objects.filter(proyecto=proyecto,estado='RECHAZADA')
+    solicitudesRec=Solicitud.objects.filter(proyecto=proyecto,estado='RECHAZADA')
     for s in solicitudesRec:
         solicitudes.append(s)
     rec=0
-    solicitudesEje=SolicitudCambio.objects.filter(proyecto=proyecto,estado='EJECUTADA')
+    solicitudesEje=Solicitud.objects.filter(proyecto=proyecto,estado='EJECUTADA')
     for s in solicitudesEje:
         solicitudes.append(s)
     eje=0
@@ -1011,7 +1011,7 @@ def reporte_solicitudes(id_proyecto):
 
 
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_solicitudes"+proyecto.nombre+".pdf"
+    return "/tmp/reporte_solicitudes"+proyecto.nombre+".pdf"
 
 
 def descargar_reporteSolicitudes(request, id_proyecto):
