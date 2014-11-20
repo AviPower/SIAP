@@ -36,7 +36,7 @@ class Proyecto(models.Model):
     observaciones = models.TextField(verbose_name='Observaciones(Opcional)',blank=True)
     comite = models.ManyToManyField(User, related_name='comite')#un proyecto en comite tiene varios user
     # y un user puede estar en varios comite
-
+    fecha_fin_real=models.DateField(null=True)
     #Dato Fecha y Hora, almacena la fecha actual
     #tiempo_registro = models.DateTimeField(auto_now=True)
     #roles = models.ManyToManyField(Group)#Un proyecto puede tener mucho roles y no puedo hacer Foreignkey en tabla Group

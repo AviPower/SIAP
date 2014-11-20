@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+import datetime
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, EmailMessage
@@ -40,6 +41,7 @@ def listar_solicitudes(request):
         for solicitud in lista:
             lista_solicitudes.append(solicitud)
     return render_to_response('solicitudes/listar_solicitudes.html', {'datos': lista_solicitudes}, context_instance=RequestContext(request))
+
 
 
 def puede_votar(id_usuario,id_solicitud):
@@ -201,8 +203,8 @@ def resultado(solicitud):
         titulo='Solicitud de cambio Aprobada'
         mensaje=usuario + ', su solicitud de cambio para el item ' + item + ' del proyecto ' + proyecto + ' ha sido aprobada.'
 
-    correo=EmailMessage(titulo, mensaje, to=[mail])
-    correo.send()
+    '''correo=EmailMessage(titulo, mensaje, to=[mail])
+    correo.send()'''
     solicitud.save()
 
 def comprobar_items_fase(id_fase):
@@ -258,6 +260,8 @@ def finalizar_proyecto(request, id_proyecto):
     if not es_lider(request.user.id, id_proyecto):
         return HttpResponseRedirect ('/denegado')
     proyecto=get_object_or_404(Proyecto,id=id_proyecto)
+    if proyecto.estado!='ACT':
+        return HttpResponseRedirect ('/denegado')
     fases=Fase.objects.filter(proyecto=proyecto)
     for fase in fases:
         if fase.estado!='FIN':
@@ -265,6 +269,20 @@ def finalizar_proyecto(request, id_proyecto):
             break
     if puede_finalizar:
         proyecto.estado='FIN'
+        today = datetime.now() #fecha actual
+        dateFormat = today.strftime("%Y-%m-%d") # fecha con format
+        proyecto.fecha_fin_real=dateFormat
+        dias=today.date()-proyecto.fecha_fin
+        dias= int(str(dias.days))
+        print dias
+        if dias>0:
+            adelanto=0
+        else:
+            if dias<0:
+                adelanto=1
+                dias=dias*-1
+            else:
+                adelanto=2
         proyecto.save()
         return render_to_response('solicitudes/finalizacion_correcta_proyecto.html', {'proyecto':proyecto}, context_instance=RequestContext(request))
     else:
