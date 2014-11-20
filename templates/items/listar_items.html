@@ -36,6 +36,7 @@
 
         <a href="/desarrollo/item/selectTipoItem/{{fase.id }}" class="addlink">Nuevo Item</a>
         <a href="/desarrollo/item/grafo/{{fase.id }}" class="change-list">Grafo Relaciones</a>
+        <a  href="/desarrollo/item/listar_muertos/{{fase.id }}" class="change-list">Revivir Item</a>
     </li>
 </ul>
 <div id="content-main">
@@ -44,37 +45,49 @@
 
 
         <div class="results" >
+         <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: No se puede eliminar un item que tenga hijos</li>
+                {% elif mensaje == 2 %}
+                <li>Error:  No se puede eliminar un item cuyo estado no sea pendiente.</li>
+            {% endif %}
+        </ul>
+        <ul class="infolist">
+            {% if mensaje == 1 %}
+            <li>Item eliminado correctamente</li>
+            {% endif %}
+        </ul>
         <table >
         <thead>
         <tr>
             <th scope="col" class="sortable" >
                 <div class="text">
-                    <a>__Nombre__</a>
+                    <a>_Nombre_</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Costo__</a>
+                    <a>Costo</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Tiempo__</a>
+                    <a>Tiempo</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a> __Version__  </a>
+                    <a> Version </a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Estado_</a>
+                    <a>Estado</a>
                 </div>
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>_Ver Detalle_</a>
+                    <a>Ver Detalle</a>
                 </div>
             </th>
                         <th scope="col">
@@ -84,12 +97,17 @@
             </th>
             <th scope="col">
                 <div class="text">
-                    <a>__Modificar__</a>
+                    <a>_Modificar_</a>
                 </div>
             </th>
              <th scope="col">
                 <div class="text">
-                    <a>__Cambiar Estado__</a>
+                    <a>_Cambiar Estado_</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>_Eliminar Item_</a>
                 </div>
             </th>
         </tr>
@@ -106,6 +124,7 @@
                 <td><center><a href="/desarrollo/item/crear/hijo/{{ dato.pk }}" class="btn btn-inverse"><i class="icon-user icon-white"></i></a></center></td>
                 <td><center><a href="/desarrollo/item/modificar/{{ dato.pk }}" class="btn btn-primary"><i class="icon-pencil icon-white"></i></a></center></td>
                 <td><center><a href="/desarrollo/item/cambiar_estado/{{ dato.pk }}" class="btn btn-info"><i class="icon-retweet icon-white"></i></a></center></td>
+                <td><center><a href="/desarrollo/item/eliminar_item/{{ dato.pk }}" class="btn btn-info"><i class="icon-minus icon-white"></i></a></center></td>
             </tr>
         {% endfor %}
         </tbody>

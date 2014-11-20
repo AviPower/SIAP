@@ -127,6 +127,7 @@ TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
 MEDIA_URL = 'http://siap.com/var/www/'
 MEDIA_ROOT = '/var/www/'
+#MEDIA_ROOT = '/tmp/'
 #MEDIA_ROOT = '/home/alvarenga/PycharmProjects/SIAP/media/'
 
 EMAIL_HOST_USER = 'gestionsiap@gmail.com'

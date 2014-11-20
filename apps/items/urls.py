@@ -3,7 +3,7 @@ from django.contrib import admin
 from apps.items.views import listar_proyectos,listar_fases,listar_tiposDeItem, crear_item, listar_items, detalle_item, crear_solicitud
 from apps.items.views import editar_item, eliminar_archivo,detalle_tiposDeItem, seleccion_tipoItem, crear_item_hijo,cambiar_estado_item
 from apps.items.views import listar_archivos, detalle_version_item, listar_versiones, reversionar_item,descargo_archivo, cambiar_padre,\
-    cambiar_antecesor,grafo_relaciones
+    cambiar_antecesor,grafo_relaciones,eliminar_item,listar_muertos,revivir
 admin.autodiscover()
 
 
@@ -31,4 +31,8 @@ urlpatterns = patterns('',
         url(r'^item/antecesor/(?P<id_item>\d+)$',cambiar_antecesor,name='cambiar_antecesor'),
         url(r'^item/grafo/(?P<id_fase>\d+)$',grafo_relaciones,name='grafo_relaciones'),
         url(r'^item/solicitud/(?P<id_item>\d+)$',crear_solicitud,name='crear_solicitud'),
+
+        url(r'^item/eliminar_item/(?P<id_item>\d+)$',eliminar_item,name='eliminar_item'),
+        url(r'^item/listar_muertos/(?P<id_fase>\d+)$',listar_muertos, name='listar_muertos'),
+        url(r'^item/revivir/(?P<id_item>\d+)$',revivir, name='revivir'),
         )

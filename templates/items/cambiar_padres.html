@@ -30,6 +30,13 @@
     <div id="content" class="colM">
     <h1>Cambiar Padre del Item {{ item.nombre|title }} </h1>
 <form  method='post' action='' enctype="multipart/form-data">{% csrf_token %}
+<ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: Este item genera ciclos. No puede ser su padre</li>
+                {% elif mensaje == 1 %}
+                <li>Error: No hay otros items que pueden ser padres de este</li>
+            {% endif %}
+        </ul>
 Padre:
 <select name="entradalista">
     {% for item in items %}

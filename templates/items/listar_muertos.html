@@ -1,9 +1,111 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends 'base2.html' %}
+{% block title %}
+	Items_Eliminados
+{% endblock %}
+{% block content %}
+    <head>
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/usuario/css/forms.css" />
 
-</body>
-</html>
+</head>
+    <div class="breadcrumbs">
+    <a href="/desarrollo/proyectos/">Proyecto {{ fase.proyecto.nombre }}</a> >>>
+        <a href="/desarrollo/proyectos/fases/{{ fase.proyecto.pk }}">Fase en Ejecucion {{ fase.nombre }}</a>>>
+        <a href="/desarrollo/item/listar/{{ fase.id }}">Administracion de Items</a> >
+    " Items Eliminados"
+    </div>
+
+                <div id="content">
+                <h1>Items Eliminados</h1>
+<div id="content-main">
+
+
+
+
+        <div class="results" >
+         <ul class="errorlist">
+            {% if  mensaje == 0 %}
+            <li>Error: No se puede eliminar un item que tenga hijos</li>
+                {% elif mensaje == 2 %}
+                <li>Error:  No se puede eliminar un item cuyo estado no sea pendiente.</li>
+            {% endif %}
+        </ul>
+        <ul class="infolist">
+            {% if mensaje == 1 %}
+            <li>Item eliminado correctamente</li>
+            {% endif %}
+        </ul>
+        <table >
+        <thead>
+        <tr>
+            <th scope="col" class="sortable" >
+                <div class="text">
+                    <a>_Nombre_</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>Costo</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a>Tiempo</a>
+                </div>
+            </th>
+             <th scope="col">
+                <div class="text">
+                    <a> Version </a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Estado</a>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="text">
+                    <a>Relacion con</a>
+                </div>
+            </th>
+                        <th scope="col">
+                <div class="text">
+                    <a>Tipo de Relacion</a>
+                </div>
+            </th>
+           <!--- <th scope="col">
+                <div class="text">
+                    <a>Fecha Modificacion</a>
+                </div>
+            </th>--->
+             <th scope="col">
+                <div class="text">
+                    <a>Revivir</a>
+                </div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dato in datos  %}
+            <tr>
+                <td><center>{{ dato.nombre}}</center></td>
+				<td><center>{{ dato.costo }}</center></td>
+                <td><center>{{ dato.tiempo }}</center></td>
+                <td><center>{{ dato.version }}</center></td>
+                <td><center>{{ dato.estado }}</center></td>
+                <td><center>{{ dato.relacion.nombre }}</center></td>
+                <td><center>{{ dato.tipo }}</center></td>
+                <!---<td><center>{{ dato.fecha_mod }}</center></td>--->
+                <td><center><a href="/desarrollo/item/revivir/{{ dato.pk }}" class="btn btn-info"><i class="icon-backward icon-white"></i></a></center></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        </table>
+        </div>
+
+
+</div>
+                    </div>
+
+{% endblock %}

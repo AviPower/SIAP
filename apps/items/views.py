@@ -481,7 +481,6 @@ def editar_item(request,id_item):
         return HttpResponse('<h1> No se puede modificar el item, ya que su estado no es Pendiente</h1>')
 
 @login_required
-###################FALTA CORREGIR VOLVER A CARGAR
 def listar_archivos(request, id_item):
     """
     vista para gestionar los archivos de un item dado
@@ -493,12 +492,11 @@ def listar_archivos(request, id_item):
     titem=get_object_or_404(Item,id=id_item).tipo_item
     fase=titem.fase_id
     if es_miembro(request.user.id,fase,'change_item'):
-        archivos=Archivo.objects.filter(id_item=id_item)
         if request.method=='POST':
             if request.FILES.get('file')!=None:
                 archivo=Archivo(archivo=request.FILES['file'],nombre='', id_item_id=id_item)
                 archivo.save()
-
+        archivos=Archivo.objects.filter(id_item=id_item)
         fase=Fase.objects.get(id=titem.fase_id)
         proyecto=Proyecto.objects.get(id=fase.proyecto_id)
         return render_to_response('items/listar_archivos.html', { 'archivos': archivos,'titem':id_item,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
@@ -583,7 +581,6 @@ def detalle_version_item(request, id_version):
     fase=tipoitem.fase_id
     if es_miembro(request.user.id, fase,''):
         dato = get_object_or_404(VersionItem, pk=id_version)
-
         return render_to_response('items/detalle_version.html', {'datos': dato,'item':item}, context_instance=RequestContext(request))
     else:
         return render_to_response('403.html')
@@ -876,11 +873,12 @@ def cambiar_estado_item(request,id_item):
                     if item_form.cleaned_data['estado']=='VAL':
                         if item.tipo=='Hijo':
                             papa=item.relacion
-                            if papa.estado=='PEN':
+                            if papa.estado=='PEN' or papa.estado=='REV' or papa.estado=='BLO' or papa.estado=='CON':
+                                messages.add_message(request,settings.DELETE_MESSAGE,'No se puede cambiar a Validado ya que su padre no ha sido validado o Finalizado')
                                 #'No se puede cambiar a Validado ya que su padre no ha sido validado o Finalizado'
                                 return render_to_response('items/cambiar_estado_item.html', { 'item_form': item_form, 'nombre':nombre, 'titem':item,'mensaje':0,'fase':fase,'proyecto':proyecto}, context_instance=RequestContext(request))
                                 bandera=True
-                            if papa.estado=='VAL':
+                            if papa.estado=='VAL' or papa.estado=='FIN':
                                 bandera=False
                     if item_form.cleaned_data['estado']=='PEN':
                             hijos=Item.objects.filter(relacion=item).exclude(estado='ANU')
@@ -923,7 +921,7 @@ def cambiar_padre(request, id_item):
         return HttpResponse("<h1> No se puede modificar un item cuyo estado no sea pendiente")
     tipo=get_object_or_404(TipoItem,id=item.tipo_item_id)
     fase=get_object_or_404(Fase,id=tipo.fase_id)
-    proyecto=Proyecto.objects.get(id=fase.id)
+    '''proyecto=Proyecto.objects.get(id=fase.id)'''
     if es_miembro(request.user.id,fase.id,'change_item'):
         items=[]
         titem=TipoItem.objects.filter(fase_id=fase.id)
@@ -954,10 +952,12 @@ def cambiar_padre(request, id_item):
                         item.save()
                         return HttpResponseRedirect('/desarrollo/item/listar/'+str(item.tipo_item_id))
                     else:
-                        messages.add_message(request,settings.DELETE_MESSAGE, "Este item genera ciclos. No puede ser su padre")
+                        '''messages.add_message(request,settings.DELETE_MESSAGE, "Este item genera ciclos. No puede ser su padre")'''
+                        return render_to_response('items/cambiar_padres.html', { 'items':items, 'mensaje':0,'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request))
         if len(items)==0:
-            messages.add_message(request,settings.DELETE_MESSAGE, "No hay otros items que pueden ser padres de este")
-        return render_to_response('items/cambiar_padres.html', { 'items':items, 'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request))
+            '''messages.add_message(request,settings.DELETE_MESSAGE, "No hay otros items que pueden ser padres de este")'''
+            return render_to_response('items/cambiar_padres.html', { 'items':items, 'mensaje':1,'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request))
+        return render_to_response('items/cambiar_padres.html', { 'items':items,'mensaje':100, 'tipoitem':item, 'fase':fase}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/denegado')
 
@@ -1104,7 +1104,9 @@ def recorridoEnProfundidad(item):
     visitados = [0]*(maxiditem+1)
     sumaCosto=0
     sumaTiempo=0
-    recorrer(item.id)
+    relaciones = Item.objects.filter(relacion=item.id).exclude(estado='ANU')
+    if relaciones!=None:
+        recorrer(item.id)
     ret = [sumaCosto,sumaTiempo]
     return ret
 
@@ -1118,7 +1120,7 @@ def recorrer(id_item):
     item=get_object_or_404(Item,id=id_item)
     sumaCosto = sumaCosto + item.costo
     sumaTiempo = sumaTiempo + item.tiempo
-    relaciones = Item.objects.filter(relacion=item.id)
+    relaciones = Item.objects.filter(relacion=item.id).exclude(estado='ANU')
     for relacion in relaciones:
         if(visitados[relacion.id]==0):
             recorrer(relacion.id)

@@ -32,8 +32,10 @@ def reporte_usuarios():
     '''
     Funcion que genera el reporte de usuarios del sistema
     '''
-
-
+    '''para desarrollo descomentar la siguiente linea'''
+    '''doc = SimpleDocTemplate(str(settings.BASE_DIR)+"/reporte_usuarios.pdf",pagesize=letter,
+                            rightMargin=72,leftMargin=72,
+                            topMargin=30,bottomMargin=18)'''
     doc = SimpleDocTemplate("/tmp/reporte_usuarios.pdf",pagesize=letter,
                             rightMargin=72,leftMargin=72,
                             topMargin=30,bottomMargin=18)
@@ -112,7 +114,7 @@ def reporte_usuarios():
             Story.append(Indenter(-25))
             contador_act+=1
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_usuarios.pdf"
+    return "/tmp/reporte_usuarios.pdf"
 
 
 
@@ -271,7 +273,7 @@ def reporte_proyectos():
             Story.append(Indenter(-25))
             contador_act+=1
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_proyectos.pdf"
+    return "/tmp/reporte_proyectos.pdf"
 
 
 def descargar_reporteProyectos(request):
@@ -365,7 +367,7 @@ def reporte_roles():
             Story.append(Indenter(-25))
             contador_act+=1
     doc.build(Story)
-    return str(settings.BASE_DIR)+"/reporte_roles.pdf"
+    return "/tmp/reporte_roles.pdf"
 
 
 def descargar_reporteRoles(request):
@@ -845,8 +847,7 @@ def reporte_versiones_items(id_proyecto):
                 Story.append(Paragraph(text, styles["SubsubItems"]))
                 dateFormat = ver.fecha_mod.strftime("%d-%m-%Y")
                 text ="<strong>Fecha de modificacion: </strong>"+dateFormat+" <br>"
-                Story.append(Paragraph(text, styles["SubsubItems"]))
-                text ="<strong>Usuario: </strong>"+ ver.usuario.first_name + " " + ver.usuario.last_name +" <br>"
+
                 Story.append(Paragraph(text, styles["SubsubItems"]))
                 if ver.lineaBase!=None:
                    lb=get_object_or_404(LineaBase,id=ver.lineaBase_id)
