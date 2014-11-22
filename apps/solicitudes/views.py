@@ -127,9 +127,10 @@ def estadoDependientes(id_item):
         item.estado='REV'
         item.save()
         relaciones = Item.objects.filter(relacion=item.id)
-        for relacion in relaciones:
-            if(nodos_visitados[relacion.id]==0):
-                estadoDependientes(relacion.id)
+        if(relaciones!=None):
+            for relacion in relaciones:
+                if(nodos_visitados[relacion.id]==0):
+                    estadoDependientes(relacion.id)
 
 
 

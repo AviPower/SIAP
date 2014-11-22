@@ -151,8 +151,8 @@ def listar_proyectos(request):
     @param request: objeto HttpRequest que representa la metadata de la solicitud HTTP
     @return: render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos}, context_instance=RequestContext(request))
     """
-    #proyectos = Proyecto.objects.filter((Q(estado='PEN')|Q(estado='ANU')))
-    proyectos = Proyecto.objects.all().exclude(estado='ELI')
+    proyectos = Proyecto.objects.filter((Q(estado='PEN')|Q(estado='ANU')))
+    #proyectos = Proyecto.objects.all().exclude(estado='ELI')
 
     return render_to_response('proyectos/listar_proyectos.html', {'datos': proyectos,'mensaje':1000},
                               context_instance=RequestContext(request))
