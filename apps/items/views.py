@@ -1307,6 +1307,6 @@ def revivir(request, id_item):
                                 item.save()
                                 messages.add_message(request,settings.DELETE_MESSAGE,'Item revivido. Relacionado con item de fase anterior')
                 items=Item.objects.filter(estado='ANU',tipo_item=titem)
-                return render_to_response('items/listar_muertos.html', {'datos': items, 'tipoitem':titem}, context_instance=RequestContext(request))
+                return render_to_response('items/listar_muertos.html', {'datos': items, 'fase':fase}, context_instance=RequestContext(request))
     else:
         return render_to_response('items/creacion_incorrecta.html',{'id_fase':fase.id}, context_instance=RequestContext(request))

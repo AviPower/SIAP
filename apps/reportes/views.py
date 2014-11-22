@@ -447,12 +447,12 @@ def reporte_proyectoLider(id_proyecto):
     text ="<strong>Fecha de finalizacion planificada: </strong>" + dateFormat+ "<br>"
     Story.append(Paragraph(text, styles["Items"]))
     if proyecto.estado=='FIN':
-        dateFormat = dato.fecha_fin_real.strftime("%d-%m-%Y")
-        text ="<strong>Fecha de finalizacion real: </strong>" + dateFormat+ "<br>"
+        #dateFormat = dato.fecha_fin_real.strftime("%d-%m-%Y")
+        #text ="<strong>Fecha de finalizacion real: </strong>" + dateFormat+ "<br>"
         Story.append(Paragraph(text, styles["Items"]))
         today = datetime.now() #fecha actual
         dateFormat = today.strftime("%Y-%m-%d") # fecha con format
-        dias=proyecto.fecha_fin_real-proyecto.fecha_fin
+        dias=today.date()-proyecto.fecha_fin
         dias= int(str(dias.days))
         if dias>0:
             text ="<strong>Se ha atrasado: </strong>" + "<b style=\"color=red\">" + str(dias) +"</b>"+ " dia(s)" "<br>"

@@ -270,20 +270,6 @@ def finalizar_proyecto(request, id_proyecto):
             break
     if puede_finalizar:
         proyecto.estado='FIN'
-        today = datetime.now() #fecha actual
-        dateFormat = today.strftime("%Y-%m-%d") # fecha con format
-        proyecto.fecha_fin_real=dateFormat
-        dias=today.date()-proyecto.fecha_fin
-        dias= int(str(dias.days))
-        print dias
-        if dias>0:
-            adelanto=0
-        else:
-            if dias<0:
-                adelanto=1
-                dias=dias*-1
-            else:
-                adelanto=2
         proyecto.save()
         return render_to_response('solicitudes/finalizacion_correcta_proyecto.html', {'proyecto':proyecto}, context_instance=RequestContext(request))
     else:
