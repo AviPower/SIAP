@@ -66,7 +66,7 @@ def reporte_usuarios():
     usuarios_activos=User.objects.filter(is_active=True)
     cantidad_act=len(usuarios_activos)
     contador=-1
-    titulo = Paragraph('<b>Usuarios Activos <\b>', styles['Titulo'])
+    titulo = Paragraph('<b>Usuarios Activos <b/>', styles['Titulo'])
     Story.append(Spacer(1, 12))
     Story.append(titulo)
     Story.append(Indenter(25))
@@ -77,7 +77,7 @@ def reporte_usuarios():
     for usuario in usuarios:
             contador+=1
             if contador==cantidad_act:
-                titulo = Paragraph('<b>Usuarios Inactivos <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Usuarios Inactivos <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 contador_act=1
@@ -183,30 +183,30 @@ def reporte_proyectos():
     contador2=0
     contador3=0
     contador=0
-    titulo = Paragraph('<b>Proyectos Pendientes <\b>', styles['Titulo'])
+    titulo = Paragraph('<b>Proyectos Pendientes <b/>', styles['Titulo'])
     Story.append(Spacer(1, 12))
     Story.append(titulo)
     Story.append(Indenter(25))
-    text ="__________________________________________________________<br>"
+    text ="_______________________________________________________<br>"
     Story.append(Paragraph(text, styles["Items"]))
     Story.append(Spacer(1, 12))
     Story.append(Indenter(-25))
     for proyecto in proyectos:
             contador+=1
             if proyecto.estado=='ACT' and contador1==0:
-                titulo = Paragraph('<b>Proyectos Activos <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Proyectos Activos <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 contador1=1
                 contador=1
             if proyecto.estado=='FIN' and contador2==0:
-                titulo = Paragraph('<b>Proyectos Finalizados <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Proyectos Finalizados <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 contador2=1
                 contador=1
             if proyecto.estado=='ANU' and contador3==0:
-                titulo = Paragraph('<b>Proyectos Anulados <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Proyectos Anulados <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 contador3=1
@@ -267,7 +267,7 @@ def reporte_proyectos():
 
 
             Story.append(Indenter(25))
-            text ="__________________________________________________________<br>"
+            text ="_______________________________________________________<br>"
             Story.append(Paragraph(text, styles["Items"]))
             Story.append(Spacer(1, 12))
             Story.append(Indenter(-25))
@@ -322,7 +322,7 @@ def reporte_roles():
     Story.append(Paragraph('Fecha: ' + str(dateFormat),styles['Subtitulos']))
     roles=Group.objects.all().exclude(name='Lider')
     Story.append(Indenter(25))
-    text ="__________________________________________________________<br>"
+    text ="________________________________________________________<br>"
     Story.append(Paragraph(text, styles["Items"]))
     Story.append(Spacer(1, 12))
     Story.append(Indenter(-25))
@@ -361,7 +361,7 @@ def reporte_roles():
                 Story.append(Paragraph(text, styles["Items"]))
             Story.append(Indenter(-25))
             Story.append(Indenter(25))
-            text ="__________________________________________________________<br>"
+            text ="________________________________________________________<br>"
             Story.append(Paragraph(text, styles["Items"]))
             Story.append(Spacer(1, 12))
             Story.append(Indenter(-25))
@@ -569,7 +569,7 @@ def reporte_lineas_base(id_proyecto):
     for f in fases:
         Story.append(Spacer(1, 10))
         Story.append(Indenter(4))
-        titulo = Paragraph('<b>' 'Fase '+ str(f.orden) + ' : '+ f.nombre + '<\b>', styles['Titulo'])
+        titulo = Paragraph('<b>' 'Fase '+ str(f.orden) + ' : '+ f.nombre + '<b/>', styles['Titulo'])
         Story.append(titulo)
         Story.append(Indenter(-4))
 
@@ -670,7 +670,7 @@ def reporte_items(id_proyecto):
     dateFormat = date.strftime("%d-%m-%Y")
     Story.append(Paragraph('Fecha: ' + str(dateFormat),styles['Subtitulos']))
 
-    titulo = Paragraph('<b>Fases <\b>', styles['Titulo'])
+    titulo = Paragraph('<b>Fases <b/>', styles['Titulo'])
     Story.append(Spacer(1, 12))
     Story.append(titulo)
     Story.append(Indenter(25))
@@ -795,7 +795,7 @@ def reporte_versiones_items(id_proyecto):
     dateFormat = date.strftime("%d-%m-%Y")
     Story.append(Paragraph('Fecha: ' + str(dateFormat),styles['Subtitulos']))
 
-    titulo = Paragraph('<b>Items <\b>', styles['Titulo'])
+    titulo = Paragraph('<b>Items <b/>', styles['Titulo'])
     Story.append(Spacer(1, 12))
     Story.append(titulo)
     Story.append(Indenter(25))
@@ -934,7 +934,7 @@ def reporte_solicitudes(id_proyecto):
 
             contador+=1
             if solicitud.estado=='PENDIENTE' and pen==0:
-                titulo = Paragraph('<b>Solicitudes Pendientes <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Solicitudes Pendientes <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 text ="__________________________________________________________<br>"
@@ -942,7 +942,7 @@ def reporte_solicitudes(id_proyecto):
                 pen=1
                 contador=1
             if solicitud.estado=='APROBADA' and apr==0:
-                titulo = Paragraph('<b>Solicitudes Aprobadas <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Solicitudes Aprobadas <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 text ="__________________________________________________________<br>"
@@ -951,7 +951,7 @@ def reporte_solicitudes(id_proyecto):
                 contador=1
 
             if solicitud.estado=='RECHAZADA' and rec==0:
-                titulo = Paragraph('<b>Solicitudes Rechazadas <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Solicitudes Rechazadas <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 text ="__________________________________________________________<br>"
@@ -960,7 +960,7 @@ def reporte_solicitudes(id_proyecto):
                 contador=1
 
             if solicitud.estado=='EJECUTADA' and eje==0:
-                titulo = Paragraph('<b>Solicitudes Ejecutadas <\b>', styles['Titulo'])
+                titulo = Paragraph('<b>Solicitudes Ejecutadas <b/>', styles['Titulo'])
                 Story.append(Spacer(1, 12))
                 Story.append(titulo)
                 text ="__________________________________________________________<br>"

@@ -91,7 +91,7 @@ DATABASES = {
         },
     'produ': {
          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-         'NAME': 'bd_siap_prod',
+         'NAME': 'bd_siap_des',
          'USER': 'adminbd',
          'PASSWORD': '2014is2',
          'HOST': 'localhost',
